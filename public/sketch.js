@@ -14,6 +14,7 @@ let yRatio;
 
 let malus = false;
 
+let beginGame = false;
 
 let myOtherPlayers = [];
 
@@ -269,26 +270,6 @@ function draw() {
   const widthY = map(rotationY, -90, 90, 0, width);
 
 
-  //--------PARAMETRI PASSATI DEL GIOCATORE AL SERVER----------
-
-  yRatio = yPlayer / windowHeight * 100000;
-  yRatio = round(yRatio);
-  yRatio = yRatio / 100000;
-
-
-  let info_p = {
-
-    id: id,
-    h: yRatio,
-    x: widthY,
-    vol: volHighscore
-
-  }
-
-  socket.emit('micvolume', info_p);
-
-
-
 
   //----------VELOCITA' PER SFONDO PARALLASSE--------
 
@@ -309,7 +290,7 @@ function draw() {
   //--------------BONUSSSS---------------
 
 
-  if (!startCalibration) {
+  if (beginGame) {
 
     let checkBonus = 0;
 
@@ -373,11 +354,9 @@ function draw() {
 
 
 
-
-
   //----------DISPLAY STELLE SFONDO PARALLASSE--------
 
-  if (!startCalibration) {
+  if (beginGame) {
 
     for (let p = 0; p < numStarsOne; p++) {
       starsOne[p].display();
@@ -429,9 +408,11 @@ function draw() {
   }
 
 
-  if (collision) {
-    yPlayer = height;
+
+  if (collision && beginGame) {
+    yPlayer = height-10;
     volHighscore = 0;
+    console.log("dentro collisioni 2");
     if(frameCount > collisionTimer+180){
       resetCollision();
     }
@@ -484,7 +465,23 @@ function draw() {
   pop();
 
 
+  //--------PARAMETRI PASSATI DEL GIOCATORE AL SERVER----------
 
+  yRatio = yPlayer / windowHeight * 100000;
+  yRatio = round(yRatio);
+  yRatio = yRatio / 100000;
+
+
+  let info_p = {
+
+    id: id,
+    h: yRatio,
+    x: widthY,
+    vol: volHighscore
+
+  }
+
+  socket.emit('micvolume', info_p);
 
 
 
@@ -495,7 +492,7 @@ function draw() {
 
     push();
 
-    fill("salmon");
+    fill(40);
     rect(0, 0, width, height);
 
     if (!button) {
@@ -533,6 +530,7 @@ function calibrationMicrophone() {
 function timerCalibration() {
   startCalibration = false;
   calibrationButton = false;
+  beginGame = true;
 }
 
 
