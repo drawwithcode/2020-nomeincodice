@@ -111,7 +111,7 @@ function newConnection(socket) {
 }
 
 
-let myInterval = setInterval(send_obstacle_x, 500);
+let myInterval = setInterval(send_obstacle_x, 2000);
 
 function send_obstacle_x(){
 
