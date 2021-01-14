@@ -238,7 +238,8 @@ let bx;
 let by;
 let collision = false;
 let d;
-let collisionTimeout;
+// let collisionTimeout;
+let collisionTimer;
 
 
 
@@ -263,10 +264,30 @@ function draw() {
   yPlayer += dy * easing;
 
 
-
   //----------ROTAZIONE DEL GIROSCOPIO--------------
 
   const widthY = map(rotationY, -90, 90, 0, width);
+
+
+  //--------PARAMETRI PASSATI DEL GIOCATORE AL SERVER----------
+
+  yRatio = yPlayer / windowHeight * 100000;
+  yRatio = round(yRatio);
+  yRatio = yRatio / 100000;
+
+
+  let info_p = {
+
+    id: id,
+    h: yRatio,
+    x: widthY,
+    vol: volHighscore
+
+  }
+
+  socket.emit('micvolume', info_p);
+
+
 
 
   //----------VELOCITA' PER SFONDO PARALLASSE--------
@@ -286,6 +307,7 @@ function draw() {
 
 
   //--------------BONUSSSS---------------
+
 
   if (!startCalibration) {
 
@@ -313,7 +335,7 @@ function draw() {
     }
 
     //aggiunto che il bonus si prende solo se si sta più di 200 pixel più in alto dal margine in basso della finestra
-    if (checkBonus === myOtherPlayers.length && checkBonus != 0 && timerBonus === 120 && yPlayer < (height - 200)) {
+    if (checkBonus === myOtherPlayers.length && checkBonus != 0 && timerBonus === 60 ) { //&& yPlayer < (height - 100)
       bonus = true;
       socket.emit('bonus', bonus);
       console.log("dentro condizioni giuste bonus");
@@ -322,13 +344,20 @@ function draw() {
 
     if (bonusServer) {
 
-      if (bonusDuration < 50) {
-        background(0, 0, 0, 50);
-        vel += 10000;
-      } else if (bonusDuration < 60 && bonusDuration > 50) {
+      if (bonusDuration < 15) {
+        background(0, 0, 0, 30);
+        vel += 10000*bonusDuration/10;
+        console.log("dentro vel1");
 
-        background(0, 0, 0, 10);
-        vel += 5000;
+      } else if (bonusDuration >= 15 && bonusDuration < 45) {
+        background(0, 0, 0, 30);
+        vel += 10000;
+        console.log("dentro vel2");
+
+      } else if (bonusDuration >= 50 && bonusDuration < 60) {
+        background(0, 0, 0, 30);
+        vel += 10000*(60 - bonusDuration)/10;
+        console.log("dentro vel3");
 
       } else {
         bonusServer = false;
@@ -341,6 +370,9 @@ function draw() {
     }
 
   }
+
+
+
 
 
   //----------DISPLAY STELLE SFONDO PARALLASSE--------
@@ -388,25 +420,32 @@ function draw() {
       obstacles.splice(t, 1);
     }
 
-    if (d < 25 && !bonusServer) {
+    if (d < 25 && !bonusServer && !collision) {
       console.log("dentro collision 1");
       collision = true;
       obstacles.splice(t, 1);
-    }
+      collisionTimer = frameCount;
+      }
   }
-
 
 
   if (collision) {
-    console.log("dentro collision 2");
     yPlayer = height;
     volHighscore = 0;
-    collisionTimeout = setTimeout(resetCollision, 3000);
+    if(frameCount > collisionTimer+180){
+      resetCollision();
+    }
+    // let collisionTimeout = setTimeout(resetCollision, 3000);
   }
 
 
+  if(bonusServer){
+    obstacles.splice(0, obstacles.length);
+  }
+
 
   //---------MOSTRA ALTRI GIOCATORI------------
+
   for (let j = 0; j < myOtherPlayers.length; j++) {
     myOtherPlayers[j].display();
   }
@@ -415,13 +454,13 @@ function draw() {
 
   push();
 
-  textAlign(CENTER);
+  textAlign(RIGHT);
   fill("yellow");
   stroke(0);
 
-  text(vel, width / 2, 200);
+  text(vel, width - 20, 40);
 
-  text(totalscore, width / 2, 100);
+  text(totalscore, width - 20, 20);
 
   // text(windowHeight, width / 2, 450);
   // text(displayHeight, width / 2, 500);
@@ -446,23 +485,7 @@ function draw() {
 
 
 
-  //--------PARAMETRI PASSATI DEL GIOCATORE AL SERVER----------
 
-  yRatio = yPlayer / windowHeight * 100000;
-  yRatio = round(yRatio);
-  yRatio = yRatio / 100000;
-
-
-  let info_p = {
-
-    id: id,
-    h: yRatio,
-    x: widthY,
-    vol: volHighscore
-
-  }
-
-  socket.emit('micvolume', info_p);
 
 
   //------------CALIBRAZIONE MICROFONO----------------
@@ -498,7 +521,7 @@ function draw() {
 
 function resetCollision() {
   collision = false;
-  clearTimeout(collisionTimeout);
+  // clearTimeout(collisionTimeout);
 }
 
 
@@ -574,7 +597,7 @@ class Obstacles {
   }
 
   move() {
-    this.y += vel / 100;
+    this.y +=  4;
   }
 
 }
