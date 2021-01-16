@@ -133,18 +133,56 @@ function bonusEffect(bonusValue) {
 }
 
 
-let obstacleX = 0;
+let obstacleX = [];
+let obstacleY = [];
 
-let obstacles = [];
+// let obstacles = [];
 
-socket.on('obstacle_x', createObstacle);
+socket.on('obstacles_X', createObstacleX);
 
-function createObstacle(obstacleXServer) {
+function createObstacleX(obstacleInfoX) {
 
-  obstacleX = obstacleXServer / 1000 * windowWidth;
-  let newObstacle = new Obstacles(obstacleX);
-  obstacles.push(newObstacle);
+  for(let v = 0; v < obstacleInfoX.length; v++){
+    obstacleX[v] = obstacleInfoX[v] / 1000 * windowWidth;
 
+  }
+
+}
+
+
+socket.on('obstacles_Y', createObstacleY);
+
+function createObstacleY(obstacleInfoY) {
+
+  for(let g = 0; g < obstacleInfoY.length; g++){
+    obstacleY[g] = obstacleInfoY[g];
+
+  }
+
+}
+
+
+let indexObstacle = [];
+
+socket.on('indexCollision', indexCollision);
+
+function indexCollision(index){
+
+  indexObstacle.push(index);
+
+}
+
+socket.on('reset_index', resetIndex);
+function resetIndex(p){
+
+  for(let s= 0 ; s< indexObstacle.length; s++){
+
+    if(indexObstacle[s] === p){
+
+      indexObstacle.slice(s,1);
+
+    }
+  }
 }
 
 
@@ -218,6 +256,7 @@ function setup() {
   }
 
 
+
   planet = new Planets();
 
 
@@ -250,6 +289,7 @@ let collisionTimer;
 let explosion = false;
 let b = 12;
 let c = 60;
+
 
 
 
@@ -370,6 +410,7 @@ function draw() {
     for (let p = 0; p < numStarsOne; p++) {
       starsOne[p].display();
       starsOne[p].move();
+      console.log("dentro for stelle uno");
     }
 
 
@@ -402,50 +443,111 @@ function draw() {
   bx = widthY;
   by = yPlayer - 10;
 
-  for (let t = 0; t < obstacles.length; t++) {
+  // /1000 * windowWidth !!!!!!!!!!!!!!!
+  //
 
-    obstacles[t].display();
-    obstacles[t].move();
 
-    d = dist(bx, by, obstacles[t].x, obstacles[t].y);
 
-    if (obstacles[t].y > (height + 15)) { //se l'ostacolo va sotto lo schermo viene tolto dall'array
-      obstacles.splice(t, 1);
+  for(let h = 0; h < 10; h++){
+
+    push();
+
+    noStroke();
+
+    for(let r = 0; r < indexObstacle.length; r ++){
+
+      if(h !== indexObstacle[r]){
+
+        ellipse(obstacleX[h], obstacleY[h], 30);
+
     }
+
+    }
+
+
+
+    pop();
+
+    d = dist(bx, by, obstacleX[h], obstacleY[h]);
+
 
     if (d < 25 && !bonusServer && !collision) {
-      console.log("dentro collision 1");
-      collision = true;
-      obstacles.splice(t, 1);
-      collisionTimer = frameCount;
-      explosion = true;
-      freezePosition = yPlayer;
-    }
+        console.log("dentro collision 1");
+        collision = true;
+        collisionTimer = frameCount;
+        explosion = true;
+        freezePosition = yPlayer;
+
+        socket.emit('collision', h);
+        console.log(h);
+
+        }
+
+
+    if (collision && beginGame) {
+
+      if (frameCount > collisionTimer + 35) {
+
+        yPlayer = height - 10;
+
+      } else {
+        yPlayer = freezePosition;
+      }
+
+      volHighscore = 0;
+      console.log("dentro collisioni 2");
+      if (frameCount > collisionTimer + 180) {
+        console.log("reset collision");
+        resetCollision();
+      }
+  }
   }
 
 
-  if (collision && beginGame) {
-
-    if (frameCount > collisionTimer + 35) {
-
-      yPlayer = height - 10;
-
-    } else {
-      yPlayer = freezePosition;
-    }
-
-    volHighscore = 0;
-    console.log("dentro collisioni 2");
-    if (frameCount > collisionTimer + 180) {
-      resetCollision();
-    }
-    // let collisionTimeout = setTimeout(resetCollision, 3000);
-  }
-
-
-  if (bonusServer) {
-    obstacles.splice(0, obstacles.length);
-  }
+  // for (let t = 0; t < obstacles.length; t++) {
+  //
+  //   obstacles[t].display();
+  //   obstacles[t].move();
+  //
+  //   d = dist(bx, by, obstacles[t].x, obstacles[t].y);
+  //
+  //   if (obstacles[t].y > (height + 15)) { //se l'ostacolo va sotto lo schermo viene tolto dall'array
+  //     obstacles.splice(t, 1);
+  //   }
+  //
+  //   if (d < 25 && !bonusServer && !collision) {
+  //     console.log("dentro collision 1");
+  //     collision = true;
+  //     obstacles.splice(t, 1);
+  //     collisionTimer = frameCount;
+  //     explosion = true;
+  //     freezePosition = yPlayer;
+  //   }
+  // }
+  //
+  //
+  // if (collision && beginGame) {
+  //
+  //   if (frameCount > collisionTimer + 35) {
+  //
+  //     yPlayer = height - 10;
+  //
+  //   } else {
+  //     yPlayer = freezePosition;
+  //   }
+  //
+  //   volHighscore = 0;
+  //   console.log("dentro collisioni 2");
+  //   if (frameCount > collisionTimer + 180) {
+  //     resetCollision();
+  //   }
+  //   // let collisionTimeout = setTimeout(resetCollision, 3000);
+  // }
+  //
+  //
+  // if (bonusServer) {
+  //   obstacles.splice(0, obstacles.length);
+  // }
 
 
   //---------MOSTRA ALTRI GIOCATORI------------
@@ -477,18 +579,32 @@ function draw() {
 
   push();
   fill("yellow");
-  noStroke()
+  noStroke();
 
-  triangle(widthY - 10, yPlayer, widthY, yPlayer - 30, widthY + 10, yPlayer);
+  beginShape();
+  vertex(widthY - 13, yPlayer);
+  vertex(widthY - 6, yPlayer - 8);
+  vertex(widthY, yPlayer - 32);
+  vertex(widthY + 6, yPlayer - 8);
+  vertex(widthY + 13, yPlayer);
+  vertex(widthY - 13, yPlayer);
+  endShape();
+
+  // triangle(widthY - 10, yPlayer, widthY, yPlayer - 30, widthY + 10, yPlayer);
 
   pop();
 
   push();
-  fill("white");
+  fill(255,255,255,150);
   noStroke();
 
-  triangle(widthY - 5, yPlayer, widthY, yPlayer + random(1, 15), widthY + 5, yPlayer);
+  triangle(widthY - 6, yPlayer, widthY, yPlayer + random(8, 20), widthY + 6, yPlayer);
+  pop();
 
+  push();
+  fill(255);
+  noStroke();
+  triangle(widthY - 5, yPlayer, widthY, yPlayer + random(4, 10), widthY + 5, yPlayer);
   pop();
 
   if (explosion) {
@@ -585,7 +701,7 @@ function draw() {
 
 function resetCollision() {
   collision = false;
-  // clearTimeout(collisionTimeout);
+  console.log("dentro reset collision function");
 }
 
 
@@ -640,33 +756,33 @@ class OtherPlayer {
 
 //---------------CLASSE OSTACOLI--------------
 
-class Obstacles {
-
-  constructor(obstacleX) {
-
-    this.r = 30;
-    this.x = obstacleX;
-    this.y = -15;
-
-
-  }
-
-  display() {
-
-    push();
-    noStroke();
-    fill(255);
-    ellipseMode(CENTER);
-    ellipse(this.x, this.y, this.r);
-    pop();
-
-  }
-
-  move() {
-    this.y += 4;
-  }
-
-}
+// class Obstacles {
+//
+//   constructor(obstacleX) {
+//
+//     this.r = 30;
+//     this.x = obstacleX / 1000 * windowWidth;
+//     this.y = -15;
+//
+//
+//   }
+//
+//   display() {
+//
+//     push();
+//     noStroke();
+//     fill(255);
+//     ellipseMode(CENTER);
+//     ellipse(this.x, this.y, this.r);
+//     pop();
+//
+//   }
+//
+//   move() {
+//     this.y += 4;
+//   }
+//
+// }
 
 
 
@@ -784,12 +900,13 @@ class Planets {
   constructor() {
 
     this.r = 500;
+    this.a = 90;
     this.x = random(0, width);
     this.y = -nextPlanet;
     this.color1 = random(0, 255);
     this.color2 = random(0, 255);
     this.color3 = random(0, 255);
-    console.log("ricreato pianeta");
+
   }
 
   display() {
@@ -803,8 +920,10 @@ class Planets {
     push();
     noStroke();
     fill(this.color2, this.color3, this.color1, 50);
-    ellipse(this.x, -nextPlanet, this.r + 100);
+    ellipse(this.x, -nextPlanet, this.r + 80 + (noise(this.a/20)*15));
     pop();
+
+    this.a++;
 
   }
 

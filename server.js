@@ -37,6 +37,10 @@ let id_players = [];
 
 let id_player_disconnected;
 
+let obstacles_X = [];
+
+let obstacles_Y = [];
+
 
 // require('events').EventEmitter.prototype._maxListeners = 1000000;
 
@@ -130,14 +134,49 @@ function newConnection(socket) {
   });
 
 
+
+  socket.on('collision', function(h)  {
+
+    io.sockets.emit("index_collision", h);
+    console.log(h);
+
+  });
+
+}
+
+for(let f = 0; f < 10; f++){
+
+  let num_random = Math.floor((Math.random() * 1000) + 1);
+  let y_obstacle = - 144 * f - 15;
+  obstacles_X.push(num_random);
+  obstacles_Y.push(y_obstacle);
+
+
 }
 
 
-let myInterval = setInterval(send_obstacle_x, 1000);
+let myInterval = setInterval(send_obstacle_info, 16);
 
-function send_obstacle_x(){
+function send_obstacle_info(){
 
-  let numRandom = Math.floor((Math.random() * 1000) + 1);
-  io.sockets.emit("obstacle_x", numRandom);
+  io.sockets.emit("obstacles_X", obstacles_X);
+  io.sockets.emit("obstacles_Y", obstacles_Y);
+
+  for(let p = 0; p < 10; p++){
+
+    obstacles_Y[p] += 4;
+
+    if(obstacles_Y[p] > 1440 + 15){
+
+      obstacles_Y[p] = - 15;
+      obstacles_X[p] = Math.floor((Math.random() * 1000) + 1);
+
+      io.sockets.emit("reset_index", p);
+
+    }
+
+    // console.log(obstacles_Y[p]);
+
+  }
 
 }
