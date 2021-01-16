@@ -3,6 +3,8 @@ let socket = io();
 let mic;
 let sum = 0;
 let totalscore = 0;
+let nextPlanet;
+let changedPlanet;
 let players = 0;
 let id;
 let prec_totalscore = 0;
@@ -112,10 +114,12 @@ function show_players(n_players) {
 
 //-----------HIGHSCORE (aggiornato secondo la somma ricevuta dal server)----------
 
-socket.on('highscore', highscore);
+socket.on('highscore', scores);
 
-function highscore(datahighscore) {
-  totalscore = datahighscore;
+function scores(infoScore) {
+  totalscore = infoScore.highscore;
+  nextPlanet = infoScore.next_planet;
+  changedPlanet = infoScore.changed_planet;
 }
 
 
@@ -384,8 +388,13 @@ function draw() {
 
   //-------------------DISPLAY PIANETA-------------
 
+
+  if (changedPlanet) {
+    planet = new Planets();
+  }
+
   planet.display();
-  planet.move();
+  // planet.move();
 
 
   //---------------OSTACOLI E COLLISIONI---------------
@@ -417,11 +426,13 @@ function draw() {
 
   if (collision && beginGame) {
 
-    if(frameCount > collisionTimer + 35){
+    if (frameCount > collisionTimer + 35) {
 
       yPlayer = height - 10;
 
-    }else{yPlayer = freezePosition;}
+    } else {
+      yPlayer = freezePosition;
+    }
 
     volHighscore = 0;
     console.log("dentro collisioni 2");
@@ -455,6 +466,8 @@ function draw() {
 
   text(totalscore, width - 20, 20);
 
+  text(nextPlanet, width - 20, 60);
+
   // text(windowHeight, width / 2, 450);
   // text(displayHeight, width / 2, 500);
 
@@ -484,21 +497,33 @@ function draw() {
     fill("red");
     noStroke()
 
-    if(b<60){
-    ellipse(widthY, yPlayer-6, b);
-    b+=4;}
+    if (b < 60) {
+      ellipse(widthY, yPlayer - 6, b);
+      b += 4;
+    }
 
-    if(b===60){
-      ellipse(widthY, yPlayer-6, c);
-      c-=6;
+    if (b === 60) {
+      ellipse(widthY, yPlayer - 6, c);
+      c -= 6;
     }
     pop();
-    if(c===12){
-      c=60;
-      b=12;
+    if (c === 12) {
+      c = 60;
+      b = 12;
       explosion = false;
     }
 
+
+  }
+
+
+  if (nextPlanet < 0) {
+
+    push();
+    rectMode(CENTER);
+    noStroke();
+    rect(width / 2, height / 2, 100, 100);
+    pop();
 
   }
 
@@ -511,6 +536,8 @@ function draw() {
   yRatio = round(yRatio);
   yRatio = yRatio / 100000;
 
+  volHighscore = volHighscore / 100;
+  volHighscore = round(volHighscore);
 
   let info_p = {
 
@@ -620,6 +647,7 @@ class Obstacles {
     this.r = 30;
     this.x = obstacleX;
     this.y = -15;
+
 
   }
 
@@ -755,29 +783,39 @@ class Planets {
 
   constructor() {
 
-    this.r = 300;
-    this.x = random(-2000, width + 2000);
-    this.y = random(0, height);
+    this.r = 500;
+    this.x = random(0, width);
+    this.y = -nextPlanet;
+    this.color1 = random(0, 255);
+    this.color2 = random(0, 255);
+    this.color3 = random(0, 255);
+    console.log("ricreato pianeta");
   }
 
   display() {
 
     push();
     noStroke();
-    fill(113, 189, 192);
-    ellipse(this.x, this.y, this.r);
+    fill(this.color1, this.color2, this.color3);
+    ellipse(this.x, -nextPlanet, this.r);
+    pop();
+
+    push();
+    noStroke();
+    fill(this.color2, this.color3, this.color1, 50);
+    ellipse(this.x, -nextPlanet, this.r + 100);
     pop();
 
   }
 
-  move() {
-
-    if (this.y > height + 150) //if the star goes below the screen
-    {
-      this.y = -150; //reset to the top of the screen
-      this.x = random(-2000, width + 2000);
-    } else {
-      this.y += vel / 200;
-    }
-  }
+  // move() {
+  //
+  //   if (this.y > height + 150) //if the star goes below the screen
+  //   {
+  //     this.y = -150; //reset to the top of the screen
+  //     this.x = random(0, width);
+  //   } else {
+  //     this.y += vel / 200;
+  //   }
+  // }
 }

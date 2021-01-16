@@ -2,8 +2,6 @@ let express = require('express');
 
 let app = express();
 
-let highscore = 0;
-
 let port = process.env.PORT || 80;
 
 let server = app.listen(port);
@@ -16,7 +14,22 @@ let io = socket(server);
 
 io.on('connection', newConnection);
 
+
+let next_planet = 200;
+
+let highscore = 0;
+
+let changed_planet = false;
+
 let players = 0;
+
+
+
+let info_score = {
+  next_planet :next_planet,
+  highscore: highscore,
+  changed_planet: changed_planet
+}
 
 let d_player = false;
 
@@ -92,11 +105,20 @@ function newConnection(socket) {
 
   function micvolume_message(dataReceived) {
 
-    highscore += (dataReceived.vol);
+    info_score.highscore += (dataReceived.vol);
+
+    info_score.next_planet -= (dataReceived.vol);
+
+    if(info_score.next_planet < -1440){
+      info_score.next_planet = Math.floor((Math.random() * 20000) + 40000);
+      info_score.changed_planet = true;
+    }else{
+      info_score.changed_planet = false;
+    }
 
     socket.broadcast.emit('micvolume_in', dataReceived);
 
-    io.sockets.emit('highscore', highscore);
+    io.sockets.emit('highscore', info_score);
 
   }
 
