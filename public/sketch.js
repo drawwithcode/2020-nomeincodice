@@ -239,8 +239,13 @@ let bx;
 let by;
 let collision = false;
 let d;
+let freezePosition;
+
 // let collisionTimeout;
 let collisionTimer;
+let explosion = false;
+let b = 12;
+let c = 60;
 
 
 
@@ -316,7 +321,7 @@ function draw() {
     }
 
     //aggiunto che il bonus si prende solo se si sta più di 200 pixel più in alto dal margine in basso della finestra
-    if (checkBonus === myOtherPlayers.length && checkBonus != 0 && timerBonus === 60 ) { //&& yPlayer < (height - 100)
+    if (checkBonus === myOtherPlayers.length && checkBonus != 0 && timerBonus === 60) { //&& yPlayer < (height - 100)
       bonus = true;
       socket.emit('bonus', bonus);
       console.log("dentro condizioni giuste bonus");
@@ -327,7 +332,7 @@ function draw() {
 
       if (bonusDuration < 15) {
         background(0, 0, 0, 30);
-        vel += 10000*bonusDuration/10;
+        vel += 10000 * bonusDuration / 10;
         console.log("dentro vel1");
 
       } else if (bonusDuration >= 15 && bonusDuration < 45) {
@@ -337,7 +342,7 @@ function draw() {
 
       } else if (bonusDuration >= 50 && bonusDuration < 60) {
         background(0, 0, 0, 30);
-        vel += 10000*(60 - bonusDuration)/10;
+        vel += 10000 * (60 - bonusDuration) / 10;
         console.log("dentro vel3");
 
       } else {
@@ -404,23 +409,30 @@ function draw() {
       collision = true;
       obstacles.splice(t, 1);
       collisionTimer = frameCount;
-      }
+      explosion = true;
+      freezePosition = yPlayer;
+    }
   }
 
 
-
   if (collision && beginGame) {
-    yPlayer = height-10;
+
+    if(frameCount > collisionTimer + 35){
+
+      yPlayer = height - 10;
+
+    }else{yPlayer = freezePosition;}
+
     volHighscore = 0;
     console.log("dentro collisioni 2");
-    if(frameCount > collisionTimer+180){
+    if (frameCount > collisionTimer + 180) {
       resetCollision();
     }
     // let collisionTimeout = setTimeout(resetCollision, 3000);
   }
 
 
-  if(bonusServer){
+  if (bonusServer) {
     obstacles.splice(0, obstacles.length);
   }
 
@@ -448,6 +460,8 @@ function draw() {
 
   pop();
 
+
+
   push();
   fill("yellow");
   noStroke()
@@ -463,6 +477,32 @@ function draw() {
   triangle(widthY - 5, yPlayer, widthY, yPlayer + random(1, 15), widthY + 5, yPlayer);
 
   pop();
+
+  if (explosion) {
+
+    push();
+    fill("red");
+    noStroke()
+
+    if(b<60){
+    ellipse(widthY, yPlayer-6, b);
+    b+=4;}
+
+    if(b===60){
+      ellipse(widthY, yPlayer-6, c);
+      c-=6;
+    }
+    pop();
+    if(c===12){
+      c=60;
+      b=12;
+      explosion = false;
+    }
+
+
+  }
+
+
 
 
   //--------PARAMETRI PASSATI DEL GIOCATORE AL SERVER----------
@@ -595,7 +635,7 @@ class Obstacles {
   }
 
   move() {
-    this.y +=  4;
+    this.y += 4;
   }
 
 }
