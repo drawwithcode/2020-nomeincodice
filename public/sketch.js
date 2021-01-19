@@ -522,7 +522,7 @@ function draw() {
       buttonCreated = true;
     }
 
-    buttonShield.position(20, height - 20);
+    buttonShield.position(40, height - 70);
 
     buttonShield.mousePressed(startShield);
     buttonShield.show();
@@ -542,6 +542,7 @@ function draw() {
   if (shieldBonus) {
 
     push();
+    noStroke();
     fill(0, 0, 255);
     ellipse(widthY, yPlayer - 10, 100);
     pop();
@@ -703,7 +704,7 @@ function draw() {
 
 function startShield() {
 
-  console.log("dentro start shield");
+  // console.log("dentro start shield");
   shieldBonus = true;
   buttonShield.hide();
   unlockButtonShield = false;
