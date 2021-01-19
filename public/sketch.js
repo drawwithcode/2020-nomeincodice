@@ -70,8 +70,9 @@ function createOtherPlayer(idOtherPlayer) {
 
     //non crea un doppione del giocatore locale
     if (idOtherPlayer[k] !== id) {
-      let newPlayer = new OtherPlayer(idOtherPlayer[k], 0, 0);
+      let newPlayer = new OtherPlayer(idOtherPlayer[k], 0, 0, false);
       myOtherPlayers.push(newPlayer);
+
     }
 
   }
@@ -95,6 +96,8 @@ function others_micvolume(data) {
 
       myOtherPlayers[i].h = otherH_players;
       myOtherPlayers[i].x = data.x;
+      myOtherPlayers[i].shield = data.shield;
+      // console.log(data.shield);
     }
   }
 
@@ -144,7 +147,7 @@ function giveShieldBonus(idPlayerShield) {
 
   if (idPlayerShield === id && beginGame && !buttonCreated) {
 
-    console.log("io ho lo scudoo");
+    // console.log("io ho lo scudoo");
     unlockButtonShield = true;
   }
 
@@ -493,7 +496,7 @@ function draw() {
     }
 
     volHighscore = 0;
-    console.log("dentro collisioni 2");
+    // console.log("dentro collisioni 2");
     if (frameCount > collisionTimer + 180) {
       resetCollision();
     }
@@ -657,7 +660,9 @@ function draw() {
     id: id,
     h: yRatio,
     x: widthY,
+    shield: shieldBonus,
     vol: volHighscore
+
 
   }
 
@@ -739,13 +744,24 @@ function timerCalibration() {
 
 class OtherPlayer {
 
-  constructor(id, x, h) {
+  constructor(id, x, h, shield) {
     this.id = id;
     this.x = x;
     this.h = h;
+    this.shield = shield;
   }
 
   display() {
+
+    push();
+    if(this.shield){
+      noStroke();
+      fill(255);
+      ellipse(this.x,this.h-10, 100);
+    }
+
+    pop();
+
 
     push();
     fill(150);
