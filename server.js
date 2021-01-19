@@ -37,9 +37,10 @@ let id_players = [];
 
 let id_player_disconnected;
 
+let bonus_server = false;
 
+let timer_bonus = 0;
 // require('events').EventEmitter.prototype._maxListeners = 1000000;
-
 
 
 function newConnection(socket) {
@@ -107,7 +108,31 @@ function newConnection(socket) {
 
     info_score.highscore += (dataReceived.vol);
 
-    info_score.next_planet -= (dataReceived.vol/1000);
+
+    info_score.next_planet -= dataReceived.vol/1000;
+
+    if(bonus_server){
+      // info_score.highscore += 1000;
+      info_score.next_planet -= 1;
+
+      timer_bonus++;
+      if(timer_bonus >= 1 && timer_bonus < 25){
+        info_score.highscore += 60*timer_bonus;
+      }
+      if(timer_bonus >= 25 && timer_bonus < 175){
+        info_score.highscore += 1500;
+      }
+
+      if(timer_bonus >= 175 && timer_bonus < 200){
+        info_score.highscore += 60 * (200 - timer_bonus);
+      }
+      if(timer_bonus >= 200){
+        bonus_server = false;
+        timer_bonus = 0;
+      }
+
+
+    }
 
     if(info_score.next_planet < -1440){
       info_score.next_planet = Math.floor((Math.random() * 20000) + 40000);
@@ -126,6 +151,7 @@ function newConnection(socket) {
   socket.on('bonus', function(bonus_value) {
 
     io.sockets.emit("bonus_effect", bonus_value);
+    bonus_server = true;
 
   });
 

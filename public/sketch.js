@@ -70,7 +70,7 @@ function createOtherPlayer(idOtherPlayer) {
 
     //non crea un doppione del giocatore locale
     if (idOtherPlayer[k] !== id) {
-      let newPlayer = new OtherPlayer(idOtherPlayer[k], 0, 0, false);
+      let newPlayer = new OtherPlayer(idOtherPlayer[k], -20, -20, false);
       myOtherPlayers.push(newPlayer);
 
     }
@@ -390,17 +390,17 @@ function draw() {
 
       if (bonusDuration < 15) {
         background(0, 0, 0, 30);
-        vel += 10000 * bonusDuration / 10;
+        // vel += 10000 * bonusDuration / 10;
         console.log("dentro vel1");
 
       } else if (bonusDuration >= 15 && bonusDuration < 45) {
         background(0, 0, 0, 30);
-        vel += 10000;
+        // vel += 10000;
         console.log("dentro vel2");
 
       } else if (bonusDuration >= 50 && bonusDuration < 60) {
         background(0, 0, 0, 30);
-        vel += 10000 * (60 - bonusDuration) / 10;
+        // vel += 10000 * (60 - bonusDuration) / 10;
         console.log("dentro vel3");
 
       } else {
@@ -461,6 +461,7 @@ function draw() {
 
     obstacles[t].display();
     obstacles[t].move();
+
 
     d = dist(bx, by, obstacles[t].x, obstacles[t].y);
 
@@ -793,10 +794,9 @@ class Obstacles {
 
   constructor(obstacleX) {
 
-    this.r = 30;
     this.x = obstacleX;
     this.y = -15;
-
+    this.r = 30;
 
   }
 
@@ -849,7 +849,7 @@ class StarsOne {
       this.y = 0; //reset to the top of the screen
       this.x = random(0, width);
     } else {
-      this.y += vel / 3000;
+      this.y += vel / 2400;
     }
   }
 }
@@ -886,7 +886,7 @@ class StarsTwo {
       this.x = random(0, width);
 
     } else {
-      this.y += vel / 1000;
+      this.y += vel / 800;
     }
   }
 }
@@ -921,7 +921,7 @@ class StarsThree {
       this.x = random(0, width);
       // console.log("y 2 " + this.y);
     } else {
-      this.y += vel / 400;
+      this.y += vel / 320;
     }
   }
 }
