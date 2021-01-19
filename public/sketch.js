@@ -304,7 +304,7 @@ let b = 12;
 let c = 60;
 
 
-let velPlanet;
+let noisePlanet = 0;
 
 
 function draw() {
@@ -971,7 +971,11 @@ class Planets {
     push();
     noStroke();
     fill(this.color2, this.color3, this.color1, 50);
-    ellipse(this.x, -nextPlanet, this.r + 100);
+    let noiseHalo = noise(noisePlanet)*100;
+    console.log(noiseHalo);
+    ellipse(this.x, -nextPlanet, this.r + 100 + noiseHalo);
+    noisePlanet+= 0.01;
+    console.log(noisePlanet);
     pop();
 
   }
