@@ -465,7 +465,7 @@ function draw() {
 
     d = dist(bx, by, obstacles[t].x, obstacles[t].y);
 
-    if (obstacles[t].y > (height + 15)) { //se l'ostacolo va sotto lo schermo viene tolto dall'array
+    if (obstacles[t].y > (height + 75)) { //se l'ostacolo va sotto lo schermo viene tolto dall'array
       obstacles.splice(t, 1);
     }
 
@@ -480,7 +480,6 @@ function draw() {
       collisionTimer = frameCount;
       explosion = true;
       freezePosition = yPlayer;
-
 
     }
   }
@@ -544,15 +543,15 @@ function draw() {
 
     push();
     noStroke();
-    fill(0, 0, 255);
-    ellipse(widthY, yPlayer - 10, 100);
+    fill(40, 150, 254,150);
+    ellipse(widthY, yPlayer - 10, 120);
     pop();
 
     for (let d = 0; d < obstacles.length; d++) {
 
       dS = dist(sx, sy, obstacles[d].x, obstacles[d].y);
 
-      if (dS < 100 && shieldBonus) {
+      if (dS < 70 && shieldBonus) {
         console.log("dentro collision scudo");
 
         let xObstaclesServer = obstacles[d].x / windowWidth * 1000;
@@ -759,7 +758,7 @@ class OtherPlayer {
     if(this.shield){
       noStroke();
       fill(255);
-      ellipse(this.x,this.h-10, 100);
+      ellipse(this.x,this.h-10, 120);
     }
 
     pop();
@@ -797,16 +796,36 @@ class Obstacles {
     this.x = obstacleX;
     this.y = -15;
     this.r = 30;
-
+    this.rand1 = random(-4,4);
+    this.rand2 = random(-4,4);
+    this.rand3 = random(-4,4);
+    this.rand4 = random(-4,4);
+    this.rand5 = random(-4,4);
   }
 
   display() {
 
     push();
     noStroke();
+    fill(255,255,255,100);
+    triangle(this.x-15, this.y-5, this.x, this.y-60 + random(-5,+5), this.x+15, this.y-5);
+    pop();
+
+    push();
+    noStroke();
     fill(255);
     ellipseMode(CENTER);
+
+    // beginShape();
+    // vertex(this.x - 12 + this.rand1 , this.y + 4);
+    // vertex(this.x + this.rand2 , this.y + 10);
+    // vertex(this.x + 12 + this.rand3 , this.y + 4);
+    // vertex(this.x + 8 + this.rand4 , this.y - 10);
+    // vertex(this.x - 8 + this.rand5 , this.y - 10);
+    // endShape();
     ellipse(this.x, this.y, this.r);
+
+
     pop();
 
   }
@@ -938,7 +957,7 @@ class Planets {
     this.color1 = random(0, 255);
     this.color2 = random(0, 255);
     this.color3 = random(0, 255);
-    console.log("ricreato pianeta");
+
   }
 
   display() {
