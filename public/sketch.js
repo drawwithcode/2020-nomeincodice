@@ -180,8 +180,10 @@ function removeObstacleCollision(xObstacleCollision) {
   xObstacleCollisionProp = xObstacleCollision / 1000 * windowWidth;
 
   for (let u = 0; u < obstacles.length; u++) {
-
-    if (xObstacleCollisionProp === obstacles[u].x) {
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+    if (xObstacleCollisionProp > obstacles[u].x-0.5 && xObstacleCollisionProp < obstacles[u].x + 0.5) {
+      //xObstacleCollisionProp > obstacles[u].x-0.5 && xObstacleCollisionProp < obstacles[u].x+0.5
+      //xObstacleCollisionProp === obstacles[u].x
       obstacles.splice(u, 1);
     }
   }
@@ -379,7 +381,7 @@ function draw() {
     }
 
     //aggiunto che il bonus si prende solo se si sta più di 200 pixel più in alto dal margine in basso della finestra
-    if (checkBonus === myOtherPlayers.length && checkBonus != 0 && timerBonus === 60) { //&& yPlayer < (height - 100)
+    if (checkBonus === myOtherPlayers.length && checkBonus != 0 && timerBonus === 60 && yPlayer < (height - 100)) { //&& yPlayer < (height - 100)
       bonus = true;
       socket.emit('bonus', bonus);
       console.log("dentro condizioni giuste bonus");
@@ -831,7 +833,7 @@ class Obstacles {
   }
 
   move() {
-    this.y += 4;
+    this.y += 4 / 1920 * 3 * height; ///////////////////////////////////////////////////////
   }
 
 }
