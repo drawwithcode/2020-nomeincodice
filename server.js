@@ -151,3 +151,15 @@ function send_obstacle_x(){
   io.sockets.emit("obstacle_x", numRandom);
 
 }
+
+
+
+let myIntervalShield = setInterval(send_shield_bonus, 20000);
+
+function send_shield_bonus(){
+
+  let indexRandom = Math.floor((Math.random() * id_players.length));
+
+  io.sockets.emit("id_shield_bonus", id_players[indexRandom]);
+
+}

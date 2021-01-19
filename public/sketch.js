@@ -133,6 +133,26 @@ function bonusEffect(bonusValue) {
 }
 
 
+
+let unlockButtonShield = false;
+
+let buttonCreated = false;
+
+socket.on('id_shield_bonus', giveShieldBonus);
+
+function giveShieldBonus(idPlayerShield) {
+
+  if (idPlayerShield === id && beginGame && !buttonCreated) {
+
+    console.log("io ho lo scudoo");
+    unlockButtonShield = true;
+  }
+
+}
+
+
+
+
 let obstacleX = 0;
 
 let obstacles = [];
@@ -152,14 +172,14 @@ let xObstacleCollisionProp;
 
 socket.on('collision_obstacle', removeObstacleCollision);
 
-function removeObstacleCollision(xObstacleCollision){
+function removeObstacleCollision(xObstacleCollision) {
 
-xObstacleCollisionProp = xObstacleCollision / 1000 * windowWidth;
+  xObstacleCollisionProp = xObstacleCollision / 1000 * windowWidth;
 
-  for(let u = 0; u < obstacles.length; u++){
+  for (let u = 0; u < obstacles.length; u++) {
 
-    if(xObstacleCollisionProp===obstacles[u].x){
-      obstacles.splice(u,1);
+    if (xObstacleCollisionProp === obstacles[u].x) {
+      obstacles.splice(u, 1);
     }
   }
 
@@ -256,11 +276,23 @@ let checkTimer = 0;
 let bonus = false;
 let bonusDuration = 0;
 
+let buttonShield;
+let shieldBonus;
+let sx;
+let sy;
+let dS;
+let varTimeoutShield;
+
+
+
 let bx;
 let by;
 let collision = false;
 let d;
 let freezePosition;
+
+
+
 
 // let collisionTimeout;
 let collisionTimer;
@@ -416,6 +448,7 @@ function draw() {
   // planet.move();
 
 
+
   //---------------OSTACOLI E COLLISIONI---------------
 
   bx = widthY;
@@ -472,6 +505,60 @@ function draw() {
     obstacles.splice(0, obstacles.length);
   }
 
+
+
+  //---------------SCUDO------------------
+
+  if (unlockButtonShield) {
+
+    push();
+
+    if (!buttonShield) {
+      buttonShield = createButton("Shield");
+      console.log("dentro button shield");
+      buttonCreated = true;
+    }
+
+    buttonShield.position(20, height - 20);
+
+    buttonShield.mousePressed(startShield);
+    buttonShield.show();
+
+    pop();
+
+
+
+  }
+
+  // console.log("unlockButtonShield " +unlockButtonShield);
+
+  sx = widthY;
+  sy = yPlayer - 10;
+
+
+  if (shieldBonus) {
+
+    push();
+    fill(0, 0, 255);
+    ellipse(widthY, yPlayer - 10, 100);
+    pop();
+
+    for (let d = 0; d < obstacles.length; d++) {
+
+      dS = dist(sx, sy, obstacles[d].x, obstacles[d].y);
+
+      if (dS < 100 && shieldBonus) {
+        console.log("dentro collision scudo");
+
+        let xObstaclesServer = obstacles[d].x / windowWidth * 1000;
+        socket.emit('sendXObstacle', xObstaclesServer);
+
+        obstacles.splice(d, 1);
+
+      }
+    }
+
+  }
 
   //---------MOSTRA ALTRI GIOCATORI------------
 
@@ -607,6 +694,25 @@ function draw() {
 
 
 }
+
+
+function startShield() {
+
+  console.log("dentro start shield");
+  shieldBonus = true;
+  buttonShield.hide();
+  unlockButtonShield = false;
+  varTimeoutShield = setTimeout(stopShield, 5000);
+
+}
+
+function stopShield() {
+
+  shieldBonus = false;
+  buttonCreated = false;
+
+}
+
 
 
 function resetCollision() {
