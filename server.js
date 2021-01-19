@@ -107,7 +107,7 @@ function newConnection(socket) {
 
     info_score.highscore += (dataReceived.vol);
 
-    info_score.next_planet -= (dataReceived.vol);
+    info_score.next_planet -= (dataReceived.vol/1000);
 
     if(info_score.next_planet < -1440){
       info_score.next_planet = Math.floor((Math.random() * 20000) + 40000);
@@ -128,6 +128,16 @@ function newConnection(socket) {
     io.sockets.emit("bonus_effect", bonus_value);
 
   });
+
+
+
+  socket.on('sendXObstacle', broadcast_x_obstacle);
+
+  function broadcast_x_obstacle(x_obstacle_collision){
+
+    socket.broadcast.emit('collision_obstacle', x_obstacle_collision);
+
+  }
 
 
 }

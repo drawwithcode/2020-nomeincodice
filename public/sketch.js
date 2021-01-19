@@ -148,6 +148,23 @@ function createObstacle(obstacleXServer) {
 }
 
 
+let xObstacleCollisionProp;
+
+socket.on('collision_obstacle', removeObstacleCollision);
+
+function removeObstacleCollision(xObstacleCollision){
+
+xObstacleCollisionProp = xObstacleCollision / 1000 * windowWidth;
+
+  for(let u = 0; u < obstacles.length; u++){
+
+    if(xObstacleCollisionProp===obstacles[u].x){
+      obstacles.splice(u,1);
+    }
+  }
+
+}
+
 
 let yPlayer;
 
@@ -251,6 +268,8 @@ let explosion = false;
 let b = 12;
 let c = 60;
 
+
+let velPlanet;
 
 
 function draw() {
@@ -416,10 +435,16 @@ function draw() {
     if (d < 25 && !bonusServer && !collision) {
       console.log("dentro collision 1");
       collision = true;
+
+      let xObstaclesServer = obstacles[t].x / windowWidth * 1000;
+      socket.emit('sendXObstacle', xObstaclesServer);
+
       obstacles.splice(t, 1);
       collisionTimer = frameCount;
       explosion = true;
       freezePosition = yPlayer;
+
+
     }
   }
 
@@ -536,8 +561,9 @@ function draw() {
   yRatio = round(yRatio);
   yRatio = yRatio / 100000;
 
-  volHighscore = volHighscore / 100;
+  volHighscore = volHighscore * 100;
   volHighscore = round(volHighscore);
+  volHighscore = volHighscore / 100;
 
   let info_p = {
 
