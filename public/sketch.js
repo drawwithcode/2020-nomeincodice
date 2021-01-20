@@ -182,8 +182,8 @@ function removeObstacleCollision(xObstacleCollision) {
   xObstacleCollisionProp = xObstacleCollision / 1000 * windowWidth;
 
   for (let u = 0; u < obstacles.length; u++) {
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-    if (xObstacleCollisionProp > obstacles[u].x-0.5 && xObstacleCollisionProp < obstacles[u].x + 0.5) {
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    if (xObstacleCollisionProp > obstacles[u].x - 0.5 && xObstacleCollisionProp < obstacles[u].x + 0.5) {
       //xObstacleCollisionProp > obstacles[u].x-0.5 && xObstacleCollisionProp < obstacles[u].x+0.5
       //xObstacleCollisionProp === obstacles[u].x
       obstacles.splice(u, 1);
@@ -224,6 +224,8 @@ function setup() {
 
   yPlayer = height; // posizione inizale player (parte in basso)
 
+
+  textFont("Roboto");
 
 
   //----------CREA LE STELLE-----------
@@ -291,7 +293,6 @@ let dS;
 let varTimeoutShield;
 
 
-
 let bx;
 let by;
 let collision = false;
@@ -352,6 +353,14 @@ function draw() {
     background(0);
   }
 
+  //---------------MAX ALTEZZA GIOCATORE------------
+
+
+  if (yPlayer < height * 1 / 5) {
+
+    yPlayer = height * 1 / 5;
+
+  }
 
 
   //--------------BONUSSSS---------------
@@ -383,7 +392,7 @@ function draw() {
     }
 
     //aggiunto che il bonus si prende solo se si sta più di 200 pixel più in alto dal margine in basso della finestra
-    if (checkBonus === myOtherPlayers.length && checkBonus != 0 && timerBonus === 60 && yPlayer < (height - windowHeight/5)) { //&& yPlayer < (height - 100)
+    if (checkBonus === myOtherPlayers.length && checkBonus != 0 && timerBonus === 60 && yPlayer < (height * 4 / 5)) { //&& yPlayer < (height - 100)
       bonus = true;
       socket.emit('bonus', bonus);
       console.log("dentro condizioni giuste bonus");
@@ -469,11 +478,11 @@ function draw() {
 
     d = dist(bx, by, obstacles[t].x, obstacles[t].y);
 
-    if (obstacles[t].y > (height + 75 *objectsRatio)) { //se l'ostacolo va sotto lo schermo viene tolto dall'array
+    if (obstacles[t].y > (height + 75 * objectsRatio)) { //se l'ostacolo va sotto lo schermo viene tolto dall'array
       obstacles.splice(t, 1);
     }
 
-    if (d < 25 *objectsRatio && !bonusServer && !collision) {
+    if (d < 25 * objectsRatio && !bonusServer && !collision) {
       console.log("dentro collision 1");
       collision = true;
 
@@ -547,15 +556,15 @@ function draw() {
 
     push();
     noStroke();
-    fill(40, 150, 254,150);
-    ellipse(widthY, yPlayer - 10, 120 *objectsRatio);
+    fill(40, 150, 254, 150);
+    ellipse(widthY, yPlayer - 10, 120 * objectsRatio);
     pop();
 
     for (let d = 0; d < obstacles.length; d++) {
 
       dS = dist(sx, sy, obstacles[d].x, obstacles[d].y);
 
-      if (dS < 75 *objectsRatio && shieldBonus) {
+      if (dS < 75 * objectsRatio && shieldBonus) {
         console.log("dentro collision scudo");
 
         let xObstaclesServer = obstacles[d].x / windowWidth * 1000;
@@ -565,8 +574,11 @@ function draw() {
 
       }
     }
-
   }
+
+
+
+
 
   //---------MOSTRA ALTRI GIOCATORI------------
 
@@ -599,7 +611,7 @@ function draw() {
   fill("yellow");
   noStroke()
 
-  triangle(widthY - 10, yPlayer, widthY, yPlayer - 30, widthY + 10, yPlayer);
+  triangle(widthY - 10 * objectsRatio, yPlayer, widthY, yPlayer - 30 * objectsRatio, widthY + 10 * objectsRatio, yPlayer);
 
   pop();
 
@@ -607,7 +619,8 @@ function draw() {
   fill("white");
   noStroke();
 
-  triangle(widthY - 5, yPlayer, widthY, yPlayer + random(1, 15), widthY + 5, yPlayer);
+
+  triangle(widthY - 5 * objectsRatio, yPlayer, widthY, yPlayer + random(1, 15) * objectsRatio, widthY + 5 * objectsRatio, yPlayer);
 
   pop();
 
@@ -646,7 +659,6 @@ function draw() {
     pop();
 
   }
-
 
 
 
@@ -765,10 +777,10 @@ class OtherPlayer {
   display() {
 
     push();
-    if(this.shield){
+    if (this.shield) {
       noStroke();
       fill(255);
-      ellipse(this.x,this.h-10, 120 * objectsRatio);
+      ellipse(this.x, this.h - 10, 120 * objectsRatio);
     }
 
     pop();
@@ -778,7 +790,7 @@ class OtherPlayer {
     fill(150);
     noStroke()
 
-    triangle(this.x - 10, this.h, this.x, this.h - 30, this.x + 10, this.h);
+    triangle(this.x - 10 * objectsRatio, this.h, this.x, this.h - 30 * objectsRatio, this.x + 10 * objectsRatio, this.h);
 
     pop();
 
@@ -786,7 +798,7 @@ class OtherPlayer {
     fill(200);
     noStroke();
 
-    triangle(this.x - 5, this.h, this.x, this.h + random(1, 15), this.x + 5, this.h);
+    triangle(this.x - 5 * objectsRatio, this.h, this.x, this.h + random(1, 15) * objectsRatio, this.x + 5 * objectsRatio, this.h);
 
     pop();
   }
@@ -805,20 +817,20 @@ class Obstacles {
 
     this.x = obstacleX;
     this.y = -15;
-    this.r = 30*objectsRatio;
-    this.rand1 = random(-4,4);
-    this.rand2 = random(-4,4);
-    this.rand3 = random(-4,4);
-    this.rand4 = random(-4,4);
-    this.rand5 = random(-4,4);
+    this.r = 30 * objectsRatio;
+    this.rand1 = random(-4, 4);
+    this.rand2 = random(-4, 4);
+    this.rand3 = random(-4, 4);
+    this.rand4 = random(-4, 4);
+    this.rand5 = random(-4, 4);
   }
 
   display() {
 
     push();
     noStroke();
-    fill(255,255,255,100);
-    triangle(this.x-15, this.y-5, this.x, this.y-60 + random(-5,+5), this.x+15, this.y-5);
+    fill(255, 255, 255, 100);
+    triangle(this.x - 15 * objectsRatio, this.y - 5 * objectsRatio, this.x, this.y - 60 * objectsRatio + random(-5, +5) * objectsRatio, this.x + 15 * objectsRatio, this.y - 5 * objectsRatio);
     pop();
 
     push();
@@ -961,7 +973,7 @@ class Planets {
 
   constructor() {
 
-    this.r = 500;
+    this.r = 500 * objectsRatio;
     this.x = random(0, width);
     this.y = -nextPlanet;
     this.color1 = random(0, 255);
@@ -981,10 +993,10 @@ class Planets {
     push();
     noStroke();
     fill(this.color2, this.color3, this.color1, 50);
-    let noiseHalo = noise(noisePlanet)*100;
+    let noiseHalo = noise(noisePlanet) * 30;
     // console.log(noiseHalo);
-    ellipse(this.x, -nextPlanet, this.r + 100 + noiseHalo);
-    noisePlanet+= 0.01;
+    ellipse(this.x, -nextPlanet, (this.r + (100 * objectsRatio) + (noiseHalo * objectsRatio)));
+    noisePlanet += 0.03;
     // console.log(noisePlanet);
     pop();
 
