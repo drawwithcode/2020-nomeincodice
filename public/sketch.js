@@ -14,6 +14,7 @@ let otherH_players;
 
 let yRatio;
 let xRatio;
+let objectsRatio;
 
 let malus = false;
 
@@ -88,8 +89,6 @@ socket.on('micvolume_in', others_micvolume);
 function others_micvolume(data) {
 
   otherX_players = data.x * windowWidth;
-  console.log(data.x);
-  console.log(otherX_players);
   otherH_players = data.h * windowHeight;
 
   //riceve i dati info_p e li associa agli Id corrispondenti
@@ -221,7 +220,7 @@ function setup() {
   // start the Audio Input.  By default, it does not .connect() (to the computer speakers)
   mic.start();
 
-
+  objectsRatio = windowWidth / 360;
 
   yPlayer = height; // posizione inizale player (parte in basso)
 
@@ -384,7 +383,7 @@ function draw() {
     }
 
     //aggiunto che il bonus si prende solo se si sta più di 200 pixel più in alto dal margine in basso della finestra
-    if (checkBonus === myOtherPlayers.length && checkBonus != 0 && timerBonus === 60 && yPlayer < (height - 100)) { //&& yPlayer < (height - 100)
+    if (checkBonus === myOtherPlayers.length && checkBonus != 0 && timerBonus === 60 && yPlayer < (height - windowHeight/5)) { //&& yPlayer < (height - 100)
       bonus = true;
       socket.emit('bonus', bonus);
       console.log("dentro condizioni giuste bonus");
@@ -470,11 +469,11 @@ function draw() {
 
     d = dist(bx, by, obstacles[t].x, obstacles[t].y);
 
-    if (obstacles[t].y > (height + 75)) { //se l'ostacolo va sotto lo schermo viene tolto dall'array
+    if (obstacles[t].y > (height + 75 *objectsRatio)) { //se l'ostacolo va sotto lo schermo viene tolto dall'array
       obstacles.splice(t, 1);
     }
 
-    if (d < 25 && !bonusServer && !collision) {
+    if (d < 25 *objectsRatio && !bonusServer && !collision) {
       console.log("dentro collision 1");
       collision = true;
 
@@ -549,14 +548,14 @@ function draw() {
     push();
     noStroke();
     fill(40, 150, 254,150);
-    ellipse(widthY, yPlayer - 10, 120);
+    ellipse(widthY, yPlayer - 10, 120 *objectsRatio);
     pop();
 
     for (let d = 0; d < obstacles.length; d++) {
 
       dS = dist(sx, sy, obstacles[d].x, obstacles[d].y);
 
-      if (dS < 75 && shieldBonus) {
+      if (dS < 75 *objectsRatio && shieldBonus) {
         console.log("dentro collision scudo");
 
         let xObstaclesServer = obstacles[d].x / windowWidth * 1000;
@@ -769,7 +768,7 @@ class OtherPlayer {
     if(this.shield){
       noStroke();
       fill(255);
-      ellipse(this.x,this.h-10, 120);
+      ellipse(this.x,this.h-10, 120 * objectsRatio);
     }
 
     pop();
@@ -806,7 +805,7 @@ class Obstacles {
 
     this.x = obstacleX;
     this.y = -15;
-    this.r = 30;
+    this.r = 30*objectsRatio;
     this.rand1 = random(-4,4);
     this.rand2 = random(-4,4);
     this.rand3 = random(-4,4);
