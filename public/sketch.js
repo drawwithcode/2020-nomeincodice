@@ -13,6 +13,7 @@ let otherX_players;
 let otherH_players;
 
 let yRatio;
+let xRatio;
 
 let malus = false;
 
@@ -86,7 +87,9 @@ socket.on('micvolume_in', others_micvolume);
 
 function others_micvolume(data) {
 
-  otherX_players = data.x;
+  otherX_players = data.x * windowWidth;
+  console.log(data.x);
+  console.log(otherX_players);
   otherH_players = data.h * windowHeight;
 
   //riceve i dati info_p e li associa agli Id corrispondenti
@@ -94,8 +97,8 @@ function others_micvolume(data) {
 
     if (data.id === myOtherPlayers[i].getId()) {
 
+      myOtherPlayers[i].x = otherX_players;
       myOtherPlayers[i].h = otherH_players;
-      myOtherPlayers[i].x = data.x;
       myOtherPlayers[i].shield = data.shield;
       // console.log(data.shield);
     }
@@ -197,10 +200,10 @@ let starsOne = [];
 let numStarsOne = 60; //quante stelle 1 creare
 
 let starsTwo = [];
-let numStarsTwo = 30; //quante stelle 2 creare
+let numStarsTwo = 25; //quante stelle 2 creare
 
 let starsThree = [];
-let numStarsThree = 15; //quante stelle 3 creare
+let numStarsThree = 10; //quante stelle 3 creare
 
 let planet;
 
@@ -553,7 +556,7 @@ function draw() {
 
       dS = dist(sx, sy, obstacles[d].x, obstacles[d].y);
 
-      if (dS < 70 && shieldBonus) {
+      if (dS < 75 && shieldBonus) {
         console.log("dentro collision scudo");
 
         let xObstaclesServer = obstacles[d].x / windowWidth * 1000;
@@ -654,15 +657,21 @@ function draw() {
   yRatio = round(yRatio);
   yRatio = yRatio / 100000;
 
+  xRatio = widthY / windowWidth * 100000;
+  xRatio = round(xRatio);
+  xRatio = xRatio / 100000;
+
   volHighscore = volHighscore * 100;
   volHighscore = round(volHighscore);
   volHighscore = volHighscore / 100;
+
+
 
   let info_p = {
 
     id: id,
     h: yRatio,
-    x: widthY,
+    x: xRatio,
     shield: shieldBonus,
     vol: volHighscore
 
@@ -974,10 +983,10 @@ class Planets {
     noStroke();
     fill(this.color2, this.color3, this.color1, 50);
     let noiseHalo = noise(noisePlanet)*100;
-    console.log(noiseHalo);
+    // console.log(noiseHalo);
     ellipse(this.x, -nextPlanet, this.r + 100 + noiseHalo);
     noisePlanet+= 0.01;
-    console.log(noisePlanet);
+    // console.log(noisePlanet);
     pop();
 
   }

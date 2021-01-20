@@ -122,7 +122,6 @@ function newConnection(socket) {
       if(timer_bonus >= 25 && timer_bonus < 175){
         info_score.highscore += 1500;
       }
-
       if(timer_bonus >= 175 && timer_bonus < 200){
         info_score.highscore += 60 * (200 - timer_bonus);
       }
