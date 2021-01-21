@@ -117,13 +117,14 @@ function newConnection(socket) {
 
       timer_bonus++;
       if(timer_bonus >= 1 && timer_bonus < 25){
-        info_score.highscore += 60*timer_bonus;
+        info_score.highscore += 100*timer_bonus;
       }
       if(timer_bonus >= 25 && timer_bonus < 175){
-        info_score.highscore += 1500;
+        info_score.highscore += 2500;
       }
+
       if(timer_bonus >= 175 && timer_bonus < 200){
-        info_score.highscore += 60 * (200 - timer_bonus);
+        info_score.highscore += 100 * (200 - timer_bonus);
       }
       if(timer_bonus >= 200){
         bonus_server = false;
