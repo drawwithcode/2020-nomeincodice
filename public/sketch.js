@@ -310,6 +310,8 @@ let c = 60;
 
 
 let noisePlanet = 0;
+let noiseShield = 0;
+let noiseShieldOther = 0;
 
 
 function draw() {
@@ -335,7 +337,7 @@ function draw() {
 
   //----------ROTAZIONE DEL GIROSCOPIO--------------
 
-  const widthY = map(rotationY, -90, 90, 0, width);
+  const widthX = map(rotationY, -90, 90, 0, width);
 
 
 
@@ -377,7 +379,7 @@ function draw() {
       // console.log(myOtherPlayers[u].h);
       // console.log(u);
 
-      if (yPlayer < myOtherPlayers[u].h + 100 && yPlayer > myOtherPlayers[u].h - 100) {
+      if (yPlayer < myOtherPlayers[u].h + height/5 && yPlayer > myOtherPlayers[u].h -  height/5) {
 
         checkBonus++;
 
@@ -392,7 +394,7 @@ function draw() {
     }
 
     //aggiunto che il bonus si prende solo se si sta più di 200 pixel più in alto dal margine in basso della finestra
-    if (checkBonus === myOtherPlayers.length && checkBonus != 0 && timerBonus === 60 && yPlayer < (height * 4 / 5)) { //&& yPlayer < (height - 100)
+    if (checkBonus === myOtherPlayers.length && checkBonus != 0 && timerBonus === 30 && yPlayer < (height * 4 / 5)) { //&& yPlayer < (height - 100)
       bonus = true;
       socket.emit('bonus', bonus);
       console.log("dentro condizioni giuste bonus");
@@ -467,8 +469,8 @@ function draw() {
 
   //---------------OSTACOLI E COLLISIONI---------------
 
-  bx = widthY;
-  by = yPlayer - 10;
+  bx = widthX;
+  by = yPlayer - 15;
 
   for (let t = 0; t < obstacles.length; t++) {
 
@@ -530,12 +532,16 @@ function draw() {
     push();
 
     if (!buttonShield) {
-      buttonShield = createButton("Shield");
+      buttonShield = createButton("");
       console.log("dentro button shield");
       buttonCreated = true;
     }
 
-    buttonShield.position(40, height - 70);
+    buttonShield.style('border-radius', '50px');
+    buttonShield.style('background-color', '#2896FE');
+    buttonShield.style('padding', '30px 30px');
+    buttonShield.position(40, height - 80);
+
 
     buttonShield.mousePressed(startShield);
     buttonShield.show();
@@ -548,7 +554,7 @@ function draw() {
 
   // console.log("unlockButtonShield " +unlockButtonShield);
 
-  sx = widthY;
+  sx = widthX;
   sy = yPlayer - 10;
 
 
@@ -556,8 +562,12 @@ function draw() {
 
     push();
     noStroke();
+    let noiseShieldHalo = noise(noiseShield) * 10;
+    noiseShield += 0.1;
+
     fill(40, 150, 254, 150);
-    ellipse(widthY, yPlayer - 10, 120 * objectsRatio);
+
+    ellipse(widthX, yPlayer - 10, (120 + noiseShieldHalo) * objectsRatio);
     pop();
 
     for (let d = 0; d < obstacles.length; d++) {
@@ -606,43 +616,152 @@ function draw() {
   pop();
 
 
+  push();
+  noStroke();
+  fill(148, 241, 255);
+
+  triangle(widthX - 8 * objectsRatio, yPlayer + 33 * objectsRatio, widthX, yPlayer + 60 * objectsRatio + random(1, 25) * objectsRatio, widthX + 8 * objectsRatio, yPlayer + 33 * objectsRatio);
+
+  pop();
+
 
   push();
-  fill("yellow");
+  noStroke();
+  fill(224, 213, 195);
+
+  triangle(widthX - 10 * objectsRatio, yPlayer + 33 * objectsRatio, widthX, yPlayer + 18 * objectsRatio, widthX + 10 * objectsRatio, yPlayer + 33 * objectsRatio);
+
+  pop();
+
+  push();
+  fill(121, 216, 160);
   noStroke()
 
-  triangle(widthY - 10 * objectsRatio, yPlayer, widthY, yPlayer - 30 * objectsRatio, widthY + 10 * objectsRatio, yPlayer);
+  // triangle(widthX - 10 * objectsRatio, yPlayer, widthX, yPlayer - 30 * objectsRatio, widthX + 10 * objectsRatio, yPlayer);
+
+  ellipse(widthX, yPlayer - 10 * objectsRatio, 25 * objectsRatio, 70 * objectsRatio);
 
   pop();
 
   push();
-  fill("white");
-  noStroke();
+  fill(168, 246, 179);
+  noStroke()
 
-
-  triangle(widthY - 5 * objectsRatio, yPlayer, widthY, yPlayer + random(1, 15) * objectsRatio, widthY + 5 * objectsRatio, yPlayer);
+  ellipse(widthX, yPlayer - 6 * objectsRatio, 20 * objectsRatio, 55 * objectsRatio);
 
   pop();
 
-  if (explosion) {
+  push();
+  noStroke();
+  fill(32, 135, 113);
+
+  beginShape();
+  vertex(widthX + 10 * objectsRatio, yPlayer + 5 * objectsRatio);
+  vertex(widthX + 22 * objectsRatio, yPlayer + 10 * objectsRatio);
+  vertex(widthX + 18 * objectsRatio, yPlayer + 35 * objectsRatio);
+  vertex(widthX + 17 * objectsRatio, yPlayer + 17 * objectsRatio);
+  vertex(widthX + 8 * objectsRatio, yPlayer + 13 * objectsRatio);
+  endShape();
+
+  beginShape();
+  vertex(widthX - 10 * objectsRatio, yPlayer + 5 * objectsRatio);
+  vertex(widthX - 22 * objectsRatio, yPlayer + 10 * objectsRatio);
+  vertex(widthX - 18 * objectsRatio, yPlayer + 35 * objectsRatio);
+  vertex(widthX - 17 * objectsRatio, yPlayer + 17 * objectsRatio);
+  vertex(widthX - 8 * objectsRatio, yPlayer + 13 * objectsRatio);
+  endShape();
+
+  beginShape();
+  vertex(widthX, yPlayer + 2 * objectsRatio);
+  vertex(widthX + 3 * objectsRatio, yPlayer + 4 * objectsRatio);
+  vertex(widthX + 4 * objectsRatio, yPlayer + 7 * objectsRatio);
+  vertex(widthX, yPlayer + 45 * objectsRatio);
+  vertex(widthX - 4 * objectsRatio, yPlayer + 7 * objectsRatio);
+  vertex(widthX - 3 * objectsRatio, yPlayer + 4 * objectsRatio);
+  endShape();
+
+
+  pop();
+
+
+
+
+  // push();
+  // fill("white");
+  // noStroke();
+  //
+  // triangle(widthX - 5 * objectsRatio, yPlayer, widthX, yPlayer + random(1, 15) * objectsRatio, widthX + 5 * objectsRatio, yPlayer);
+  //
+  // pop();
+
+  if (frameCount % 5 === 0) {
+    c++;
+  }
+
+
+  if (explosion && c % 2 === 0) {
+
+
+    push();
+    noStroke();
+    fill("red");
+
+    triangle(widthX - 10 * objectsRatio, yPlayer + 33 * objectsRatio, widthX, yPlayer + 18 * objectsRatio, widthX + 10 * objectsRatio, yPlayer + 33 * objectsRatio);
+
+    pop();
 
     push();
     fill("red");
     noStroke()
 
-    if (b < 60) {
-      ellipse(widthY, yPlayer - 6, b);
-      b += 4;
-    }
+    ellipse(widthX, yPlayer - 10 * objectsRatio, 25 * objectsRatio, 70 * objectsRatio);
 
-    if (b === 60) {
-      ellipse(widthY, yPlayer - 6, c);
-      c -= 6;
-    }
     pop();
-    if (c === 12) {
-      c = 60;
-      b = 12;
+
+    push();
+    fill("red");
+    noStroke()
+
+    ellipse(widthX, yPlayer - 6 * objectsRatio, 20 * objectsRatio, 55 * objectsRatio);
+
+    pop();
+
+    push();
+    noStroke();
+    fill("red");
+
+    beginShape();
+    vertex(widthX + 10 * objectsRatio, yPlayer + 5 * objectsRatio);
+    vertex(widthX + 22 * objectsRatio, yPlayer + 10 * objectsRatio);
+    vertex(widthX + 18 * objectsRatio, yPlayer + 35 * objectsRatio);
+    vertex(widthX + 17 * objectsRatio, yPlayer + 17 * objectsRatio);
+    vertex(widthX + 8 * objectsRatio, yPlayer + 13 * objectsRatio);
+    endShape();
+
+    beginShape();
+    vertex(widthX - 10 * objectsRatio, yPlayer + 5 * objectsRatio);
+    vertex(widthX - 22 * objectsRatio, yPlayer + 10 * objectsRatio);
+    vertex(widthX - 18 * objectsRatio, yPlayer + 35 * objectsRatio);
+    vertex(widthX - 17 * objectsRatio, yPlayer + 17 * objectsRatio);
+    vertex(widthX - 8 * objectsRatio, yPlayer + 13 * objectsRatio);
+    endShape();
+
+    beginShape();
+    vertex(widthX, yPlayer + 2 * objectsRatio);
+    vertex(widthX + 3 * objectsRatio, yPlayer + 4 * objectsRatio);
+    vertex(widthX + 4 * objectsRatio, yPlayer + 7 * objectsRatio);
+    vertex(widthX, yPlayer + 45 * objectsRatio);
+    vertex(widthX - 4 * objectsRatio, yPlayer + 7 * objectsRatio);
+    vertex(widthX - 3 * objectsRatio, yPlayer + 4 * objectsRatio);
+    endShape();
+
+
+    pop();
+
+    b++;
+
+    if (b === 50) {
+      b = 0;
       explosion = false;
     }
 
@@ -668,7 +787,7 @@ function draw() {
   yRatio = round(yRatio);
   yRatio = yRatio / 100000;
 
-  xRatio = widthY / windowWidth * 100000;
+  xRatio = widthX / windowWidth * 100000;
   xRatio = round(xRatio);
   xRatio = xRatio / 100000;
 
@@ -685,7 +804,6 @@ function draw() {
     x: xRatio,
     shield: shieldBonus,
     vol: volHighscore
-
 
   }
 
@@ -772,6 +890,7 @@ class OtherPlayer {
     this.x = x;
     this.h = h;
     this.shield = shield;
+    this.smaller = 2 / 3;
   }
 
   display() {
@@ -780,27 +899,93 @@ class OtherPlayer {
     if (this.shield) {
       noStroke();
       fill(255);
-      ellipse(this.x, this.h - 10, 120 * objectsRatio);
+      let noiseShieldHaloOther = noise(noiseShieldOther) * 10;
+      noiseShieldOther += 0.1;
+      ellipse(this.x, this.h - 10, (120 + noiseShieldHaloOther) * objectsRatio);
     }
 
     pop();
 
+    //
+    // push();
+    // fill(150);
+    // noStroke()
+    //
+    // triangle(this.x - 10 * objectsRatio, this.h, this.x, this.h - 30 * objectsRatio, this.x + 10 * objectsRatio, this.h);
+    //
+    // pop();
+    //
+    // push();
+    // fill(200);
+    // noStroke();
+    //
+    // triangle(this.x - 5 * objectsRatio, this.h, this.x, this.h + random(1, 15) * objectsRatio, this.x + 5 * objectsRatio, this.h);
+    //
+    // pop();
+
 
     push();
-    fill(150);
+    noStroke();
+    fill(230);
+
+    triangle(this.x - 8 * objectsRatio * this.smaller, this.h + 33 * objectsRatio * this.smaller, this.x, this.h + 60 * objectsRatio * this.smaller + random(1, 25) * objectsRatio * this.smaller, this.x + 8 * objectsRatio * this.smaller, this.h + 33 * objectsRatio * this.smaller);
+
+    pop();
+
+
+    push();
+    noStroke();
+    fill(255);
+
+    triangle(this.x - 10 * objectsRatio * this.smaller, this.h + 33 * objectsRatio * this.smaller, this.x, this.h + 18 * objectsRatio * this.smaller, this.x + 10 * objectsRatio * this.smaller, this.h + 33 * objectsRatio * this.smaller);
+
+    pop();
+
+    push();
+    fill(190);
     noStroke()
 
-    triangle(this.x - 10 * objectsRatio, this.h, this.x, this.h - 30 * objectsRatio, this.x + 10 * objectsRatio, this.h);
+    // triangle(this.x - 10 * objectsRatio, this.h, this.x, this.h - 30 * objectsRatio, this.x + 10 * objectsRatio, this.h);
+
+    ellipse(this.x, this.h - 10 * objectsRatio * this.smaller, 25 * objectsRatio * this.smaller, 70 * objectsRatio * this.smaller);
 
     pop();
+
 
     push();
-    fill(200);
     noStroke();
+    fill(120);
 
-    triangle(this.x - 5 * objectsRatio, this.h, this.x, this.h + random(1, 15) * objectsRatio, this.x + 5 * objectsRatio, this.h);
+    beginShape();
+    vertex(this.x + 10 * objectsRatio * this.smaller, this.h + 5 * objectsRatio * this.smaller);
+    vertex(this.x + 22 * objectsRatio * this.smaller, this.h + 10 * objectsRatio * this.smaller);
+    vertex(this.x + 18 * objectsRatio * this.smaller, this.h + 35 * objectsRatio * this.smaller);
+    vertex(this.x + 17 * objectsRatio * this.smaller, this.h + 17 * objectsRatio * this.smaller);
+    vertex(this.x + 8 * objectsRatio * this.smaller, this.h + 13 * objectsRatio * this.smaller);
+    endShape();
+
+    beginShape();
+    vertex(this.x - 10 * objectsRatio * this.smaller, this.h + 5 * objectsRatio * this.smaller);
+    vertex(this.x - 22 * objectsRatio * this.smaller, this.h + 10 * objectsRatio * this.smaller);
+    vertex(this.x - 18 * objectsRatio * this.smaller, this.h + 35 * objectsRatio * this.smaller);
+    vertex(this.x - 17 * objectsRatio * this.smaller, this.h + 17 * objectsRatio * this.smaller);
+    vertex(this.x - 8 * objectsRatio * this.smaller, this.h + 13 * objectsRatio * this.smaller);
+    endShape();
+
+    beginShape();
+    vertex(this.x, this.h + 2 * objectsRatio * this.smaller);
+    vertex(this.x + 3 * objectsRatio * this.smaller, this.h + 4 * objectsRatio * this.smaller);
+    vertex(this.x + 4 * objectsRatio * this.smaller, this.h + 7 * objectsRatio * this.smaller);
+    vertex(this.x, this.h + 45 * objectsRatio * this.smaller);
+    vertex(this.x - 4 * objectsRatio * this.smaller, this.h + 7 * objectsRatio * this.smaller);
+    vertex(this.x - 3 * objectsRatio * this.smaller, this.h + 4 * objectsRatio * this.smaller);
+    endShape();
+
 
     pop();
+
+
+
   }
 
   getId() {
@@ -823,20 +1008,28 @@ class Obstacles {
     this.rand3 = random(-4, 4);
     this.rand4 = random(-4, 4);
     this.rand5 = random(-4, 4);
+    this.inside = 2 / 3;
   }
 
   display() {
 
     push();
     noStroke();
-    fill(255, 255, 255, 100);
+    fill(255, 153, 0);
     triangle(this.x - 15 * objectsRatio, this.y - 5 * objectsRatio, this.x, this.y - 60 * objectsRatio + random(-5, +5) * objectsRatio, this.x + 15 * objectsRatio, this.y - 5 * objectsRatio);
+
+    ellipse(this.x, this.y, this.r + 1);
+
     pop();
+
 
     push();
     noStroke();
-    fill(255);
+    fill(255, 255, 153);
     ellipseMode(CENTER);
+
+    triangle(this.x - 15 * objectsRatio * this.inside, this.y - 5 * objectsRatio * this.inside, this.x, this.y - 60 * objectsRatio * this.inside + random(-5, +5) * objectsRatio * this.inside, this.x + 15 * objectsRatio * this.inside, this.y - 5 * objectsRatio * this.inside);
+    pop();
 
     // beginShape();
     // vertex(this.x - 12 + this.rand1 , this.y + 4);
@@ -845,11 +1038,12 @@ class Obstacles {
     // vertex(this.x + 8 + this.rand4 , this.y - 10);
     // vertex(this.x - 8 + this.rand5 , this.y - 10);
     // endShape();
-    ellipse(this.x, this.y, this.r);
 
-
+    push();
+    noStroke();
+    fill(153, 51, 0);
+    ellipse(this.x, this.y, this.r * this.inside);
     pop();
-
   }
 
   move() {
