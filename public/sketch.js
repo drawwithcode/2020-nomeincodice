@@ -23,6 +23,12 @@ let beginGame = false;
 let myOtherPlayers = [];
 
 
+let infoCollision = 0;
+let infoDistance = 0;
+let infoButton;
+let showInfo = 1;
+
+
 //---------QUANDO SI CONNETTE MANDA L'ID DEL GIOCATORE LOCALE AL SERVER-----------
 
 socket.on("connect", newConnection);
@@ -99,6 +105,7 @@ function others_micvolume(data) {
       myOtherPlayers[i].x = otherX_players;
       myOtherPlayers[i].h = otherH_players;
       myOtherPlayers[i].shield = data.shield;
+      myOtherPlayers[i].blinkShield = data.blinkShield;
       // console.log(data.shield);
     }
   }
@@ -267,7 +274,30 @@ function setup() {
   planet = new Planets();
 
 
+  //------------------TASTO INFO-------------------------
+
+  push();
+
+
+  infoButton = createButton("");
+
+
+  infoButton.style('background-color', 'white');
+  infoButton.style('padding', '20px 20px');
+  infoButton.position(width - 40, 60);
+
+
+  infoButton.mousePressed(showInfoFunction);
+
+  pop();
+
 }
+
+
+
+
+
+
 
 
 
@@ -291,7 +321,10 @@ let sx;
 let sy;
 let dS;
 let varTimeoutShield;
-
+let varBlinkingShield;
+let blinkBonusShield = false;
+let e = 0;
+let f = 0;
 
 let bx;
 let by;
@@ -306,7 +339,7 @@ let freezePosition;
 let collisionTimer;
 let explosion = false;
 let b = 12;
-let c = 60;
+let c = 0;
 
 
 let noisePlanet = 0;
@@ -379,7 +412,7 @@ function draw() {
       // console.log(myOtherPlayers[u].h);
       // console.log(u);
 
-      if (yPlayer < myOtherPlayers[u].h + height/5 && yPlayer > myOtherPlayers[u].h -  height/5) {
+      if (yPlayer < myOtherPlayers[u].h + height / 5 && yPlayer > myOtherPlayers[u].h - height / 5) {
 
         checkBonus++;
 
@@ -496,6 +529,8 @@ function draw() {
       explosion = true;
       freezePosition = yPlayer;
 
+      infoCollision++;
+
     }
   }
 
@@ -557,6 +592,12 @@ function draw() {
   sx = widthX;
   sy = yPlayer - 10;
 
+  if (frameCount % 5 === 0) {
+    e++;
+  }
+
+
+
 
   if (shieldBonus) {
 
@@ -564,10 +605,16 @@ function draw() {
     noStroke();
     let noiseShieldHalo = noise(noiseShield) * 10;
     noiseShield += 0.1;
-
     fill(40, 150, 254, 150);
 
-    ellipse(widthX, yPlayer - 10, (120 + noiseShieldHalo) * objectsRatio);
+    if (blinkBonusShield && e % 2 === 0) {
+
+    } else {
+      ellipse(widthX, yPlayer - 10, (120 + noiseShieldHalo) * objectsRatio);
+    }
+
+
+
     pop();
 
     for (let d = 0; d < obstacles.length; d++) {
@@ -769,7 +816,11 @@ function draw() {
   }
 
 
-  if (nextPlanet < 0) {
+
+  //---------------------FINESTRA NOME PIANETA SCOPERTO-------------------
+
+
+  if (nextPlanet < -400) {
 
     push();
     rectMode(CENTER);
@@ -777,6 +828,22 @@ function draw() {
     rect(width / 2, height / 2, 100, 100);
     pop();
 
+    obstacles.splice(0, obstacles.length);
+
+  }
+
+  //----------------FINESTRA INFO GIOCATORE----------------
+
+
+  if (showInfo === -1) {
+    push();
+    noStroke();
+    textAlign(CENTER);
+    rect(0, height / 2 - 30, width, 60);
+    infoDistance = round(infoDistance);
+    text(infoCollision, width / 2, height / 2 - 10);
+    text(infoDistance, width / 2, height / 2 + 10);
+    pop();
   }
 
 
@@ -803,12 +870,15 @@ function draw() {
     h: yRatio,
     x: xRatio,
     shield: shieldBonus,
+    blinkShield: blinkBonusShield,
     vol: volHighscore
 
   }
 
   socket.emit('micvolume', info_p);
 
+
+  infoDistance += volHighscore;
 
 
   //------------CALIBRAZIONE MICROFONO----------------
@@ -831,6 +901,8 @@ function draw() {
 
     pop();
 
+    infoButton.hide();
+
   }
 
   if (startCalibration) {
@@ -848,7 +920,14 @@ function startShield() {
   shieldBonus = true;
   buttonShield.hide();
   unlockButtonShield = false;
+  varBlinkingShield = setTimeout(blinkingShield, 3000);
   varTimeoutShield = setTimeout(stopShield, 5000);
+
+}
+
+function blinkingShield() {
+
+  blinkBonusShield = true;
 
 }
 
@@ -856,6 +935,7 @@ function stopShield() {
 
   shieldBonus = false;
   buttonCreated = false;
+  blinkBonusShield = false;
 
 }
 
@@ -876,6 +956,13 @@ function timerCalibration() {
   startCalibration = false;
   calibrationButton = false;
   beginGame = true;
+  infoButton.show();
+}
+
+
+
+function showInfoFunction() {
+  showInfo = showInfo * -1;
 }
 
 
@@ -885,44 +972,34 @@ function timerCalibration() {
 
 class OtherPlayer {
 
-  constructor(id, x, h, shield) {
+  constructor(id, x, h, shield, blinkShield) {
     this.id = id;
     this.x = x;
     this.h = h;
     this.shield = shield;
+    this.blinkShield = blinkShield;
     this.smaller = 2 / 3;
   }
 
   display() {
 
     push();
+    if (frameCount % 5 === 0) {
+      f++;
+    }
+
     if (this.shield) {
       noStroke();
       fill(255);
       let noiseShieldHaloOther = noise(noiseShieldOther) * 10;
       noiseShieldOther += 0.1;
-      ellipse(this.x, this.h - 10, (120 + noiseShieldHaloOther) * objectsRatio);
+
+      if (this.blinkShield && f % 2 === 0) {} else {
+        ellipse(this.x, this.h - 10, (120 + noiseShieldHaloOther) * objectsRatio);
+      }
     }
 
     pop();
-
-    //
-    // push();
-    // fill(150);
-    // noStroke()
-    //
-    // triangle(this.x - 10 * objectsRatio, this.h, this.x, this.h - 30 * objectsRatio, this.x + 10 * objectsRatio, this.h);
-    //
-    // pop();
-    //
-    // push();
-    // fill(200);
-    // noStroke();
-    //
-    // triangle(this.x - 5 * objectsRatio, this.h, this.x, this.h + random(1, 15) * objectsRatio, this.x + 5 * objectsRatio, this.h);
-    //
-    // pop();
-
 
     push();
     noStroke();
@@ -944,8 +1021,6 @@ class OtherPlayer {
     push();
     fill(190);
     noStroke()
-
-    // triangle(this.x - 10 * objectsRatio, this.h, this.x, this.h - 30 * objectsRatio, this.x + 10 * objectsRatio, this.h);
 
     ellipse(this.x, this.h - 10 * objectsRatio * this.smaller, 25 * objectsRatio * this.smaller, 70 * objectsRatio * this.smaller);
 
@@ -1167,7 +1242,7 @@ class Planets {
 
   constructor() {
 
-    this.r = 500 * objectsRatio;
+    this.r = random(350, 550) * objectsRatio;
     this.x = random(0, width);
     this.y = -nextPlanet;
     this.color1 = random(0, 255);
@@ -1180,8 +1255,14 @@ class Planets {
 
     push();
     noStroke();
-    fill(this.color1, this.color2, this.color3);
+    fill(this.color1 - 50, this.color2 - 50, this.color3 - 50);
     ellipse(this.x, -nextPlanet, this.r);
+    pop();
+
+    push();
+    noStroke();
+    fill(this.color1, this.color2, this.color3);
+    ellipse(this.x - this.r / 80, -nextPlanet - this.r / 80, this.r - this.r / 40);
     pop();
 
     push();
