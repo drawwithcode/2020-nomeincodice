@@ -682,7 +682,7 @@ function draw() {
 
   push();
   fill(121, 216, 160);
-  noStroke()
+  noStroke();
 
   // triangle(widthX - 10 * objectsRatio, yPlayer, widthX, yPlayer - 30 * objectsRatio, widthX + 10 * objectsRatio, yPlayer);
 
@@ -692,11 +692,27 @@ function draw() {
 
   push();
   fill(168, 246, 179);
-  noStroke()
+  noStroke();
 
   ellipse(widthX, yPlayer - 6 * objectsRatio, 20 * objectsRatio, 55 * objectsRatio);
 
   pop();
+
+
+  push();
+  fill(108, 201, 215);
+  noStroke();
+  ellipse(widthX, yPlayer - 20* objectsRatio, 10 * objectsRatio, 10 * objectsRatio);
+
+  pop();
+
+  push();
+  fill(168, 246, 179);
+  noStroke();
+  ellipse(widthX, yPlayer - 17 * objectsRatio, 10 * objectsRatio, 8 * objectsRatio);
+
+  pop();
+
 
   push();
   noStroke();
@@ -765,13 +781,7 @@ function draw() {
 
     pop();
 
-    push();
-    fill("red");
-    noStroke()
-
-    ellipse(widthX, yPlayer - 6 * objectsRatio, 20 * objectsRatio, 55 * objectsRatio);
-
-    pop();
+    
 
     push();
     noStroke();
@@ -1242,16 +1252,75 @@ class Planets {
 
   constructor() {
 
-    this.r = random(350, 550) * objectsRatio;
+    this.r = random(250, 400) * objectsRatio;
     this.x = random(0, width);
     this.y = -nextPlanet;
     this.color1 = random(0, 255);
     this.color2 = random(0, 255);
     this.color3 = random(0, 255);
+    this.halo = round(random(1, 3));
+    this.ring = round(random(0, 5));
+    this.angle = round(random(20, 60));
+    this.crater = round(random(2, 4));
+    this.posCraterX =  [random(-this.r / 3.5, this.r / 5.5),random(-this.r / 3.5, this.r / 5.5),random(-this.r / 3.5, this.r / 5.5),
+      random(-this.r / 3.5, this.r / 5.5),random(-this.r / 3.5, this.r / 5.5),random(-this.r / 3.5, this.r / 5.5)];
+    this.posCraterY =  [random(-this.r / 3.5, this.r / 5.5),random(-this.r /3.5, this.r / 5.5),random(-this.r / 3.5, this.r / 5.5),
+      random(-this.r / 3.5, this.r / 5.5),random(-this.r / 3.5, this.r / 5.5),random(-this.r / 3.5, this.r / 5.5)];
+
+    this.diaRand = [random(this.r/10, this.r/4),random(this.r/10, this.r/4),random(this.r/10, this.r/4),
+    random(this.r/10, this.r/4),random(this.r/10, this.r/4),random(this.r/10, this.r/4)];
 
   }
 
   display() {
+
+
+
+    if (this.halo === 1) {
+
+      push();
+      noStroke();
+      fill(this.color2, this.color3, this.color1, 50);
+      let noiseHalo = noise(noisePlanet) * 30;
+      // console.log(noiseHalo);
+      ellipse(this.x, -nextPlanet, (this.r + (100 * objectsRatio) + (noiseHalo * objectsRatio)));
+      noisePlanet += 0.03;
+      // console.log(noisePlanet);
+      pop();
+
+    }
+
+    if (this.halo === 2) {
+
+      push();
+      noStroke();
+      fill(this.color2, this.color3, this.color1, 50);
+      let noiseHalo = noise(noisePlanet) * 30;
+      // console.log(noiseHalo);
+      ellipse(this.x, -nextPlanet, (this.r + (60 * objectsRatio) + (noiseHalo * objectsRatio)));
+      ellipse(this.x, -nextPlanet, (this.r + (100 * objectsRatio) + (noiseHalo * objectsRatio)));
+      noisePlanet += 0.03;
+      // console.log(noisePlanet);
+      pop();
+
+    }
+
+
+    if (this.halo === 3) {
+
+      push();
+      noStroke();
+      fill(this.color2, this.color3, this.color1, 50);
+      let noiseHalo = noise(noisePlanet) * 30;
+      // console.log(noiseHalo);
+      ellipse(this.x, -nextPlanet, (this.r + (20 * objectsRatio) + (noiseHalo * objectsRatio)));
+      ellipse(this.x, -nextPlanet, (this.r + (60 * objectsRatio) + (noiseHalo * objectsRatio)));
+      ellipse(this.x, -nextPlanet, (this.r + (100 * objectsRatio) + (noiseHalo * objectsRatio)));
+      noisePlanet += 0.03;
+      // console.log(noisePlanet);
+      pop();
+
+    }
 
     push();
     noStroke();
@@ -1265,15 +1334,101 @@ class Planets {
     ellipse(this.x - this.r / 80, -nextPlanet - this.r / 80, this.r - this.r / 40);
     pop();
 
-    push();
-    noStroke();
-    fill(this.color2, this.color3, this.color1, 50);
-    let noiseHalo = noise(noisePlanet) * 30;
-    // console.log(noiseHalo);
-    ellipse(this.x, -nextPlanet, (this.r + (100 * objectsRatio) + (noiseHalo * objectsRatio)));
-    noisePlanet += 0.03;
-    // console.log(noisePlanet);
-    pop();
+
+    for(let g = 0; g < this.crater; g++){
+
+      push();
+      noStroke();
+      fill(this.color1 - 50, this.color2 - 50, this.color3 - 50);
+      ellipse(this.x + this.posCraterX[g], -nextPlanet + this.posCraterY[g], this.diaRand[g]);
+      pop();
+
+    }
+
+
+
+
+
+
+
+
+    if (this.ring === 1) {
+
+      push();
+      noStroke();
+      fill(255 - this.color2 / 2, 255 - this.color3 / 2, 255 - this.color1 / 2);
+      angleMode(DEGREES);
+      translate(this.x, -nextPlanet);
+      rotate(this.angle);
+      ellipse(0, 0, this.r * 2, this.r / 8);
+      pop();
+
+      // push();
+      // noStroke();
+      // fill(this.color1, this.color2, this.color3);
+      // angleMode(DEGREES);
+      // translate(this.x , -nextPlanet) ;
+      // rotate(this.angle);
+      // translate(0, - this.r / 16);
+      // ellipse(0, 0, this.r, this.r / 8);
+      // pop();
+
+
+    }
+
+    if (this.ring === 2) {
+
+      push();
+      noStroke();
+      fill(255 - this.color2 / 2, 255 - this.color3 / 2, 255 - this.color1 / 2);
+      angleMode(DEGREES);
+      translate(this.x, -nextPlanet);
+      rotate(this.angle / 2);
+      ellipse(0, 0, this.r * 1.8, this.r / 8);
+      pop();
+
+      push();
+      noStroke();
+      fill(255 - this.color2 / 2, 255 - this.color3 / 2, 255 - this.color1 / 2);
+      angleMode(DEGREES);
+
+      translate(this.x, -nextPlanet);
+      rotate(-this.angle / 2);
+      ellipse(0, 0, this.r * 1.8, this.r / 8);
+      pop();
+
+    }
+
+    if (this.ring === 3) {
+
+      push();
+      noStroke();
+      fill(255 - this.color2 / 2, 255 - this.color3 / 2, 255 - this.color1 / 2);
+      angleMode(DEGREES);
+      translate(this.x + this.r / 16, -nextPlanet - this.r / 16);
+      rotate(this.angle);
+      ellipse(0, 0, this.r * 1.8, this.r / 8);
+      pop();
+
+      push();
+      noStroke();
+      fill(255 - this.color2 / 2, 255 - this.color3 / 2, 255 - this.color1 / 2);
+      angleMode(DEGREES);
+      translate(this.x - this.r / 12, -nextPlanet + this.r / 12);
+      rotate(this.angle);
+      ellipse(0, 0, this.r * 1.4, this.r / 12);
+      pop();
+
+
+    }
+
+
+
+
+
+
+
+
 
   }
 
