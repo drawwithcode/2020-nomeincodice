@@ -394,7 +394,7 @@ function draw() {
     }
 
     //aggiunto che il bonus si prende solo se si sta più di 200 pixel più in alto dal margine in basso della finestra
-    if (checkBonus === myOtherPlayers.length && checkBonus != 0 && timerBonus === 30 && yPlayer < (height * 4 / 5)) { //&& yPlayer < (height - 100)
+    if (checkBonus === myOtherPlayers.length && checkBonus != 0 && timerBonus === 30 && yPlayer < (height * 3 / 5)) { //&& yPlayer < (height - 100)
       bonus = true;
       socket.emit('bonus', bonus);
       console.log("dentro condizioni giuste bonus");
