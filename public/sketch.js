@@ -60,7 +60,7 @@ socket.on("idPlayerDisconnected", removeIdPlayersDisconnected);
 
 function removeIdPlayersDisconnected(idPlayerDisconnected) {
 
-  let myOtherPlayersLength =  myOtherPlayers.length;
+  let myOtherPlayersLength = myOtherPlayers.length;
 
   for (let p = 0; p < myOtherPlayersLength; p++) {
     if (idPlayerDisconnected === myOtherPlayers[p].getId()) {
@@ -102,7 +102,7 @@ function others_micvolume(data) {
   otherX_players = data.x * windowWidth;
   otherH_players = data.h * windowHeight;
 
-  let  myOtherPlayersLength =  myOtherPlayers.length;
+  let myOtherPlayersLength = myOtherPlayers.length;
   //riceve i dati info_p e li associa agli Id corrispondenti
   for (let i = 0; i < myOtherPlayersLength; i++) {
 
@@ -625,12 +625,10 @@ function draw() {
       infoShield = false;
 
     } else {
-<<<<<<< Updated upstream
-      ellipse(widthX, yPlayer - 10, (120 + noiseShieldHalo) * objectsRatio);
-=======
-      ellipse(widthX, yPlayer + (- 10  * objectsRatio), (120 + noiseShieldHalo) * objectsRatio);
+
+      ellipse(widthX, yPlayer + (-10 * objectsRatio), (120 + noiseShieldHalo) * objectsRatio);
       infoShield = true;
->>>>>>> Stashed changes
+
     }
 
 
@@ -651,7 +649,7 @@ function draw() {
 
       }
     }
-  }else{
+  } else {
     infoShield = false;
   }
 
@@ -726,7 +724,7 @@ function draw() {
   push();
   fill(108, 201, 215);
   noStroke();
-  ellipse(widthX, yPlayer - 20* objectsRatio, 10 * objectsRatio, 10 * objectsRatio);
+  ellipse(widthX, yPlayer - 20 * objectsRatio, 10 * objectsRatio, 10 * objectsRatio);
 
   pop();
 
@@ -805,7 +803,7 @@ function draw() {
 
     pop();
 
-    
+
 
     push();
     noStroke();
@@ -875,14 +873,9 @@ function draw() {
     textAlign(CENTER);
     rect(0, height / 2 - 30, width, 60);
     infoDistance = round(infoDistance);
-<<<<<<< Updated upstream
-    text(infoCollision, width / 2, height / 2 - 10);
-    text(infoDistance, width / 2, height / 2 + 10);
-=======
-    text(infoCollision, width / 2, height / 2 - 10  * objectsRatio);
+      text(infoCollision, width / 2, height / 2 - 10 * objectsRatio);
     text(infoDistance, width / 2, height / 2 + 10 * objectsRatio);
     text(infoDiscoveries, width / 2, height / 2 + 20 * objectsRatio);
->>>>>>> Stashed changes
     pop();
   }
 
@@ -1031,449 +1024,446 @@ class OtherPlayer {
       let noiseShieldHaloOther = noise(noiseShieldOther) * 10;
       noiseShieldOther += 0.1;
 
-<<<<<<< Updated upstream
-      if (this.blinkShield && f % 2 === 0) {} else {
-        ellipse(this.x, this.h - 10, (120 + noiseShieldHaloOther) * objectsRatio);
-=======
-      console.log(this.infoShieldOtherP);
-
       if (this.infoShieldOtherP) {
-        ellipse(this.x, this.h + (- 10 * objectsRatio * this.smaller), (120 + noiseShieldHaloOther) * objectsRatio);
->>>>>>> Stashed changes
+        ellipse(this.x, this.h + (-10 * objectsRatio * this.smaller), (120 + noiseShieldHaloOther) * objectsRatio);
+
+      }
+}
+
+      pop();
+
+      push();
+      noStroke();
+      fill(230);
+
+      triangle(this.x - 8 * objectsRatio * this.smaller, this.h + 33 * objectsRatio * this.smaller, this.x, this.h + 60 * objectsRatio * this.smaller + random(1, 25) * objectsRatio * this.smaller, this.x + 8 * objectsRatio * this.smaller, this.h + 33 * objectsRatio * this.smaller);
+
+      pop();
+
+
+      push();
+      noStroke();
+      fill(255);
+
+      triangle(this.x - 10 * objectsRatio * this.smaller, this.h + 33 * objectsRatio * this.smaller, this.x, this.h + 18 * objectsRatio * this.smaller, this.x + 10 * objectsRatio * this.smaller, this.h + 33 * objectsRatio * this.smaller);
+
+      pop();
+
+      push();
+      fill(190);
+      noStroke()
+
+      ellipse(this.x, this.h - 10 * objectsRatio * this.smaller, 25 * objectsRatio * this.smaller, 70 * objectsRatio * this.smaller);
+
+      pop();
+
+
+      push();
+      noStroke();
+      fill(120);
+
+      beginShape();
+      vertex(this.x + 10 * objectsRatio * this.smaller, this.h + 5 * objectsRatio * this.smaller);
+      vertex(this.x + 22 * objectsRatio * this.smaller, this.h + 10 * objectsRatio * this.smaller);
+      vertex(this.x + 18 * objectsRatio * this.smaller, this.h + 35 * objectsRatio * this.smaller);
+      vertex(this.x + 17 * objectsRatio * this.smaller, this.h + 17 * objectsRatio * this.smaller);
+      vertex(this.x + 8 * objectsRatio * this.smaller, this.h + 13 * objectsRatio * this.smaller);
+      endShape();
+
+      beginShape();
+      vertex(this.x - 10 * objectsRatio * this.smaller, this.h + 5 * objectsRatio * this.smaller);
+      vertex(this.x - 22 * objectsRatio * this.smaller, this.h + 10 * objectsRatio * this.smaller);
+      vertex(this.x - 18 * objectsRatio * this.smaller, this.h + 35 * objectsRatio * this.smaller);
+      vertex(this.x - 17 * objectsRatio * this.smaller, this.h + 17 * objectsRatio * this.smaller);
+      vertex(this.x - 8 * objectsRatio * this.smaller, this.h + 13 * objectsRatio * this.smaller);
+      endShape();
+
+      beginShape();
+      vertex(this.x, this.h + 2 * objectsRatio * this.smaller);
+      vertex(this.x + 3 * objectsRatio * this.smaller, this.h + 4 * objectsRatio * this.smaller);
+      vertex(this.x + 4 * objectsRatio * this.smaller, this.h + 7 * objectsRatio * this.smaller);
+      vertex(this.x, this.h + 45 * objectsRatio * this.smaller);
+      vertex(this.x - 4 * objectsRatio * this.smaller, this.h + 7 * objectsRatio * this.smaller);
+      vertex(this.x - 3 * objectsRatio * this.smaller, this.h + 4 * objectsRatio * this.smaller);
+      endShape();
+
+
+      pop();
+
+
+
+    }
+
+    getId() {
+      return this.id;
+    }
+
+  }
+
+  //---------------CLASSE OSTACOLI--------------
+
+  class Obstacles {
+
+    constructor(obstacleX) {
+
+      this.x = obstacleX;
+      this.y = -15;
+      this.r = 30 * objectsRatio;
+      this.rand1 = random(-4, 4);
+      this.rand2 = random(-4, 4);
+      this.rand3 = random(-4, 4);
+      this.rand4 = random(-4, 4);
+      this.rand5 = random(-4, 4);
+      this.inside = 2 / 3;
+    }
+
+    display() {
+
+      push();
+      noStroke();
+      fill(255, 153, 0);
+      triangle(this.x - 15 * objectsRatio, this.y - 5 * objectsRatio, this.x, this.y - 60 * objectsRatio + random(-5, +5) * objectsRatio, this.x + 15 * objectsRatio, this.y - 5 * objectsRatio);
+
+      ellipse(this.x, this.y, this.r + 1);
+
+      pop();
+
+
+      push();
+      noStroke();
+      fill(255, 255, 153);
+      ellipseMode(CENTER);
+
+      triangle(this.x - 15 * objectsRatio * this.inside, this.y - 5 * objectsRatio * this.inside, this.x, this.y - 60 * objectsRatio * this.inside + random(-5, +5) * objectsRatio * this.inside, this.x + 15 * objectsRatio * this.inside, this.y - 5 * objectsRatio * this.inside);
+      pop();
+
+      // beginShape();
+      // vertex(this.x - 12 + this.rand1 , this.y + 4);
+      // vertex(this.x + this.rand2 , this.y + 10);
+      // vertex(this.x + 12 + this.rand3 , this.y + 4);
+      // vertex(this.x + 8 + this.rand4 , this.y - 10);
+      // vertex(this.x - 8 + this.rand5 , this.y - 10);
+      // endShape();
+
+      push();
+      noStroke();
+      fill(153, 51, 0);
+      ellipse(this.x, this.y, this.r * this.inside);
+      pop();
+    }
+
+    move() {
+      this.y += 4 / 1920 * 3 * height; ///////////////////////////////////////////////////////
+    }
+
+  }
+
+
+
+
+  //-----------CLASSE PER STELLE SFONDO PARALLASSE----------
+
+  class StarsOne {
+
+    constructor() {
+
+      this.r = 1;
+      this.x = random(0, width);
+      this.y = random(0, height);
+
+    }
+
+    display() {
+
+      push();
+      noStroke();
+      fill(255, 255, 255, random(50, 255));
+      ellipse(this.x, this.y, this.r, this.r);
+      pop();
+
+    }
+
+    move() {
+
+      if (this.y > height) //if the star goes below the screen
+      {
+        this.y = 0; //reset to the top of the screen
+        this.x = random(0, width);
+      } else {
+        this.y += vel / 2400;
       }
     }
-
-    pop();
-
-    push();
-    noStroke();
-    fill(230);
-
-    triangle(this.x - 8 * objectsRatio * this.smaller, this.h + 33 * objectsRatio * this.smaller, this.x, this.h + 60 * objectsRatio * this.smaller + random(1, 25) * objectsRatio * this.smaller, this.x + 8 * objectsRatio * this.smaller, this.h + 33 * objectsRatio * this.smaller);
-
-    pop();
-
-
-    push();
-    noStroke();
-    fill(255);
-
-    triangle(this.x - 10 * objectsRatio * this.smaller, this.h + 33 * objectsRatio * this.smaller, this.x, this.h + 18 * objectsRatio * this.smaller, this.x + 10 * objectsRatio * this.smaller, this.h + 33 * objectsRatio * this.smaller);
-
-    pop();
-
-    push();
-    fill(190);
-    noStroke()
-
-    ellipse(this.x, this.h - 10 * objectsRatio * this.smaller, 25 * objectsRatio * this.smaller, 70 * objectsRatio * this.smaller);
-
-    pop();
-
-
-    push();
-    noStroke();
-    fill(120);
-
-    beginShape();
-    vertex(this.x + 10 * objectsRatio * this.smaller, this.h + 5 * objectsRatio * this.smaller);
-    vertex(this.x + 22 * objectsRatio * this.smaller, this.h + 10 * objectsRatio * this.smaller);
-    vertex(this.x + 18 * objectsRatio * this.smaller, this.h + 35 * objectsRatio * this.smaller);
-    vertex(this.x + 17 * objectsRatio * this.smaller, this.h + 17 * objectsRatio * this.smaller);
-    vertex(this.x + 8 * objectsRatio * this.smaller, this.h + 13 * objectsRatio * this.smaller);
-    endShape();
-
-    beginShape();
-    vertex(this.x - 10 * objectsRatio * this.smaller, this.h + 5 * objectsRatio * this.smaller);
-    vertex(this.x - 22 * objectsRatio * this.smaller, this.h + 10 * objectsRatio * this.smaller);
-    vertex(this.x - 18 * objectsRatio * this.smaller, this.h + 35 * objectsRatio * this.smaller);
-    vertex(this.x - 17 * objectsRatio * this.smaller, this.h + 17 * objectsRatio * this.smaller);
-    vertex(this.x - 8 * objectsRatio * this.smaller, this.h + 13 * objectsRatio * this.smaller);
-    endShape();
-
-    beginShape();
-    vertex(this.x, this.h + 2 * objectsRatio * this.smaller);
-    vertex(this.x + 3 * objectsRatio * this.smaller, this.h + 4 * objectsRatio * this.smaller);
-    vertex(this.x + 4 * objectsRatio * this.smaller, this.h + 7 * objectsRatio * this.smaller);
-    vertex(this.x, this.h + 45 * objectsRatio * this.smaller);
-    vertex(this.x - 4 * objectsRatio * this.smaller, this.h + 7 * objectsRatio * this.smaller);
-    vertex(this.x - 3 * objectsRatio * this.smaller, this.h + 4 * objectsRatio * this.smaller);
-    endShape();
-
-
-    pop();
-
-
-
   }
 
-  getId() {
-    return this.id;
-  }
-
-}
-
-//---------------CLASSE OSTACOLI--------------
-
-class Obstacles {
-
-  constructor(obstacleX) {
-
-    this.x = obstacleX;
-    this.y = -15;
-    this.r = 30 * objectsRatio;
-    this.rand1 = random(-4, 4);
-    this.rand2 = random(-4, 4);
-    this.rand3 = random(-4, 4);
-    this.rand4 = random(-4, 4);
-    this.rand5 = random(-4, 4);
-    this.inside = 2 / 3;
-  }
-
-  display() {
-
-    push();
-    noStroke();
-    fill(255, 153, 0);
-    triangle(this.x - 15 * objectsRatio, this.y - 5 * objectsRatio, this.x, this.y - 60 * objectsRatio + random(-5, +5) * objectsRatio, this.x + 15 * objectsRatio, this.y - 5 * objectsRatio);
-
-    ellipse(this.x, this.y, this.r + 1);
-
-    pop();
-
-
-    push();
-    noStroke();
-    fill(255, 255, 153);
-    ellipseMode(CENTER);
-
-    triangle(this.x - 15 * objectsRatio * this.inside, this.y - 5 * objectsRatio * this.inside, this.x, this.y - 60 * objectsRatio * this.inside + random(-5, +5) * objectsRatio * this.inside, this.x + 15 * objectsRatio * this.inside, this.y - 5 * objectsRatio * this.inside);
-    pop();
-
-    // beginShape();
-    // vertex(this.x - 12 + this.rand1 , this.y + 4);
-    // vertex(this.x + this.rand2 , this.y + 10);
-    // vertex(this.x + 12 + this.rand3 , this.y + 4);
-    // vertex(this.x + 8 + this.rand4 , this.y - 10);
-    // vertex(this.x - 8 + this.rand5 , this.y - 10);
-    // endShape();
-
-    push();
-    noStroke();
-    fill(153, 51, 0);
-    ellipse(this.x, this.y, this.r * this.inside);
-    pop();
-  }
-
-  move() {
-    this.y += 4 / 1920 * 3 * height; ///////////////////////////////////////////////////////
-  }
-
-}
 
 
 
 
-//-----------CLASSE PER STELLE SFONDO PARALLASSE----------
+  class StarsTwo {
 
-class StarsOne {
+    constructor() {
 
-  constructor() {
-
-    this.r = 1;
-    this.x = random(0, width);
-    this.y = random(0, height);
-
-  }
-
-  display() {
-
-    push();
-    noStroke();
-    fill(255, 255, 255, random(50, 255));
-    ellipse(this.x, this.y, this.r, this.r);
-    pop();
-
-  }
-
-  move() {
-
-    if (this.y > height) //if the star goes below the screen
-    {
-      this.y = 0; //reset to the top of the screen
+      this.r = 2;
       this.x = random(0, width);
-    } else {
-      this.y += vel / 2400;
+      this.y = random(0, height);
+
     }
-  }
-}
 
-
-
-
-
-class StarsTwo {
-
-  constructor() {
-
-    this.r = 2;
-    this.x = random(0, width);
-    this.y = random(0, height);
-
-  }
-
-  display() {
-
-    push();
-    noStroke();
-    fill(255, 255, 255, random(130, 255));
-    ellipse(this.x, this.y, this.r, this.r);
-    pop();
-
-  }
-
-  move() {
-
-    if (this.y > height + 1) //if the star goes below the screen
-    {
-      this.y = 0; //reset to the top of the screen
-      this.x = random(0, width);
-
-    } else {
-      this.y += vel / 800;
-    }
-  }
-}
-
-
-
-
-class StarsThree {
-
-  constructor() {
-
-    this.r = 4;
-    this.x = random(0, width);
-    this.y = random(0, height);
-  }
-
-  display() {
-
-    push();
-    noStroke();
-    fill(255, 255, 255, random(130, 255));
-    ellipse(this.x, this.y, this.r, this.r);
-    pop();
-
-  }
-
-  move() {
-
-    if (this.y > height + 2) //if the star goes below the screen
-    {
-      this.y = 0; //reset to the top of the screen
-      this.x = random(0, width);
-      // console.log("y 2 " + this.y);
-    } else {
-      this.y += vel / 320;
-    }
-  }
-}
-
-
-
-class Planets {
-
-  constructor() {
-
-    this.r = random(250, 400) * objectsRatio;
-    this.x = random(0, width);
-    this.y = -nextPlanet;
-    this.color1 = random(0, 255);
-    this.color2 = random(0, 255);
-    this.color3 = random(0, 255);
-    this.halo = round(random(1, 3));
-    this.ring = round(random(0, 5));
-    this.angle = round(random(20, 60));
-    this.crater = round(random(2, 4));
-    this.posCraterX =  [random(-this.r / 3.5, this.r / 5.5),random(-this.r / 3.5, this.r / 5.5),random(-this.r / 3.5, this.r / 5.5),
-      random(-this.r / 3.5, this.r / 5.5),random(-this.r / 3.5, this.r / 5.5),random(-this.r / 3.5, this.r / 5.5)];
-    this.posCraterY =  [random(-this.r / 3.5, this.r / 5.5),random(-this.r /3.5, this.r / 5.5),random(-this.r / 3.5, this.r / 5.5),
-      random(-this.r / 3.5, this.r / 5.5),random(-this.r / 3.5, this.r / 5.5),random(-this.r / 3.5, this.r / 5.5)];
-
-    this.diaRand = [random(this.r/10, this.r/4),random(this.r/10, this.r/4),random(this.r/10, this.r/4),
-    random(this.r/10, this.r/4),random(this.r/10, this.r/4),random(this.r/10, this.r/4)];
-
-  }
-
-  display() {
-
-
-
-    if (this.halo === 1) {
+    display() {
 
       push();
       noStroke();
-      fill(this.color2, this.color3, this.color1, 50);
-      let noiseHalo = noise(noisePlanet) * 30;
-      // console.log(noiseHalo);
-      ellipse(this.x, -nextPlanet, (this.r + (100 * objectsRatio) + (noiseHalo * objectsRatio)));
-      noisePlanet += 0.03;
-      // console.log(noisePlanet);
+      fill(255, 255, 255, random(130, 255));
+      ellipse(this.x, this.y, this.r, this.r);
       pop();
 
     }
 
-    if (this.halo === 2) {
+    move() {
+
+      if (this.y > height + 1) //if the star goes below the screen
+      {
+        this.y = 0; //reset to the top of the screen
+        this.x = random(0, width);
+
+      } else {
+        this.y += vel / 800;
+      }
+    }
+  }
+
+
+
+
+  class StarsThree {
+
+    constructor() {
+
+      this.r = 4;
+      this.x = random(0, width);
+      this.y = random(0, height);
+    }
+
+    display() {
 
       push();
       noStroke();
-      fill(this.color2, this.color3, this.color1, 50);
-      let noiseHalo = noise(noisePlanet) * 30;
-      // console.log(noiseHalo);
-      ellipse(this.x, -nextPlanet, (this.r + (60 * objectsRatio) + (noiseHalo * objectsRatio)));
-      ellipse(this.x, -nextPlanet, (this.r + (100 * objectsRatio) + (noiseHalo * objectsRatio)));
-      noisePlanet += 0.03;
-      // console.log(noisePlanet);
+      fill(255, 255, 255, random(130, 255));
+      ellipse(this.x, this.y, this.r, this.r);
       pop();
 
     }
 
+    move() {
 
-    if (this.halo === 3) {
+      if (this.y > height + 2) //if the star goes below the screen
+      {
+        this.y = 0; //reset to the top of the screen
+        this.x = random(0, width);
+        // console.log("y 2 " + this.y);
+      } else {
+        this.y += vel / 320;
+      }
+    }
+  }
 
-      push();
-      noStroke();
-      fill(this.color2, this.color3, this.color1, 50);
-      let noiseHalo = noise(noisePlanet) * 30;
-      // console.log(noiseHalo);
-      ellipse(this.x, -nextPlanet, (this.r + (20 * objectsRatio) + (noiseHalo * objectsRatio)));
-      ellipse(this.x, -nextPlanet, (this.r + (60 * objectsRatio) + (noiseHalo * objectsRatio)));
-      ellipse(this.x, -nextPlanet, (this.r + (100 * objectsRatio) + (noiseHalo * objectsRatio)));
-      noisePlanet += 0.03;
-      // console.log(noisePlanet);
-      pop();
+
+
+  class Planets {
+
+    constructor() {
+
+      this.r = random(250, 400) * objectsRatio;
+      this.x = random(0, width);
+      this.y = -nextPlanet;
+      this.color1 = random(0, 255);
+      this.color2 = random(0, 255);
+      this.color3 = random(0, 255);
+      this.halo = round(random(1, 3));
+      this.ring = round(random(0, 5));
+      this.angle = round(random(20, 60));
+      this.crater = round(random(2, 4));
+      this.posCraterX = [random(-this.r / 3.5, this.r / 5.5), random(-this.r / 3.5, this.r / 5.5), random(-this.r / 3.5, this.r / 5.5),
+        random(-this.r / 3.5, this.r / 5.5), random(-this.r / 3.5, this.r / 5.5), random(-this.r / 3.5, this.r / 5.5)
+      ];
+      this.posCraterY = [random(-this.r / 3.5, this.r / 5.5), random(-this.r / 3.5, this.r / 5.5), random(-this.r / 3.5, this.r / 5.5),
+        random(-this.r / 3.5, this.r / 5.5), random(-this.r / 3.5, this.r / 5.5), random(-this.r / 3.5, this.r / 5.5)
+      ];
+
+      this.diaRand = [random(this.r / 10, this.r / 4), random(this.r / 10, this.r / 4), random(this.r / 10, this.r / 4),
+        random(this.r / 10, this.r / 4), random(this.r / 10, this.r / 4), random(this.r / 10, this.r / 4)
+      ];
 
     }
 
-    push();
-    noStroke();
-    fill(this.color1 - 50, this.color2 - 50, this.color3 - 50);
-    ellipse(this.x, -nextPlanet, this.r);
-    pop();
-
-    push();
-    noStroke();
-    fill(this.color1, this.color2, this.color3);
-    ellipse(this.x - this.r / 80, -nextPlanet - this.r / 80, this.r - this.r / 40);
-    pop();
+    display() {
 
 
-    for(let g = 0; g < this.crater; g++){
+
+      if (this.halo === 1) {
+
+        push();
+        noStroke();
+        fill(this.color2, this.color3, this.color1, 50);
+        let noiseHalo = noise(noisePlanet) * 30;
+        // console.log(noiseHalo);
+        ellipse(this.x, -nextPlanet, (this.r + (100 * objectsRatio) + (noiseHalo * objectsRatio)));
+        noisePlanet += 0.03;
+        // console.log(noisePlanet);
+        pop();
+
+      }
+
+      if (this.halo === 2) {
+
+        push();
+        noStroke();
+        fill(this.color2, this.color3, this.color1, 50);
+        let noiseHalo = noise(noisePlanet) * 30;
+        // console.log(noiseHalo);
+        ellipse(this.x, -nextPlanet, (this.r + (60 * objectsRatio) + (noiseHalo * objectsRatio)));
+        ellipse(this.x, -nextPlanet, (this.r + (100 * objectsRatio) + (noiseHalo * objectsRatio)));
+        noisePlanet += 0.03;
+        // console.log(noisePlanet);
+        pop();
+
+      }
+
+
+      if (this.halo === 3) {
+
+        push();
+        noStroke();
+        fill(this.color2, this.color3, this.color1, 50);
+        let noiseHalo = noise(noisePlanet) * 30;
+        // console.log(noiseHalo);
+        ellipse(this.x, -nextPlanet, (this.r + (20 * objectsRatio) + (noiseHalo * objectsRatio)));
+        ellipse(this.x, -nextPlanet, (this.r + (60 * objectsRatio) + (noiseHalo * objectsRatio)));
+        ellipse(this.x, -nextPlanet, (this.r + (100 * objectsRatio) + (noiseHalo * objectsRatio)));
+        noisePlanet += 0.03;
+        // console.log(noisePlanet);
+        pop();
+
+      }
 
       push();
       noStroke();
       fill(this.color1 - 50, this.color2 - 50, this.color3 - 50);
-      ellipse(this.x + this.posCraterX[g], -nextPlanet + this.posCraterY[g], this.diaRand[g]);
+      ellipse(this.x, -nextPlanet, this.r);
       pop();
+
+      push();
+      noStroke();
+      fill(this.color1, this.color2, this.color3);
+      ellipse(this.x - this.r / 80, -nextPlanet - this.r / 80, this.r - this.r / 40);
+      pop();
+
+
+      for (let g = 0; g < this.crater; g++) {
+
+        push();
+        noStroke();
+        fill(this.color1 - 50, this.color2 - 50, this.color3 - 50);
+        ellipse(this.x + this.posCraterX[g], -nextPlanet + this.posCraterY[g], this.diaRand[g]);
+        pop();
+
+      }
+
+
+
+
+
+
+
+
+      if (this.ring === 1) {
+
+        push();
+        noStroke();
+        fill(255 - this.color2 / 2, 255 - this.color3 / 2, 255 - this.color1 / 2);
+        angleMode(DEGREES);
+        translate(this.x, -nextPlanet);
+        rotate(this.angle);
+        ellipse(0, 0, this.r * 2, this.r / 8);
+        pop();
+
+        // push();
+        // noStroke();
+        // fill(this.color1, this.color2, this.color3);
+        // angleMode(DEGREES);
+        // translate(this.x , -nextPlanet) ;
+        // rotate(this.angle);
+        // translate(0, - this.r / 16);
+        // ellipse(0, 0, this.r, this.r / 8);
+        // pop();
+
+
+      }
+
+      if (this.ring === 2) {
+
+        push();
+        noStroke();
+        fill(255 - this.color2 / 2, 255 - this.color3 / 2, 255 - this.color1 / 2);
+        angleMode(DEGREES);
+        translate(this.x, -nextPlanet);
+        rotate(this.angle / 2);
+        ellipse(0, 0, this.r * 1.8, this.r / 8);
+        pop();
+
+        push();
+        noStroke();
+        fill(255 - this.color2 / 2, 255 - this.color3 / 2, 255 - this.color1 / 2);
+        angleMode(DEGREES);
+
+        translate(this.x, -nextPlanet);
+        rotate(-this.angle / 2);
+        ellipse(0, 0, this.r * 1.8, this.r / 8);
+        pop();
+
+      }
+
+      if (this.ring === 3) {
+
+        push();
+        noStroke();
+        fill(255 - this.color2 / 2, 255 - this.color3 / 2, 255 - this.color1 / 2);
+        angleMode(DEGREES);
+        translate(this.x + this.r / 16, -nextPlanet - this.r / 16);
+        rotate(this.angle);
+        ellipse(0, 0, this.r * 1.8, this.r / 8);
+        pop();
+
+        push();
+        noStroke();
+        fill(255 - this.color2 / 2, 255 - this.color3 / 2, 255 - this.color1 / 2);
+        angleMode(DEGREES);
+        translate(this.x - this.r / 12, -nextPlanet + this.r / 12);
+        rotate(this.angle);
+        ellipse(0, 0, this.r * 1.4, this.r / 12);
+        pop();
+
+
+      }
+
+
+
+
+
+
+
+
 
     }
 
-
-
-
-
-
-
-
-    if (this.ring === 1) {
-
-      push();
-      noStroke();
-      fill(255 - this.color2 / 2, 255 - this.color3 / 2, 255 - this.color1 / 2);
-      angleMode(DEGREES);
-      translate(this.x, -nextPlanet);
-      rotate(this.angle);
-      ellipse(0, 0, this.r * 2, this.r / 8);
-      pop();
-
-      // push();
-      // noStroke();
-      // fill(this.color1, this.color2, this.color3);
-      // angleMode(DEGREES);
-      // translate(this.x , -nextPlanet) ;
-      // rotate(this.angle);
-      // translate(0, - this.r / 16);
-      // ellipse(0, 0, this.r, this.r / 8);
-      // pop();
-
-
-    }
-
-    if (this.ring === 2) {
-
-      push();
-      noStroke();
-      fill(255 - this.color2 / 2, 255 - this.color3 / 2, 255 - this.color1 / 2);
-      angleMode(DEGREES);
-      translate(this.x, -nextPlanet);
-      rotate(this.angle / 2);
-      ellipse(0, 0, this.r * 1.8, this.r / 8);
-      pop();
-
-      push();
-      noStroke();
-      fill(255 - this.color2 / 2, 255 - this.color3 / 2, 255 - this.color1 / 2);
-      angleMode(DEGREES);
-
-      translate(this.x, -nextPlanet);
-      rotate(-this.angle / 2);
-      ellipse(0, 0, this.r * 1.8, this.r / 8);
-      pop();
-
-    }
-
-    if (this.ring === 3) {
-
-      push();
-      noStroke();
-      fill(255 - this.color2 / 2, 255 - this.color3 / 2, 255 - this.color1 / 2);
-      angleMode(DEGREES);
-      translate(this.x + this.r / 16, -nextPlanet - this.r / 16);
-      rotate(this.angle);
-      ellipse(0, 0, this.r * 1.8, this.r / 8);
-      pop();
-
-      push();
-      noStroke();
-      fill(255 - this.color2 / 2, 255 - this.color3 / 2, 255 - this.color1 / 2);
-      angleMode(DEGREES);
-      translate(this.x - this.r / 12, -nextPlanet + this.r / 12);
-      rotate(this.angle);
-      ellipse(0, 0, this.r * 1.4, this.r / 12);
-      pop();
-
-
-    }
-
-
-
-
-
-
-
-
-
+    // move() {
+    //
+    //   if (this.y > height + 150) //if the star goes below the screen
+    //   {
+    //     this.y = -150; //reset to the top of the screen
+    //     this.x = random(0, width);
+    //   } else {
+    //     this.y += vel / 200;
+    //   }
+    // }
   }
-
-  // move() {
-  //
-  //   if (this.y > height + 150) //if the star goes below the screen
-  //   {
-  //     this.y = -150; //reset to the top of the screen
-  //     this.x = random(0, width);
-  //   } else {
-  //     this.y += vel / 200;
-  //   }
-  // }
-}
