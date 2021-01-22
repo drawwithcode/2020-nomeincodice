@@ -530,7 +530,7 @@ function draw() {
       obstacles.splice(t, 1);
     }
 
-    if (d < 25 * objectsRatio && !bonusServer && !collision) {
+    if (d < 30 * objectsRatio && !bonusServer && !collision) {
       console.log("dentro collision 1");
       collision = true;
 
@@ -550,7 +550,7 @@ function draw() {
 
   if (collision && beginGame) {
 
-    if (frameCount > collisionTimer + 35) {
+    if (frameCount > collisionTimer + 20) {
 
       yPlayer = height - 10;
 
