@@ -1,7 +1,7 @@
 let socket = io();
 
 let mic;
-let sum = 0;
+// let sum = 0;
 let totalscore = 0;
 let nextPlanet;
 let changedPlanet;
@@ -16,7 +16,7 @@ let yRatio;
 let xRatio;
 let objectsRatio;
 
-let malus = false;
+// let malus = false;
 
 let beginGame = false;
 
@@ -25,6 +25,7 @@ let myOtherPlayers = [];
 
 let infoCollision = 0;
 let infoDistance = 0;
+let infoDiscoveries = 0;
 let infoButton;
 let showInfo = 1;
 
@@ -59,7 +60,9 @@ socket.on("idPlayerDisconnected", removeIdPlayersDisconnected);
 
 function removeIdPlayersDisconnected(idPlayerDisconnected) {
 
-  for (let p = 0; p < myOtherPlayers.length; p++) {
+  let myOtherPlayersLength =  myOtherPlayers.length;
+
+  for (let p = 0; p < myOtherPlayersLength; p++) {
     if (idPlayerDisconnected === myOtherPlayers[p].getId()) {
       myOtherPlayers.splice(p, 1);
     }
@@ -74,7 +77,9 @@ socket.on("idPlayerConnectedBroadcast", createOtherPlayer);
 
 function createOtherPlayer(idOtherPlayer) {
 
-  for (let k = 0; k < idOtherPlayer.length; k++) {
+  let idOtherPlayerLength = idOtherPlayer.length;
+
+  for (let k = 0; k < idOtherPlayerLength; k++) {
 
     //non crea un doppione del giocatore locale
     if (idOtherPlayer[k] !== id) {
@@ -97,15 +102,16 @@ function others_micvolume(data) {
   otherX_players = data.x * windowWidth;
   otherH_players = data.h * windowHeight;
 
+  let  myOtherPlayersLength =  myOtherPlayers.length;
   //riceve i dati info_p e li associa agli Id corrispondenti
-  for (let i = 0; i < myOtherPlayers.length; i++) {
+  for (let i = 0; i < myOtherPlayersLength; i++) {
 
     if (data.id === myOtherPlayers[i].getId()) {
 
       myOtherPlayers[i].x = otherX_players;
       myOtherPlayers[i].h = otherH_players;
       myOtherPlayers[i].shield = data.shield;
-      myOtherPlayers[i].blinkShield = data.blinkShield;
+      myOtherPlayers[i].infoShieldOtherP = data.infoShieldOtherP;
       // console.log(data.shield);
     }
   }
@@ -187,6 +193,8 @@ socket.on('collision_obstacle', removeObstacleCollision);
 function removeObstacleCollision(xObstacleCollision) {
 
   xObstacleCollisionProp = xObstacleCollision / 1000 * windowWidth;
+
+
 
   for (let u = 0; u < obstacles.length; u++) {
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -323,8 +331,9 @@ let dS;
 let varTimeoutShield;
 let varBlinkingShield;
 let blinkBonusShield = false;
+let infoShield = false;
 let e = 0;
-let f = 0;
+
 
 let bx;
 let by;
@@ -407,7 +416,9 @@ function draw() {
 
     checkTimer = 0;
 
-    for (let u = 0; u < myOtherPlayers.length; u++) {
+    let myOtherPlayersLength = myOtherPlayers.length;
+
+    for (let u = 0; u < myOtherPlayersLength; u++) {
 
       // console.log(myOtherPlayers[u].h);
       // console.log(u);
@@ -427,7 +438,7 @@ function draw() {
     }
 
     //aggiunto che il bonus si prende solo se si sta più di 200 pixel più in alto dal margine in basso della finestra
-    if (checkBonus === myOtherPlayers.length && checkBonus != 0 && timerBonus === 30 && yPlayer < (height * 3 / 5)) { //&& yPlayer < (height - 100)
+    if (checkBonus === myOtherPlayersLength && checkBonus != 0 && timerBonus === 30 && yPlayer < (height * 3 / 5)) { //&& yPlayer < (height - 100)
       bonus = true;
       socket.emit('bonus', bonus);
       console.log("dentro condizioni giuste bonus");
@@ -493,6 +504,7 @@ function draw() {
 
   if (changedPlanet) {
     planet = new Planets();
+    infoDiscoveries++;
   }
 
   planet.display();
@@ -504,6 +516,7 @@ function draw() {
 
   bx = widthX;
   by = yPlayer - 15;
+
 
   for (let t = 0; t < obstacles.length; t++) {
 
@@ -609,8 +622,15 @@ function draw() {
 
     if (blinkBonusShield && e % 2 === 0) {
 
+      infoShield = false;
+
     } else {
+<<<<<<< Updated upstream
       ellipse(widthX, yPlayer - 10, (120 + noiseShieldHalo) * objectsRatio);
+=======
+      ellipse(widthX, yPlayer + (- 10  * objectsRatio), (120 + noiseShieldHalo) * objectsRatio);
+      infoShield = true;
+>>>>>>> Stashed changes
     }
 
 
@@ -631,6 +651,8 @@ function draw() {
 
       }
     }
+  }else{
+    infoShield = false;
   }
 
 
@@ -638,6 +660,8 @@ function draw() {
 
 
   //---------MOSTRA ALTRI GIOCATORI------------
+
+  let myOtherPlayersLength = myOtherPlayers.length;
 
   for (let j = 0; j < myOtherPlayers.length; j++) {
     myOtherPlayers[j].display();
@@ -851,8 +875,14 @@ function draw() {
     textAlign(CENTER);
     rect(0, height / 2 - 30, width, 60);
     infoDistance = round(infoDistance);
+<<<<<<< Updated upstream
     text(infoCollision, width / 2, height / 2 - 10);
     text(infoDistance, width / 2, height / 2 + 10);
+=======
+    text(infoCollision, width / 2, height / 2 - 10  * objectsRatio);
+    text(infoDistance, width / 2, height / 2 + 10 * objectsRatio);
+    text(infoDiscoveries, width / 2, height / 2 + 20 * objectsRatio);
+>>>>>>> Stashed changes
     pop();
   }
 
@@ -880,7 +910,7 @@ function draw() {
     h: yRatio,
     x: xRatio,
     shield: shieldBonus,
-    blinkShield: blinkBonusShield,
+    infoShieldOtherP: infoShield,
     vol: volHighscore
 
   }
@@ -982,30 +1012,34 @@ function showInfoFunction() {
 
 class OtherPlayer {
 
-  constructor(id, x, h, shield, blinkShield) {
+  constructor(id, x, h, shield, infoShieldOtherP) {
     this.id = id;
     this.x = x;
     this.h = h;
     this.shield = shield;
-    this.blinkShield = blinkShield;
+    this.infoShieldOtherP = infoShieldOtherP;
     this.smaller = 2 / 3;
   }
 
   display() {
 
     push();
-    if (frameCount % 5 === 0) {
-      f++;
-    }
 
     if (this.shield) {
       noStroke();
-      fill(255);
+      fill(255, 255, 255, 180);
       let noiseShieldHaloOther = noise(noiseShieldOther) * 10;
       noiseShieldOther += 0.1;
 
+<<<<<<< Updated upstream
       if (this.blinkShield && f % 2 === 0) {} else {
         ellipse(this.x, this.h - 10, (120 + noiseShieldHaloOther) * objectsRatio);
+=======
+      console.log(this.infoShieldOtherP);
+
+      if (this.infoShieldOtherP) {
+        ellipse(this.x, this.h + (- 10 * objectsRatio * this.smaller), (120 + noiseShieldHaloOther) * objectsRatio);
+>>>>>>> Stashed changes
       }
     }
 
