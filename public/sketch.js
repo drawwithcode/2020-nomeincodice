@@ -503,7 +503,7 @@ function draw() {
   //---------------OSTACOLI E COLLISIONI---------------
 
   bx = widthX;
-  by = yPlayer - 15;
+  by = yPlayer + (- 15 * objectsRatio);
 
   for (let t = 0; t < obstacles.length; t++) {
 
@@ -513,7 +513,7 @@ function draw() {
 
     d = dist(bx, by, obstacles[t].x, obstacles[t].y);
 
-    if (obstacles[t].y > (height + 75 * objectsRatio)) { //se l'ostacolo va sotto lo schermo viene tolto dall'array
+    if (obstacles[t].y > (height +(+ 75 * objectsRatio))) { //se l'ostacolo va sotto lo schermo viene tolto dall'array
       obstacles.splice(t, 1);
     }
 
@@ -539,7 +539,7 @@ function draw() {
 
     if (frameCount > collisionTimer + 35) {
 
-      yPlayer = height - 10;
+      yPlayer = height + (- 10 * objectsRatio);
 
     } else {
       yPlayer = freezePosition;
@@ -590,7 +590,7 @@ function draw() {
   // console.log("unlockButtonShield " +unlockButtonShield);
 
   sx = widthX;
-  sy = yPlayer - 10;
+  sy = yPlayer +(- 10 * objectsRatio);
 
   if (frameCount % 5 === 0) {
     e++;
@@ -610,7 +610,7 @@ function draw() {
     if (blinkBonusShield && e % 2 === 0) {
 
     } else {
-      ellipse(widthX, yPlayer - 10, (120 + noiseShieldHalo) * objectsRatio);
+      ellipse(widthX, yPlayer + (- 10  * objectsRatio), (120 + noiseShieldHalo) * objectsRatio);
     }
 
 
@@ -781,7 +781,7 @@ function draw() {
 
     pop();
 
-    
+
 
     push();
     noStroke();
@@ -830,12 +830,12 @@ function draw() {
   //---------------------FINESTRA NOME PIANETA SCOPERTO-------------------
 
 
-  if (nextPlanet < -400) {
+  if (nextPlanet < -400 && nextPlanet > 1000) {
 
     push();
     rectMode(CENTER);
     noStroke();
-    rect(width / 2, height / 2, 100, 100);
+    rect(width / 2, height / 2, 100  * objectsRatio, 100  * objectsRatio);
     pop();
 
     obstacles.splice(0, obstacles.length);
@@ -849,10 +849,10 @@ function draw() {
     push();
     noStroke();
     textAlign(CENTER);
-    rect(0, height / 2 - 30, width, 60);
+    rect(0, height / 2 - 30  * objectsRatio, width, 60 * objectsRatio);
     infoDistance = round(infoDistance);
-    text(infoCollision, width / 2, height / 2 - 10);
-    text(infoDistance, width / 2, height / 2 + 10);
+    text(infoCollision, width / 2, height / 2 - 10  * objectsRatio);
+    text(infoDistance, width / 2, height / 2 + 10 * objectsRatio);
     pop();
   }
 
@@ -1005,7 +1005,7 @@ class OtherPlayer {
       noiseShieldOther += 0.1;
 
       if (this.blinkShield && f % 2 === 0) {} else {
-        ellipse(this.x, this.h - 10, (120 + noiseShieldHaloOther) * objectsRatio);
+        ellipse(this.x, this.h + (- 10 * objectsRatio), (120 + noiseShieldHaloOther) * objectsRatio);
       }
     }
 
@@ -1086,7 +1086,7 @@ class Obstacles {
   constructor(obstacleX) {
 
     this.x = obstacleX;
-    this.y = -15;
+    this.y = -15 * objectsRatio;
     this.r = 30 * objectsRatio;
     this.rand1 = random(-4, 4);
     this.rand2 = random(-4, 4);
@@ -1146,7 +1146,7 @@ class StarsOne {
 
   constructor() {
 
-    this.r = 1;
+    this.r = 1 * objectsRatio;
     this.x = random(0, width);
     this.y = random(0, height);
 
@@ -1182,7 +1182,7 @@ class StarsTwo {
 
   constructor() {
 
-    this.r = 2;
+    this.r = 2 * objectsRatio;
     this.x = random(0, width);
     this.y = random(0, height);
 
@@ -1200,7 +1200,7 @@ class StarsTwo {
 
   move() {
 
-    if (this.y > height + 1) //if the star goes below the screen
+    if (this.y > height + 1 * objectsRatio) //if the star goes below the screen
     {
       this.y = 0; //reset to the top of the screen
       this.x = random(0, width);
@@ -1218,7 +1218,7 @@ class StarsThree {
 
   constructor() {
 
-    this.r = 4;
+    this.r = 4 * objectsRatio;
     this.x = random(0, width);
     this.y = random(0, height);
   }
@@ -1235,7 +1235,7 @@ class StarsThree {
 
   move() {
 
-    if (this.y > height + 2) //if the star goes below the screen
+    if (this.y > height + 2 * objectsRatio) //if the star goes below the screen
     {
       this.y = 0; //reset to the top of the screen
       this.x = random(0, width);
