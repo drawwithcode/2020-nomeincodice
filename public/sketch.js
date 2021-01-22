@@ -240,7 +240,7 @@ function setup() {
   yPlayer = height; // posizione inizale player (parte in basso)
 
 
-  textFont("Roboto");
+  textFont("Squada One");
 
 
   //----------CREA LE STELLE-----------
@@ -287,12 +287,13 @@ function setup() {
   push();
 
 
-  infoButton = createButton("");
+  infoButton = createButton("INFO");
 
 
-  infoButton.style('background-color', 'white');
-  infoButton.style('padding', '20px 20px');
-  infoButton.position(width - 40, 60);
+  infoButton.style('background-color', '#f2ff5d');
+  infoButton.style('padding', '6px 12px');
+  infoButton.style('font-family', 'Squada One');
+  infoButton.position(width - 40 , height - 45);
 
 
   infoButton.mousePressed(showInfoFunction);
@@ -518,6 +519,7 @@ function draw() {
   by = yPlayer - 15;
 
 
+
   for (let t = 0; t < obstacles.length; t++) {
 
     obstacles[t].display();
@@ -530,7 +532,7 @@ function draw() {
       obstacles.splice(t, 1);
     }
 
-    if (d < 30 * objectsRatio && !bonusServer && !collision) {
+    if (d < 30 * objectsRatio && !bonusServer && !collision && beginGame) {
       console.log("dentro collision 1");
       collision = true;
 
@@ -548,7 +550,8 @@ function draw() {
   }
 
 
-  if (collision && beginGame) {
+
+  if (collision) {
 
     if (frameCount > collisionTimer + 20) {
 
@@ -588,7 +591,7 @@ function draw() {
     buttonShield.style('border-radius', '50px');
     buttonShield.style('background-color', '#2896FE');
     buttonShield.style('padding', '30px 30px');
-    buttonShield.position(40, height - 80);
+    buttonShield.position(40, height - 70);
 
 
     buttonShield.mousePressed(startShield);
@@ -670,14 +673,17 @@ function draw() {
   push();
 
   textAlign(RIGHT);
-  fill("yellow");
-  stroke(0);
+  fill(242,255,93);
 
-  text(vel, width - 20, 40);
+  noStroke();
 
-  text(totalscore, width - 20, 20);
+  text(totalscore, width - 10, 20);
 
-  text(nextPlanet, width - 20, 60);
+  // text(vel, width - 10, 40);
+
+  // text(nextPlanet, width - 10, 40);
+
+  rect(width - 15, 30, 5, vel/100);
 
   // text(windowHeight, width / 2, 450);
   // text(displayHeight, width / 2, 500);
@@ -852,12 +858,13 @@ function draw() {
   //---------------------FINESTRA NOME PIANETA SCOPERTO-------------------
 
 
-  if (nextPlanet < -400) {
+  if (nextPlanet < -300 && nextPlanet >-800) {
 
     push();
     rectMode(CENTER);
     noStroke();
-    rect(width / 2, height / 2, 100, 100);
+    fill(46, 165,219,160);
+    rect(width / 2, height / 2, width / 2, height/4);
     pop();
 
     obstacles.splice(0, obstacles.length);
@@ -870,12 +877,17 @@ function draw() {
   if (showInfo === -1) {
     push();
     noStroke();
+    fill(242, 255, 93);
+    rect(width/4, height / 5 * 3 +(- 35 * objectsRatio), width / 2 , 70 * objectsRatio);
+    pop();
+    push();
+    noStroke();
     textAlign(CENTER);
-    rect(0, height / 2 - 30, width, 60);
+    fill(0);
     infoDistance = round(infoDistance);
-    text(infoCollision, width / 2, height / 2 - 10 * objectsRatio);
-    text(infoDistance, width / 2, height / 2 + 10 * objectsRatio);
-    text(infoDiscoveries, width / 2, height / 2 + 20 * objectsRatio);
+    text(infoDistance, width / 2, height / 5 * 3 -10 * objectsRatio);
+    text(infoCollision, width / 2, height / 5 * 3 + 5 * objectsRatio);
+    text(infoDiscoveries, width / 2, height / 5 * 3 + 20 * objectsRatio);
     pop();
   }
 
@@ -921,18 +933,44 @@ function draw() {
 
     push();
 
-    fill(40);
+    fill(46,165,219);
     rect(0, 0, width, height);
+    pop()
 
-    if (!button) {
-      button = createButton("Calibra Mic");
-    }
+    push()
 
-    button.position(width / 2, height / 2);
+    fill(0);
+    textSize(width / 20);
+    textAlign(LEFT);
 
-    button.mousePressed(calibrationMicrophone);
+    let introduction1 = "Hi,  welcome to this race!"
+    let introduction2 = "We are exploring the infinite space"
+    let introduction3 = "together to discover new planets,"
+    let introduction4 = "everybody has its own spacecraft, "
+    let introduction5 = "but remember that you’re not alone. "
+    let introduction6 = "I’m sure that together we can reach "
+    let introduction7 = "incredible goals, if we collaborate!"
+    text(introduction1, width/30, height /20 * 4);
+    text(introduction2, width/30, height /20 * 5);
+    text(introduction3, width/30, height /20 * 6);
+    text(introduction4, width/30, height /20 * 7);
+    text(introduction5, width/30, height /20 * 8);
+    text(introduction6, width/30, height /20 * 9);
+    text(introduction7, width/30, height /20 * 10);
 
     pop();
+
+
+    if (!button) {
+      button = createButton("CALIBRATION");
+    }
+
+    button.position(width / 2, height / 10 * 8);
+
+    button.mousePressed(calibrationMicrophone);
+    button.style('background-color', '#f2ff5d');
+    button.style('padding', '6px 12px');
+    button.style('font-family', 'Squada One');
 
     infoButton.hide();
 
