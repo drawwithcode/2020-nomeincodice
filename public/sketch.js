@@ -5,6 +5,7 @@ let mic;
 let totalscore = 0;
 let nextPlanet;
 let changedPlanet;
+
 let players = 0;
 let id;
 let prec_totalscore = 0;
@@ -23,7 +24,6 @@ let beginGame = false;
 let myOtherPlayers = [];
 
 
-let infoCollision = 0;
 let infoDistance = 0;
 let infoDiscoveries = 0;
 let infoButton;
@@ -60,9 +60,9 @@ socket.on("idPlayerDisconnected", removeIdPlayersDisconnected);
 
 function removeIdPlayersDisconnected(idPlayerDisconnected) {
 
-  let myOtherPlayersLength = myOtherPlayers.length;
+  // let myOtherPlayersLength = ;
 
-  for (let p = 0; p < myOtherPlayersLength; p++) {
+  for (let p = 0; p < myOtherPlayers.length; p++) {
     if (idPlayerDisconnected === myOtherPlayers[p].getId()) {
       myOtherPlayers.splice(p, 1);
     }
@@ -150,6 +150,17 @@ function bonusEffect(bonusValue) {
   bonusServer = bonusValue;
 }
 
+let recreateStars = false;
+
+socket.on('bonus_effect_end', bonusEffectEnd);
+
+function bonusEffectEnd(bonusValue) {
+  console.log("dentro funzione bonusEffectEnd");
+  bonusServer = bonusValue;
+  recreateStars = true;
+}
+
+
 
 
 let unlockButtonShield = false;
@@ -222,6 +233,14 @@ let numStarsThree = 10; //quante stelle 3 creare
 let planet;
 
 
+let letters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z', '#', '&', '*', '/', '°', '§', '|'];
+let planetName1;
+let planetName2;
+let planetName3;
+let planetName4;
+let planetName5;
+let precChangedPlanet = false;
+
 function setup() {
 
   frameRate(60);
@@ -293,12 +312,18 @@ function setup() {
   infoButton.style('background-color', '#f2ff5d');
   infoButton.style('padding', '6px 12px');
   infoButton.style('font-family', 'Squada One');
-  infoButton.position(width - 40 , height - 45);
+  infoButton.position(width - 40, height - 45);
 
 
   infoButton.mousePressed(showInfoFunction);
 
   pop();
+
+  planetName1 = letters[round(random(0,32))];
+  planetName2 = letters[round(random(0,32))];
+  planetName3 = letters[round(random(0,32))];
+  planetName4 = round(random(0,9));
+  planetName5 = round(random(0,9));
 
 }
 
@@ -312,10 +337,15 @@ function setup() {
 
 let maxVol = 0.1;
 let easing = 0.05;
-let calibrationButton = true;
+let calibrationButton = false;
+let nextPageButton = true;
+let nextButton;
+let nextNextPageButton = false;
+let nextNextButton;
 let button;
 let startCalibration = false;
 let varTimeout;
+let noisePlanetFirstPage = 0;
 
 let vel = 0;
 
@@ -355,6 +385,7 @@ let c = 0;
 let noisePlanet = 0;
 let noiseShield = 0;
 let noiseShieldOther = 0;
+
 
 
 function draw() {
@@ -448,29 +479,31 @@ function draw() {
 
     if (bonusServer) {
 
-      if (bonusDuration < 15) {
-        background(0, 0, 0, 30);
-        // vel += 10000 * bonusDuration / 10;
-        console.log("dentro vel1");
+      background(0, 0, 0, 30);
 
-      } else if (bonusDuration >= 15 && bonusDuration < 45) {
-        background(0, 0, 0, 30);
-        // vel += 10000;
-        console.log("dentro vel2");
+      // if (bonusDuration < 15) {
+      //   background(0, 0, 0, 30);
+      //   // vel += 10000 * bonusDuration / 10;
+      //   console.log("dentro vel1");
+      //
+      // } else if (bonusDuration >= 15 && bonusDuration < 45) {
+      //   background(0, 0, 0, 30);
+      //   // vel += 10000;
+      //   console.log("dentro vel2");
+      //
+      // } else if (bonusDuration >= 50 && bonusDuration < 60) {
+      //
+      //   // vel += 10000 * (60 - bonusDuration) / 10;
+      //   console.log("dentro vel3");
+      //
+      // } else {
+      //   bonusServer = false;
+      // }
+      //
+      // bonusDuration++;
 
-      } else if (bonusDuration >= 50 && bonusDuration < 60) {
-        background(0, 0, 0, 30);
-        // vel += 10000 * (60 - bonusDuration) / 10;
-        console.log("dentro vel3");
-
-      } else {
-        bonusServer = false;
-      }
-
-      bonusDuration++;
-
-    } else {
-      bonusDuration = 0;
+      // } else {
+      //   bonusDuration = 0;
     }
 
   }
@@ -503,14 +536,22 @@ function draw() {
   //-------------------DISPLAY PIANETA-------------
 
 
-  if (changedPlanet) {
+  if (changedPlanet && precChangedPlanet !==changedPlanet) {
     planet = new Planets();
     infoDiscoveries++;
+    console.log("dentro changed planet");
+
+    planetName1 = letters[round(random(0,32))];
+    planetName2 = letters[round(random(0,32))];
+    planetName3 = letters[round(random(0,32))];
+    planetName4 = round(random(0,9));
+    planetName5 = round(random(0,9));
+
   }
 
   planet.display();
-  // planet.move();
 
+  precChangedPlanet = changedPlanet;
 
 
   //---------------OSTACOLI E COLLISIONI---------------
@@ -544,9 +585,7 @@ function draw() {
       explosion = true;
       freezePosition = yPlayer;
 
-      infoCollision++;
-
-    }
+      }
   }
 
 
@@ -572,6 +611,32 @@ function draw() {
 
   if (bonusServer) {
     obstacles.splice(0, obstacles.length);
+  }
+
+  if (recreateStars) {
+
+    console.log("dentro recreate Stars");
+
+    starsOne.splice(0, numStarsOne);
+    starsTwo.splice(0, numStarsTwo);
+    starsThree.splice(0, numStarsThree);
+
+    for (let p = 0; p < numStarsOne; p++) {
+      let newStarOne = new StarsOne();
+      starsOne.push(newStarOne);
+
+      if (p < numStarsTwo) {
+        let newStarTwo = new StarsTwo();
+        starsTwo.push(newStarTwo);
+      }
+
+      if (p < numStarsThree) {
+        let newStarThree = new StarsThree();
+        starsThree.push(newStarThree);
+      }
+
+    }
+    recreateStars = false;
   }
 
 
@@ -673,9 +738,10 @@ function draw() {
   push();
 
   textAlign(RIGHT);
-  fill(242,255,93);
+  fill(242, 255, 93);
 
   noStroke();
+  textSize(width /22);
 
   text(totalscore, width - 10, 20);
 
@@ -683,7 +749,7 @@ function draw() {
 
   // text(nextPlanet, width - 10, 40);
 
-  rect(width - 15, 30, 5, vel/100);
+  rect(width - 20, 30, 10, vel / 100);
 
   // text(windowHeight, width / 2, 450);
   // text(displayHeight, width / 2, 500);
@@ -858,14 +924,28 @@ function draw() {
   //---------------------FINESTRA NOME PIANETA SCOPERTO-------------------
 
 
-  if (nextPlanet < -300 && nextPlanet >-800) {
+  if (nextPlanet < - 100 * objectsRatio && nextPlanet > - 600 * objectsRatio) {
+
+
+
+    let discoveryText = "You discovered Planet ";
+
+    // push();
+    // rectMode(CENTER);
+    // noStroke();
+    // fill(46, 165, 219, 160);
+    // rect(width / 2, height / 2, width / 2, height / 4);
+    // pop();
 
     push();
-    rectMode(CENTER);
-    noStroke();
-    fill(46, 165,219,160);
-    rect(width / 2, height / 2, width / 2, height/4);
+    fill(255);
+    textSize(width/14);
+    textAlign(CENTER);
+
+    text(discoveryText + planetName1+ planetName2 + planetName3 + planetName4 + planetName5, width / 2, height / 2);
+
     pop();
+
 
     obstacles.splice(0, obstacles.length);
 
@@ -878,16 +958,16 @@ function draw() {
     push();
     noStroke();
     fill(242, 255, 93);
-    rect(width/4, height / 5 * 3 +(- 35 * objectsRatio), width / 2 , 70 * objectsRatio);
+    rect(width / 8, height / 5 * 3 + (-25 * objectsRatio), width / 4 *3, 60 * objectsRatio);
     pop();
     push();
     noStroke();
     textAlign(CENTER);
+    textSize(width / 20);
     fill(0);
     infoDistance = round(infoDistance);
-    text(infoDistance, width / 2, height / 5 * 3 -10 * objectsRatio);
-    text(infoCollision, width / 2, height / 5 * 3 + 5 * objectsRatio);
-    text(infoDiscoveries, width / 2, height / 5 * 3 + 20 * objectsRatio);
+    text("Traveled distance: " + infoDistance + " tm", width / 2, height / 5 * 3 - 0 * objectsRatio);
+    text("Planets discovered: " + infoDiscoveries, width / 2, height / 5 * 3 + 20 * objectsRatio);
     pop();
   }
 
@@ -929,52 +1009,276 @@ function draw() {
   //------------CALIBRAZIONE MICROFONO----------------
 
 
-  if (calibrationButton) {
+  if (nextPageButton) {
 
     push();
 
-    fill(46,165,219);
-    rect(0, 0, width, height);
-    pop()
-
-    push()
-
     fill(0);
+    rect(0, 0, width, height);
+    pop();
+
+    push();
+    textSize(width / 7);
+    textAlign(LEFT);
+    fill(255);
+    let title = "SHOUTING STARS";
+    text(title, width / 13, height / 20 * 2);
+    pop();
+
+    push();
+
+    fill(255);
     textSize(width / 20);
     textAlign(LEFT);
 
-    let introduction1 = "Hi,  welcome to this race!"
-    let introduction2 = "We are exploring the infinite space"
-    let introduction3 = "together to discover new planets,"
-    let introduction4 = "everybody has its own spacecraft, "
-    let introduction5 = "but remember that you’re not alone. "
-    let introduction6 = "I’m sure that together we can reach "
-    let introduction7 = "incredible goals, if we collaborate!"
-    text(introduction1, width/30, height /20 * 4);
-    text(introduction2, width/30, height /20 * 5);
-    text(introduction3, width/30, height /20 * 6);
-    text(introduction4, width/30, height /20 * 7);
-    text(introduction5, width/30, height /20 * 8);
-    text(introduction6, width/30, height /20 * 9);
-    text(introduction7, width/30, height /20 * 10);
+
+    let introduction1 = "Hi, welcome to this race!";
+    let introduction2 = "We are exploring the infinite space";
+    let introduction3 = "together to discover new planets,";
+    let introduction4 = "everybody has its own spacecraft, ";
+    let introduction5 = "but remember that you’re not alone.";
+    let introduction6 = "I’m sure that together we can reach ";
+    let introduction7 = "incredible goals, if we collaborate!";
+
+    text(introduction1, width / 13, height / 30 * 6);
+    text(introduction2, width / 13, height / 30 * 7);
+    text(introduction3, width / 13, height / 30 * 8);
+    text(introduction4, width / 13, height / 30 * 9);
+    text(introduction5, width / 13, height / 30 * 10);
+    text(introduction6, width / 13, height / 30 * 11);
+    text(introduction7, width / 13, height / 30 * 12);
+
+    pop();
+
+    noisePlanetFirstPage += 0.03;
+
+    push();
+    fill(80, 120, 220, 50);
+    noStroke();
+    let noiseHaloFirstPage = noise(noisePlanetFirstPage) * 30;
+    ellipse(width, height, 520 + noiseHaloFirstPage);
+    ellipse(width, height, 560 + noiseHaloFirstPage);
+    ellipse(width, height, 600 + noiseHaloFirstPage);
+    pop();
+
+    push();
+
+    noStroke();
+    fill(200, 60, 60);
+    ellipse(width, height, 500);
+    pop();
+
+    push();
+    noStroke();
+    fill(180, 40, 40);
+    ellipse(width / 40 * 37, height / 40 * 30, 100);
+    ellipse(width / 40 * 33, height / 40 * 36, 80);
+    ellipse(width / 40 * 28, height / 40 * 32.5, 40);
+    pop();
+
+
+    push();
+    noStroke();
+    fill(148, 241, 255);
+
+    triangle(width / 4 - 8 * objectsRatio, height / 30 * 19 + 33 * objectsRatio, width / 4, height / 30 * 19 + 60 * objectsRatio + random(1, 25) * objectsRatio, width / 4 + 8 * objectsRatio, height / 30 * 19 + 33 * objectsRatio);
 
     pop();
 
 
-    if (!button) {
-      button = createButton("CALIBRATION");
+    push();
+    noStroke();
+    fill(224, 213, 195);
+
+    triangle(width / 4 - 10 * objectsRatio, height / 30 * 19 + 33 * objectsRatio, width / 4, height / 30 * 19 + 18 * objectsRatio, width / 4 + 10 * objectsRatio, height / 30 * 19 + 33 * objectsRatio);
+
+    pop();
+
+    push();
+    fill(121, 216, 160);
+    noStroke();
+
+    // triangle(widthX - 10 * objectsRatio, height / 30 * 19, widthX, height / 30 * 19 - 30 * objectsRatio, widthX + 10 * objectsRatio, height / 30 * 19);
+
+    ellipse(width / 4, height / 30 * 19 - 10 * objectsRatio, 25 * objectsRatio, 70 * objectsRatio);
+
+    pop();
+
+    push();
+    fill(168, 246, 179);
+    noStroke();
+
+    ellipse(width / 4, height / 30 * 19 - 6 * objectsRatio, 20 * objectsRatio, 55 * objectsRatio);
+
+    pop();
+
+
+    push();
+    fill(108, 201, 215);
+    noStroke();
+    ellipse(width / 4, height / 30 * 19 - 20 * objectsRatio, 10 * objectsRatio, 10 * objectsRatio);
+
+    pop();
+
+    push();
+    fill(168, 246, 179);
+    noStroke();
+    ellipse(width / 4, height / 30 * 19 - 17 * objectsRatio, 10 * objectsRatio, 8 * objectsRatio);
+
+    pop();
+
+
+    push();
+    noStroke();
+    fill(32, 135, 113);
+
+    beginShape();
+    vertex(width / 4 + 10 * objectsRatio, height / 30 * 19 + 5 * objectsRatio);
+    vertex(width / 4 + 22 * objectsRatio, height / 30 * 19 + 10 * objectsRatio);
+    vertex(width / 4 + 18 * objectsRatio, height / 30 * 19 + 35 * objectsRatio);
+    vertex(width / 4 + 17 * objectsRatio, height / 30 * 19 + 17 * objectsRatio);
+    vertex(width / 4 + 8 * objectsRatio, height / 30 * 19 + 13 * objectsRatio);
+    endShape();
+
+    beginShape();
+    vertex(width / 4 - 10 * objectsRatio, height / 30 * 19 + 5 * objectsRatio);
+    vertex(width / 4 - 22 * objectsRatio, height / 30 * 19 + 10 * objectsRatio);
+    vertex(width / 4 - 18 * objectsRatio, height / 30 * 19 + 35 * objectsRatio);
+    vertex(width / 4 - 17 * objectsRatio, height / 30 * 19 + 17 * objectsRatio);
+    vertex(width / 4 - 8 * objectsRatio, height / 30 * 19 + 13 * objectsRatio);
+    endShape();
+
+    beginShape();
+    vertex(width / 4, height / 30 * 19 + 2 * objectsRatio);
+    vertex(width / 4 + 3 * objectsRatio, height / 30 * 19 + 4 * objectsRatio);
+    vertex(width / 4 + 4 * objectsRatio, height / 30 * 19 + 7 * objectsRatio);
+    vertex(width / 4, height / 30 * 19 + 45 * objectsRatio);
+    vertex(width / 4 - 4 * objectsRatio, height / 30 * 19 + 7 * objectsRatio);
+    vertex(width / 4 - 3 * objectsRatio, height / 30 * 19 + 4 * objectsRatio);
+    endShape(); //////////////////////////////////////////////////////////////
+
+
+    pop();
+
+
+
+
+    if (!nextButton) {
+      nextButton = createButton("NEXT");
     }
 
-    button.position(width / 2, height / 10 * 8);
+    nextButton.position(width / 2, height / 10 * 8.5);
 
-    button.mousePressed(calibrationMicrophone);
-    button.style('background-color', '#f2ff5d');
-    button.style('padding', '6px 12px');
-    button.style('font-family', 'Squada One');
+    nextButton.mousePressed(nextPage);
+    nextButton.style('background-color', '#f2ff5d');
+    nextButton.style('padding', '6px 12px');
+    nextButton.style('font-family', 'Squada One');
+
 
     infoButton.hide();
 
   }
+
+  if (nextNextPageButton) {
+
+    push();
+
+    fill(0);
+    rect(0, 0, width, height);
+    pop();
+
+    push();
+    let rules1 = "Rules:";
+    fill(255);
+    textSize(width / 10);
+    textAlign(LEFT);
+
+    text(rules1, width / 13, height / 30 * 4);
+
+    pop();
+
+    push();
+
+    fill(255);
+    textSize(width / 20);
+    textAlign(LEFT);
+
+
+    let rules2 = "- Scream and shout to increase "
+    let rules3 = "   the velocity of your spacecraft: "
+    let rules4 = "   your energy is the thruster."
+    let rules5 = "- Tilt your phone to move horizontally "
+    let rules6 = "   and avoid obstacles.";
+    let rules7 = "- You could have the opportunity "
+    let rules8 = "   to protect yourself and your mates: "
+    let rules9 = "   pay attention, sometimes in the bottom "
+    let rules10 = "   left corner could appear a blue button"
+    let rules11 = "   to use your shield. Use it wisely."
+    let rules12 = "- Do your best: this is a collaborative"
+    let rules13 = "   exploration so give your contribution,"
+    let rules14 = "   and if you are on the same wave of the"
+    let rules15 = "   others, something good will happen."
+
+
+    text(rules2, width / 8, height / 30 * 6);
+    text(rules3, width / 8, height / 30 * 7);
+    text(rules4, width / 8, height / 30 * 8);
+    text(rules5, width / 8, height / 30 * 10);
+    text(rules6, width / 8, height / 30 * 11);
+    text(rules7, width / 8, height / 30 * 13);
+    text(rules8, width / 8, height / 30 * 14);
+    text(rules9, width / 8, height / 30 * 15);
+    text(rules10, width / 8, height / 30 * 16);
+    text(rules11, width / 8, height / 30 * 17);
+    text(rules12, width / 8, height / 30 * 19);
+    text(rules13, width / 8, height / 30 * 20);
+    text(rules14, width / 8, height / 30 * 21);
+    text(rules15, width / 8, height / 30 * 22);
+
+    pop();
+
+
+
+
+    infoButton.hide();
+
+  }
+
+  if (calibrationButton) {
+
+    push();
+    fill(0);
+    rect(0, 0, width, height);
+    pop();
+
+    push();
+    fill(255);
+    textSize(width / 10);
+    textAlign(LEFT);
+    let calibrationText0 = "Before we start";
+    text(calibrationText0, width / 8, height / 30 * 10);
+    pop();
+
+
+    push();
+    fill(255);
+    textSize(width / 20);
+    textAlign(LEFT);
+
+
+    let calibrationText1 = "We have to calibrate your microphone. ";
+
+    let calibrationText3 = "Click the button and talk to your phone,";
+    let calibrationText4 = "we’re going to start in few seconds.";
+
+    text(calibrationText1, width / 8, height / 30 * 12);
+
+    text(calibrationText3, width / 8, height / 30 * 13);
+    text(calibrationText4, width / 8, height / 30 * 14);
+    pop();
+
+  }
+
 
   if (startCalibration) {
     maxVol = max(maxVol, vol);
@@ -984,6 +1288,46 @@ function draw() {
 
 }
 
+function nextNextPage() {
+
+  calibrationButton = true;
+  nextNextPageButton = false;
+  nextNextButton.remove();
+
+  if (!button) {
+    button = createButton("START");
+  }
+
+  button.position(width / 2, height / 10 * 8.5);
+
+  button.mousePressed(calibrationMicrophone);
+  button.style('background-color', '#2ea4db');
+  button.style('padding', '6px 12px');
+  button.style('font-family', 'Squada One');
+
+}
+
+
+function nextPage() {
+
+  nextNextPageButton = true;
+
+  if (!nextNextButton) {
+    nextNextButton = createButton("NEXT");
+  }
+
+  nextNextButton.position(width / 2, height / 10 * 8.5);
+
+  nextNextButton.mousePressed(nextNextPage);
+  nextNextButton.style('background-color', '#f2ff5d');
+  nextNextButton.style('padding', '6px 12px');
+  nextNextButton.style('font-family', 'Squada One');
+
+
+  nextPageButton = false;
+  nextButton.remove();
+
+}
 
 function startShield() {
 
@@ -1300,7 +1644,7 @@ class StarsThree {
       this.x = random(0, width);
       // console.log("y 2 " + this.y);
     } else {
-      this.y += vel / 320;
+      this.y += vel / 600;
     }
   }
 }

@@ -117,25 +117,29 @@ function newConnection(socket) {
 
       timer_bonus++;
       if(timer_bonus >= 1 && timer_bonus < 25){
-        info_score.highscore += 100*timer_bonus;
+        info_score.highscore += 200*timer_bonus;
       }
       if(timer_bonus >= 25 && timer_bonus < 175){
-        info_score.highscore += 2500;
+        info_score.highscore += 5000;
       }
 
       if(timer_bonus >= 175 && timer_bonus < 200){
-        info_score.highscore += 100 * (200 - timer_bonus);
+        info_score.highscore += 200 * (200 - timer_bonus);
       }
       if(timer_bonus >= 200){
         bonus_server = false;
+        io.sockets.emit("bonus_effect_end", bonus_server);
         timer_bonus = 0;
-      }
+        }
 
 
     }
 
     if(info_score.next_planet < -1440){
-      info_score.next_planet = Math.floor((Math.random() * 2000) + 4000);
+      info_score.next_planet = Math.floor((Math.random() * 200) + 400);
+      }
+
+    if(info_score.next_planet < -1400){
       info_score.changed_planet = true;
     }else{
       info_score.changed_planet = false;
