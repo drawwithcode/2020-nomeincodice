@@ -491,7 +491,7 @@ function draw() {
 
 
     if (nextPlanet < -15 * objectsRatio && nextPlanet > - 100 * objectsRatio) {
-      background(0,0,0, - ( (nextPlanet + 15 ) * 3 ));
+      background(0,0,0, - ( (nextPlanet + 15 * objectsRatio ) * 3 ));
     }
 
     if (nextPlanet < -100 * objectsRatio && nextPlanet > -150 * objectsRatio) {
@@ -501,7 +501,7 @@ function draw() {
 
 
     if (nextPlanet < -150 * objectsRatio && nextPlanet > -235 * objectsRatio) {
-      background(0,0,0, ( (nextPlanet + 235 ) * 3 ));
+      background(0,0,0, ( (nextPlanet + 235 * objectsRatio ) * 3 ));
     }
 
 
