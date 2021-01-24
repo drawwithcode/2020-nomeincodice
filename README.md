@@ -29,8 +29,7 @@ But sometimes a blue button could appear in the bottom left of your screen and i
 To explore using code as a visual tool we chose to develop a flat design look, using simple shapes to represent various elements in space. 
 We tried to take inspiration not only from pictures found online, but also from pop culture references.
 
- <p align="center"><img src="assets readme/6.jpg" alt="spazio" width="300"/></p>
-<p align="center"><img src="assets readme/5.png" alt="futurama" width="300"/></p>
+ <p align="center"><img src="assets readme/6.jpg" alt="spazio" width="300"/><img src="assets readme/5.png" alt="futurama" width="300"/></p>
 
 We chose Squada One as the main font for the webapp because of its simple yet modern look.
 
