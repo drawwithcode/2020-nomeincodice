@@ -1,5 +1,7 @@
-let socket = io();
+if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
 
+
+let socket = io();
 let mic;
 
 let totalscore = 0;
@@ -16,8 +18,6 @@ let otherH_players;
 let yRatio;
 let xRatio;
 let objectsRatio;
-
-
 
 let beginGame = false;
 
@@ -264,22 +264,6 @@ function setup() {
 
   //----------CREA LE STELLE-----------
 
-  // for (let p = 0; p < numStarsOne; p++) {
-  //   let newStarOne = new StarsOne();
-  //   starsOne.push(newStarOne);
-  // }
-  //
-  // for (let q = 0; q < numStarsTwo; q++) {
-  //   let newStarTwo = new StarsTwo();
-  //   starsTwo.push(newStarTwo);
-  // }
-  //
-  // for (let r = 0; r < numStarsThree; r++) {
-  //   let newStarThree = new StarsThree();
-  //   starsThree.push(newStarThree);
-  // }
-
-
 
   for (let p = 0; p < numStarsOne; p++) {
     let newStarOne = new StarsOne();
@@ -425,7 +409,7 @@ function draw() {
   //ricavare il cambiamento complessivo di volumi di tutti i giocatori
 
 
-  if (!bonus) {
+  if (!bonusServer) {
     background(0);
   }
 
@@ -481,29 +465,6 @@ function draw() {
 
       background(0, 0, 0, 30);
 
-      // if (bonusDuration < 15) {
-      //   background(0, 0, 0, 30);
-      //   // vel += 10000 * bonusDuration / 10;
-      //   console.log("dentro vel1");
-      //
-      // } else if (bonusDuration >= 15 && bonusDuration < 45) {
-      //   background(0, 0, 0, 30);
-      //   // vel += 10000;
-      //   console.log("dentro vel2");
-      //
-      // } else if (bonusDuration >= 50 && bonusDuration < 60) {
-      //
-      //   // vel += 10000 * (60 - bonusDuration) / 10;
-      //   console.log("dentro vel3");
-      //
-      // } else {
-      //   bonusServer = false;
-      // }
-      //
-      // bonusDuration++;
-
-      // } else {
-      //   bonusDuration = 0;
     }
 
   }
@@ -539,8 +500,6 @@ function draw() {
   if (changedPlanet && precChangedPlanet !==changedPlanet) {
     planet = new Planets();
     infoDiscoveries++;
-    console.log("dentro changed planet");
-
     planetName1 = letters[round(random(0,32))];
     planetName2 = letters[round(random(0,32))];
     planetName3 = letters[round(random(0,32))];
@@ -550,6 +509,7 @@ function draw() {
   }
 
   planet.display();
+
 
   precChangedPlanet = changedPlanet;
 
@@ -745,14 +705,7 @@ function draw() {
 
   text(totalscore, width - 10, 20);
 
-  // text(vel, width - 10, 40);
-
-  // text(nextPlanet, width - 10, 40);
-
   rect(width - 20, 30, 10, vel / 100);
-
-  // text(windowHeight, width / 2, 450);
-  // text(displayHeight, width / 2, 500);
 
   pop();
 
@@ -760,36 +713,25 @@ function draw() {
   push();
   noStroke();
   fill(148, 241, 255);
-
   triangle(widthX - 8 * objectsRatio, yPlayer + 33 * objectsRatio, widthX, yPlayer + 60 * objectsRatio + random(1, 25) * objectsRatio, widthX + 8 * objectsRatio, yPlayer + 33 * objectsRatio);
-
   pop();
-
 
   push();
   noStroke();
   fill(224, 213, 195);
-
   triangle(widthX - 10 * objectsRatio, yPlayer + 33 * objectsRatio, widthX, yPlayer + 18 * objectsRatio, widthX + 10 * objectsRatio, yPlayer + 33 * objectsRatio);
-
   pop();
 
   push();
   fill(121, 216, 160);
   noStroke();
-
-  // triangle(widthX - 10 * objectsRatio, yPlayer, widthX, yPlayer - 30 * objectsRatio, widthX + 10 * objectsRatio, yPlayer);
-
   ellipse(widthX, yPlayer - 10 * objectsRatio, 25 * objectsRatio, 70 * objectsRatio);
-
   pop();
 
   push();
   fill(168, 246, 179);
   noStroke();
-
   ellipse(widthX, yPlayer - 6 * objectsRatio, 20 * objectsRatio, 55 * objectsRatio);
-
   pop();
 
 
@@ -797,21 +739,18 @@ function draw() {
   fill(108, 201, 215);
   noStroke();
   ellipse(widthX, yPlayer - 20 * objectsRatio, 10 * objectsRatio, 10 * objectsRatio);
-
   pop();
 
   push();
   fill(168, 246, 179);
   noStroke();
   ellipse(widthX, yPlayer - 17 * objectsRatio, 10 * objectsRatio, 8 * objectsRatio);
-
   pop();
 
 
   push();
   noStroke();
   fill(32, 135, 113);
-
   beginShape();
   vertex(widthX + 10 * objectsRatio, yPlayer + 5 * objectsRatio);
   vertex(widthX + 22 * objectsRatio, yPlayer + 10 * objectsRatio);
@@ -836,20 +775,8 @@ function draw() {
   vertex(widthX - 4 * objectsRatio, yPlayer + 7 * objectsRatio);
   vertex(widthX - 3 * objectsRatio, yPlayer + 4 * objectsRatio);
   endShape();
-
-
   pop();
 
-
-
-
-  // push();
-  // fill("white");
-  // noStroke();
-  //
-  // triangle(widthX - 5 * objectsRatio, yPlayer, widthX, yPlayer + random(1, 15) * objectsRatio, widthX + 5 * objectsRatio, yPlayer);
-  //
-  // pop();
 
   if (frameCount % 5 === 0) {
     c++;
@@ -862,25 +789,18 @@ function draw() {
     push();
     noStroke();
     fill("red");
-
     triangle(widthX - 10 * objectsRatio, yPlayer + 33 * objectsRatio, widthX, yPlayer + 18 * objectsRatio, widthX + 10 * objectsRatio, yPlayer + 33 * objectsRatio);
-
     pop();
 
     push();
     fill("red");
     noStroke()
-
     ellipse(widthX, yPlayer - 10 * objectsRatio, 25 * objectsRatio, 70 * objectsRatio);
-
     pop();
-
-
 
     push();
     noStroke();
     fill("red");
-
     beginShape();
     vertex(widthX + 10 * objectsRatio, yPlayer + 5 * objectsRatio);
     vertex(widthX + 22 * objectsRatio, yPlayer + 10 * objectsRatio);
@@ -906,7 +826,6 @@ function draw() {
     vertex(widthX - 3 * objectsRatio, yPlayer + 4 * objectsRatio);
     endShape();
 
-
     pop();
 
     b++;
@@ -927,25 +846,14 @@ function draw() {
   if (nextPlanet < - 100 * objectsRatio && nextPlanet > - 600 * objectsRatio) {
 
 
-
-    let discoveryText = "You discovered Planet ";
-
-    // push();
-    // rectMode(CENTER);
-    // noStroke();
-    // fill(46, 165, 219, 160);
-    // rect(width / 2, height / 2, width / 2, height / 4);
-    // pop();
-
     push();
     fill(255);
     textSize(width/14);
     textAlign(CENTER);
 
-    text(discoveryText + planetName1+ planetName2 + planetName3 + planetName4 + planetName5, width / 2, height / 2);
+    text("You discovered Planet " + planetName1+ planetName2 + planetName3 + planetName4 + planetName5, width / 2, height / 2);
 
     pop();
-
 
     obstacles.splice(0, obstacles.length);
 
@@ -957,17 +865,27 @@ function draw() {
   if (showInfo === -1) {
     push();
     noStroke();
-    fill(242, 255, 93);
-    rect(width / 8, height / 5 * 3 + (-25 * objectsRatio), width / 4 *3, 60 * objectsRatio);
+    fill(242,255,93);
+    rectMode(CENTER);
+    rect(width / 2, height / 10 * 7 , width / 7 * 5, 60 * objectsRatio);
     pop();
     push();
     noStroke();
-    textAlign(CENTER);
-    textSize(width / 20);
+    textAlign(LEFT,CENTER);
+    textSize(width / 23);
     fill(0);
     infoDistance = round(infoDistance);
-    text("Traveled distance: " + infoDistance + " tm", width / 2, height / 5 * 3 - 0 * objectsRatio);
-    text("Planets discovered: " + infoDiscoveries, width / 2, height / 5 * 3 + 20 * objectsRatio);
+    text("DISTANCE TRAVELED: " , width / 5 , height / 10 * 7 - 10 * objectsRatio);
+    text("PLANETS DISCOVERED: " , width / 5, height / 10 * 7 + 10 * objectsRatio);
+    pop();
+    push();
+    noStroke();
+    textAlign(RIGHT,CENTER);
+    textSize(width / 23);
+    fill(0);
+    infoDistance = round(infoDistance);
+    text(infoDistance + " tm", width / 5 *4, height / 10 * 7 - 10 * objectsRatio);
+    text(infoDiscoveries, width / 5 *4, height / 10 * 7 + 10 * objectsRatio);
     pop();
   }
 
@@ -1020,9 +938,8 @@ function draw() {
     push();
     textSize(width / 7);
     textAlign(LEFT);
-    fill(255);
-    let title = "SHOUTING STARS";
-    text(title, width / 13, height / 20 * 2);
+    fill(242,255,93);
+    text("SHOUTING STARS", width / 13, height / 20 * 2);
     pop();
 
     push();
@@ -1031,22 +948,13 @@ function draw() {
     textSize(width / 20);
     textAlign(LEFT);
 
-
-    let introduction1 = "Hi, welcome to this race!";
-    let introduction2 = "We are exploring the infinite space";
-    let introduction3 = "together to discover new planets,";
-    let introduction4 = "everybody has its own spacecraft, ";
-    let introduction5 = "but remember that you’re not alone.";
-    let introduction6 = "I’m sure that together we can reach ";
-    let introduction7 = "incredible goals, if we collaborate!";
-
-    text(introduction1, width / 13, height / 30 * 6);
-    text(introduction2, width / 13, height / 30 * 7);
-    text(introduction3, width / 13, height / 30 * 8);
-    text(introduction4, width / 13, height / 30 * 9);
-    text(introduction5, width / 13, height / 30 * 10);
-    text(introduction6, width / 13, height / 30 * 11);
-    text(introduction7, width / 13, height / 30 * 12);
+    text("Hi, welcome to this race!", width / 13, height / 30 * 6);
+    text("We are exploring the infinite space", width / 13, height / 30 * 7);
+    text("together to discover new planets,", width / 13, height / 30 * 8);
+    text("everybody has its own spacecraft, ", width / 13, height / 30 * 9);
+    text("but remember that you’re not alone.", width / 13, height / 30 * 10);
+    text("I’m sure that together we can reach ", width / 13, height / 30 * 11);
+    text("incredible goals, if we collaborate!", width / 13, height / 30 * 12);
 
     pop();
 
@@ -1061,13 +969,12 @@ function draw() {
     ellipse(width, height, 600 + noiseHaloFirstPage);
     pop();
 
-    push();
 
+    push();
     noStroke();
     fill(200, 60, 60);
     ellipse(width, height, 500);
     pop();
-
     push();
     noStroke();
     fill(180, 40, 40);
@@ -1080,58 +987,36 @@ function draw() {
     push();
     noStroke();
     fill(148, 241, 255);
-
     triangle(width / 4 - 8 * objectsRatio, height / 30 * 19 + 33 * objectsRatio, width / 4, height / 30 * 19 + 60 * objectsRatio + random(1, 25) * objectsRatio, width / 4 + 8 * objectsRatio, height / 30 * 19 + 33 * objectsRatio);
-
     pop();
-
-
     push();
     noStroke();
     fill(224, 213, 195);
-
     triangle(width / 4 - 10 * objectsRatio, height / 30 * 19 + 33 * objectsRatio, width / 4, height / 30 * 19 + 18 * objectsRatio, width / 4 + 10 * objectsRatio, height / 30 * 19 + 33 * objectsRatio);
-
     pop();
-
     push();
     fill(121, 216, 160);
     noStroke();
-
-    // triangle(widthX - 10 * objectsRatio, height / 30 * 19, widthX, height / 30 * 19 - 30 * objectsRatio, widthX + 10 * objectsRatio, height / 30 * 19);
-
     ellipse(width / 4, height / 30 * 19 - 10 * objectsRatio, 25 * objectsRatio, 70 * objectsRatio);
-
     pop();
-
     push();
     fill(168, 246, 179);
     noStroke();
-
     ellipse(width / 4, height / 30 * 19 - 6 * objectsRatio, 20 * objectsRatio, 55 * objectsRatio);
-
     pop();
-
-
     push();
     fill(108, 201, 215);
     noStroke();
     ellipse(width / 4, height / 30 * 19 - 20 * objectsRatio, 10 * objectsRatio, 10 * objectsRatio);
-
     pop();
-
     push();
     fill(168, 246, 179);
     noStroke();
     ellipse(width / 4, height / 30 * 19 - 17 * objectsRatio, 10 * objectsRatio, 8 * objectsRatio);
-
     pop();
-
-
     push();
     noStroke();
     fill(32, 135, 113);
-
     beginShape();
     vertex(width / 4 + 10 * objectsRatio, height / 30 * 19 + 5 * objectsRatio);
     vertex(width / 4 + 22 * objectsRatio, height / 30 * 19 + 10 * objectsRatio);
@@ -1139,7 +1024,6 @@ function draw() {
     vertex(width / 4 + 17 * objectsRatio, height / 30 * 19 + 17 * objectsRatio);
     vertex(width / 4 + 8 * objectsRatio, height / 30 * 19 + 13 * objectsRatio);
     endShape();
-
     beginShape();
     vertex(width / 4 - 10 * objectsRatio, height / 30 * 19 + 5 * objectsRatio);
     vertex(width / 4 - 22 * objectsRatio, height / 30 * 19 + 10 * objectsRatio);
@@ -1147,7 +1031,6 @@ function draw() {
     vertex(width / 4 - 17 * objectsRatio, height / 30 * 19 + 17 * objectsRatio);
     vertex(width / 4 - 8 * objectsRatio, height / 30 * 19 + 13 * objectsRatio);
     endShape();
-
     beginShape();
     vertex(width / 4, height / 30 * 19 + 2 * objectsRatio);
     vertex(width / 4 + 3 * objectsRatio, height / 30 * 19 + 4 * objectsRatio);
@@ -1156,8 +1039,6 @@ function draw() {
     vertex(width / 4 - 4 * objectsRatio, height / 30 * 19 + 7 * objectsRatio);
     vertex(width / 4 - 3 * objectsRatio, height / 30 * 19 + 4 * objectsRatio);
     endShape(); //////////////////////////////////////////////////////////////
-
-
     pop();
 
 
@@ -1188,12 +1069,11 @@ function draw() {
     pop();
 
     push();
-    let rules1 = "Rules:";
-    fill(255);
+    fill(242,255,93);
     textSize(width / 10);
     textAlign(LEFT);
 
-    text(rules1, width / 13, height / 30 * 4);
+    text("Rules:", width / 13, height / 30 * 4);
 
     pop();
 
@@ -1203,37 +1083,20 @@ function draw() {
     textSize(width / 20);
     textAlign(LEFT);
 
-
-    let rules2 = "- Scream and shout to increase "
-    let rules3 = "   the velocity of your spacecraft: "
-    let rules4 = "   your energy is the thruster."
-    let rules5 = "- Tilt your phone to move horizontally "
-    let rules6 = "   and avoid obstacles.";
-    let rules7 = "- You could have the opportunity "
-    let rules8 = "   to protect yourself and your mates: "
-    let rules9 = "   pay attention, sometimes in the bottom "
-    let rules10 = "   left corner could appear a blue button"
-    let rules11 = "   to use your shield. Use it wisely."
-    let rules12 = "- Do your best: this is a collaborative"
-    let rules13 = "   exploration so give your contribution,"
-    let rules14 = "   and if you are on the same wave of the"
-    let rules15 = "   others, something good will happen."
-
-
-    text(rules2, width / 8, height / 30 * 6);
-    text(rules3, width / 8, height / 30 * 7);
-    text(rules4, width / 8, height / 30 * 8);
-    text(rules5, width / 8, height / 30 * 10);
-    text(rules6, width / 8, height / 30 * 11);
-    text(rules7, width / 8, height / 30 * 13);
-    text(rules8, width / 8, height / 30 * 14);
-    text(rules9, width / 8, height / 30 * 15);
-    text(rules10, width / 8, height / 30 * 16);
-    text(rules11, width / 8, height / 30 * 17);
-    text(rules12, width / 8, height / 30 * 19);
-    text(rules13, width / 8, height / 30 * 20);
-    text(rules14, width / 8, height / 30 * 21);
-    text(rules15, width / 8, height / 30 * 22);
+    text("- Scream and shout to increase", width / 8, height / 30 * 6);
+    text("   the velocity of your spacecraft:", width / 8, height / 30 * 7);
+    text("   your energy is the thruster.", width / 8, height / 30 * 8);
+    text("- Tilt your phone to move horizontally", width / 8, height / 30 * 10);
+    text("   and avoid obstacles.", width / 8, height / 30 * 11);
+    text("- You could have the opportunity", width / 8, height / 30 * 13);
+    text("   to protect yourself and your mates:", width / 8, height / 30 * 14);
+    text("   pay attention, sometimes in the bottom", width / 8, height / 30 * 15);
+    text("   left corner could appear a blue button", width / 8, height / 30 * 16);
+    text("   to use your shield. Use it wisely.", width / 8, height / 30 * 17);
+    text("- Do your best: this is a collaborative", width / 8, height / 30 * 19);
+    text("   exploration so give your contribution,", width / 8, height / 30 * 20);
+    text("   and if you are on the same wave of the", width / 8, height / 30 * 21);
+    text("   others, something good will happen.", width / 8, height / 30 * 22);
 
     pop();
 
@@ -1252,11 +1115,10 @@ function draw() {
     pop();
 
     push();
-    fill(255);
+    fill(46,165,219);
     textSize(width / 10);
     textAlign(LEFT);
-    let calibrationText0 = "Before we start";
-    text(calibrationText0, width / 8, height / 30 * 10);
+    text("Before we start", width / 9, height / 30 * 14);
     pop();
 
 
@@ -1265,16 +1127,9 @@ function draw() {
     textSize(width / 20);
     textAlign(LEFT);
 
-
-    let calibrationText1 = "We have to calibrate your microphone. ";
-
-    let calibrationText3 = "Click the button and talk to your phone,";
-    let calibrationText4 = "we’re going to start in few seconds.";
-
-    text(calibrationText1, width / 8, height / 30 * 12);
-
-    text(calibrationText3, width / 8, height / 30 * 13);
-    text(calibrationText4, width / 8, height / 30 * 14);
+    text("We have to calibrate your microphone. ", width / 9, height / 30 * 16);
+    text("Click the button and talk to your phone,", width / 9, height / 30 * 17);
+    text("we’re going to start in few seconds.", width / 9, height / 30 * 18);
     pop();
 
   }
@@ -1402,7 +1257,7 @@ class OtherPlayer {
 
     if (this.shield) {
       noStroke();
-      fill(255, 255, 255, 180);
+      fill(160, 220, 255, 150);
       let noiseShieldHaloOther = noise(noiseShieldOther) * 10;
       noiseShieldOther += 0.1;
 
@@ -1829,14 +1684,51 @@ class Planets {
     }
 
 
-
-
-
-
-
-
-
   }
 
 
+}
+
+}else{
+
+  function setup(){
+
+  createCanvas(windowWidth,windowHeight);
+  textFont("Squada One");
+  background(0);
+
+  push();
+  noStroke();
+  textSize(width / 40);
+  textAlign(CENTER,CENTER);
+  fill(242,255,93);
+  text("Welcome to SHOUTING STARS", width / 2, height / 40 * 10);
+  pop();
+
+  push();
+  noStroke();
+  textSize(width / 60);
+  textAlign(CENTER,CENTER);
+  fill(242,255,93);
+
+  text("To play, you need to access this", width / 2, height / 40 * 14);
+  text("website from a mobile phone.", width / 2, height / 40 * 16);
+  pop();
+
+  push();
+  rectMode(CENTER);
+  noStroke();
+  fill(255);
+  rect(width / 2, height / 40 * 30, width / 10, width / 5, width / 80);
+  pop();
+
+  push();
+  rectMode(CENTER);
+  noStroke();
+  fill(0);
+  rect(width / 2, height / 40 * 30, width / 12, width / 5.5, width / 80);
+  pop();
+
+
+  }
 }
