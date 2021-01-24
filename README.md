@@ -41,7 +41,7 @@ Being able to create something virtually endless was an important challenge in o
 We wanted our webapp to be able to be used by users on a wide variety of mobile devices, ranging from regular phones to tablets. To do so we had to handle both screen and virtual space in a proportional way.
 
 
-# Design challenges
+# Coding challenges
 
 ### Handilg data
 The first problem we encountered was the handling of all different data coming from different players. These variables needed to be sent to each player in order to display correctly all elements of the game.
