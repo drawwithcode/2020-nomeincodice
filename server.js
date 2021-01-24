@@ -175,13 +175,13 @@ function newConnection(socket) {
 
     }
 
-    if (info_score.next_planet < -1000) {
+    if (info_score.next_planet < -2000) {
 
       createPlanet();
 
       io.sockets.emit("info_planet", info_planet);
 
-      info_score.next_planet = Math.floor((Math.random() * 200) + 400);
+      info_score.next_planet = Math.floor((Math.random() * 2000) + 4000);
     }
 
     if (info_score.next_planet < -100) {
@@ -301,6 +301,7 @@ function createPlanet() {
     symbol4: symbol4,
     symbol5: symbol5
   }
+
 
 
 }

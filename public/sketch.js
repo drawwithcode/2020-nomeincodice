@@ -275,7 +275,6 @@ function infoPlanet(infoPlanetData){
   planetName4 = symbol4;
   planetName5 = symbol5;
 
-  console.log(symbol1);
 }
 
 
@@ -1637,7 +1636,6 @@ class Planets {
 
     this.r = rPlanet * objectsRatio;
     this.x = (xPlanet/1000) * width;
-    console.log(this.x);
     this.y = -nextPlanet;
     this.color1 = c1;
     this.color2 = c2;
