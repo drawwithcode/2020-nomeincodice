@@ -5,8 +5,8 @@ In addition, when people are closed and not separate, playing this game is also 
 
 <p align="center"><img src="assets readme/Screenshot_2021-01-24-19-08-21-079_com.android.chrome.jpg" alt="start page" width="300"></p>
 
-It is possible to play Shouting stars by using a mobile device, in this way people are more engaged and it is more simple to play: you can easily see the screen while you are tilting your device to move horizontally and screaming to the microphone to move vertically.
-
+It is possible to play Shouting Stars by using a mobile device, in this way people are more engaged and it is more simple to play: you can easily see the screen while you are tilting your device to move horizontally and screaming to the microphone to move vertically.
+The aim of this game is to let people gain confidence towards the group and increase trust in team work. Other than that, this game gives a great excuse to let off steam and hopefully have fun. 
 
 # Game mechanics 
 
@@ -60,7 +60,7 @@ We wanted our webapp to be able to be used by users on a wide variety of mobile 
 
 # Coding challenges
 
-### Handilg data
+### Handling data
 The first problem we encountered was the handling of all different data coming from different players. These variables needed to be sent to each player in order to display correctly all elements of the game.
 Each player sends an object containing his id, his position, if he has a shield, if the shield it’s blinking and the volume of his microphone. Once we started coding we had spaceships teletransporting in different places and we could not identify the spaceship that had a shield active. 
 We came up with the idea of storing all of the client ids in the server and sending those ids to each client. In this way each client could create an object with the id of each player, even the players that were connected before. Once a new piece of data would be received by the client, this could compare the id from the data received to the one stored and identify the correct new position of the player of that id. The same applies for the shield. 
