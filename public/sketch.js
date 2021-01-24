@@ -28,6 +28,9 @@ let showInfo = 1;
 let changedInfoDiscovery = false;
 let precChangedInfoDiscovery = false;
 
+let letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '#', '&', '*', '/', '°', '§', '|'];
+
+
 
 //---------QUANDO SI CONNETTE MANDA L'ID DEL GIOCATORE LOCALE AL SERVER-----------
 
@@ -227,11 +230,20 @@ let crater;
 let posCraterX = [];
 let posCraterY = [];
 let diaRand = [];
-
-
+let symbol1;
+let symbol2;
+let symbol3;
+let symbol4;
+let symbol5;
 
 let planet;
 
+
+let planetName1;
+let planetName2;
+let planetName3;
+let planetName4;
+let planetName5;
 
 socket.on("info_planet", infoPlanet);
 
@@ -249,9 +261,21 @@ function infoPlanet(infoPlanetData){
   posCraterX = infoPlanetData.pos_crater_X;
   posCraterY = infoPlanetData.pos_crater_Y;
   diaRand = infoPlanetData.dia_rand;
+  symbol1 = infoPlanetData.symbol1;
+  symbol2 = infoPlanetData.symbol2;
+  symbol3 = infoPlanetData.symbol3;
+  symbol4 = infoPlanetData.symbol4;
+  symbol5 = infoPlanetData.symbol5;
 
   planet = new Planets();
-  console.log(xPlanet);
+
+  planetName1 = letters[symbol1];
+  planetName2 = letters[symbol2];
+  planetName3 = letters[symbol3];
+  planetName4 = symbol4;
+  planetName5 = symbol5;
+
+  console.log(symbol1);
 }
 
 
@@ -267,13 +291,8 @@ let starsThree = [];
 let numStarsThree = 10; //quante stelle 3 creare
 
 
-let letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '#', '&', '*', '/', '°', '§', '|'];
-let planetName1;
-let planetName2;
-let planetName3;
-let planetName4;
-let planetName5;
-let precChangedPlanet = false;
+
+// let precChangedPlanet = false;
 
 function setup() {
 
@@ -342,11 +361,6 @@ function setup() {
 
   pop();
 
-  planetName1 = letters[round(random(0, 32))];
-  planetName2 = letters[round(random(0, 32))];
-  planetName3 = letters[round(random(0, 32))];
-  planetName4 = round(random(0, 9));
-  planetName5 = round(random(0, 9));
 
 }
 
@@ -550,15 +564,15 @@ function draw() {
 
   //-------------------DISPLAY PIANETA-------------
 
-
-  if (changedPlanet && precChangedPlanet !== changedPlanet) {
-    planet = new Planets();
-    planetName1 = letters[round(random(0, 32))];
-    planetName2 = letters[round(random(0, 32))];
-    planetName3 = letters[round(random(0, 32))];
-    planetName4 = round(random(0, 9));
-    planetName5 = round(random(0, 9));
-  }
+  //
+  // if (changedPlanet && precChangedPlanet !== changedPlanet) {
+  //   // planet = new Planets();
+  //   planetName1 = letters[symbol1];
+  //   planetName2 = letters[symbol2];
+  //   planetName3 = letters[symbol3];
+  //   planetName4 = letters[symbol4];
+  //   planetName5 = letters[symbol5];
+  // }
 
   if(changedInfoDiscovery && precChangedInfoDiscovery !== changedInfoDiscovery && beginGame){
       infoDiscoveries++;
@@ -570,8 +584,8 @@ function draw() {
 
 
 
-
-  precChangedPlanet = changedPlanet;
+  //
+  // precChangedPlanet = changedPlanet;
 
   precChangedInfoDiscovery = changedInfoDiscovery;
 
