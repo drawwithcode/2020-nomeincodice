@@ -54,7 +54,9 @@ Being able to create something virtually endless was an important challenge in o
 ### Layout
 We wanted our webapp to be able to be used by users on a wide variety of mobile devices, ranging from regular phones to tablets. To do so we had to handle both screen and virtual space in a proportional way.
 
-<p align="center"><img src="assets readme/IMG_1437.PNG" alt="planet" width="300"/></p>
+<p align="center"><img src="assets readme/IMG_1437.PNG" alt="planet" width="300"/>
+<img src="assets readme/IMG_1438.PNG" alt="planet" width="300"/>
+<img src="assets readme/IMG_1439.PNG" alt="planet" width="300"/></p>
 
 # Coding challenges
 
