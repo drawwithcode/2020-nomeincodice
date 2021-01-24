@@ -26,6 +26,8 @@ But sometimes a blue button could appear in the bottom left of your screen and i
 
 (Video dello shield)
 
+ci sono
+
 
 # Visual treatment
 
