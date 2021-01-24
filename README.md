@@ -41,6 +41,26 @@ Being able to create something virtually endless was an important challenge in o
 We wanted our webapp to be able to be used by users on a wide variety of mobile devices, ranging from regular phones to tablets. To do so we had to handle both screen and virtual space in a proportional way.
 
 
+# Design challenges
+
+### Handilg data
+The first problem we encountered was the handling of all different data coming from different players. These variables needed to be sent to each player in order to display correctly all elements of the game.
+Each player sends an object containing his id, his position, if he has a shield, if the shield it’s blinking and the volume of his microphone. Once we started coding we had spaceships teletransporting in different places and we could not identify the spaceship that had a shield active. 
+We came up with the idea of storing all of the client ids in the server and sending those ids to each client. In this way each client could create an object with the id of each player, even the players that were connected before. Once a new piece of data would be received by the client, this could compare the id from the data received to the one stored and identify the correct new position of the player of that id. The same applies for the shield. 
+
+### Calibration
+During initial testing we came across a huge problem that we did not anticipate: microphones from different mobile devices behave a lot differently from one to another. We tried to map the volume of the microphones but the problem persisted as the difference was still too great. So we added a button that once pressed would store in a variable the loudest noise that the microphone would capture. This button lasts a few seconds but from the variable that is created from it we were able to map each microphone accordingly to its sensitivity. 
+
+### Discovering planets
+We wanted to have a simultaneous discovery of new planets from all players. This way the collaborative effort would be rewarded with a prize at the same time for all discoverers. As there are a lot of different sizes of mobile screens we needed to make a lot of adjustments to have this feature. The position of the planet is decided by the server through a random function that goes from 4000 pixels to 6000. The position of the planet resets when it reaches -2000 pixels from the top of the screen (so approximately more than the biggest screen size of mobile screen in the market). We also had to use a separate variable to calculate the speed of which they move as the sum of all values from the microphone is always a number too big.
+
+### Managing obstacles
+The last major coding challenge we had was the display and behaviour of obstacles. It certainly was not the least one as the aim was to show to all players obstacles in the same position (accordingly to each screen) and to make them disappear to all players too, once they hit a spaceship, the bottom of the screen or the shield of a player. About the screen proportions problem we already talked about. So, for the creation of the obstacles we simply have a random function in the server that tells every player where to put the obstacle. For the Y position we calibrated the speed of the obstacles accordingly to the screen.
+The other part of the problem was to correctly communicate to every player the exact obstacle to remove. If we had an independent array created in the client for the obstacles we could have the same obstacle at different positions of the array for different players as the moment of logging in the website would be the determining factor. 
+To solve this problem we took the X position of the obstacle that would have to be removed (with a tiny bit of range) and we sent it to every player as the X position is created by the server and the same for each player.
+
+
+
 
 
 
