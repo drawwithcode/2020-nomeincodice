@@ -6,6 +6,7 @@ In addition, when people are closed and not separate, playing this game is also 
 <p align="center"><img src="assets readme/Screenshot_2021-01-24-19-08-21-079_com.android.chrome.jpg" alt="start page" width="300"></p>
 
 It is possible to play Shouting Stars by using a mobile device, in this way people are more engaged and it is more simple to play: you can easily see the screen while you are tilting your device to move horizontally and screaming to the microphone to move vertically.
+
 The aim of this game is to let people gain confidence towards the group and increase trust in team work. Other than that, this game gives a great excuse to let off steam and hopefully have fun. 
 
 # Game mechanics 
