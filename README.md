@@ -3,7 +3,7 @@
 Shouting Stars is a collaborative real-time game where the players have to control their spaceships by shouting in order to discover new planets together. In these days feeling the people’s presence is increasingly difficult, this game is meant to help teamwork in distant situations: if you can explore space and travel infinite distances with your teammates, helping each other, there is nothing impossible for your crew.
 In addition, when people are closed and not separate, playing this game is also useful to break the ice and create a bond between people: screaming together breaks the wall of embarrassment and makes everyone laugh.
 
-(Direi screen della pagina. Iniziale)
+<img src="assets readme/Screenshot_2021-01-24-19-08-21-079_com.android.chrome.jpg" alt="start page" width="200">
 
 It is possible to play Shouting stars by using a mobile device, in this way people are more engaged and it is more simple to play: you can easily see the screen while you are tilting your device to move horizontally and screaming to the microphone to move vertically.
 
@@ -13,11 +13,13 @@ It is possible to play Shouting stars by using a mobile device, in this way peop
 The horizontal motion of the spaceship is controlled by the gyroscope, while the vertical motion is controlled by the microphone of your device.
 The amplitude of your scream defines the speed of your own spaceship, but the total speed of the race, and consequently the traveled distance (calculated in Tm, so 10^12 m), is the average of the speed of all the players. So everybody has to give his own contribution in order to discover as many planets as possible and not to slow down the others.
 
-(Qui magari ci sta uno screen/immagine di qualcosa magari della pagina delle regole (?))
 
 If the team is working very well and everyone has the same amplitude for a certain amount of milliseconds, the players will get a speed bonus.
 
-(Video dello speed bonus)
+<video width="320" height="auto" controls>
+  <source src="assets readme/RPReplay_Final1611503907.mp4" type="video/mp4">
+<source src="assets readme/RPReplay_Final1611503907.mp4" type="video/webm">
+</video>
 
 During the exploration some obstacles appear (well… like the difficulties of life) and if you collide with them, you can not move for a while.
 But sometimes a blue button could appear in the bottom left of your screen and it activates a bonus shield: you are protected and you can destroy the obstacles. You can use whenever you want and it could appear more than one time per session. As previously said, this is a collaborative game, so using the shield to clear the field for your teammates is a wise use.
@@ -25,20 +27,22 @@ But sometimes a blue button could appear in the bottom left of your screen and i
 (Video dello shield)
 
 
+
+
 # Visual treatment
 
 To explore using code as a visual tool we chose to develop a flat design look, using simple shapes to represent various elements in space. 
 We tried to take inspiration not only from pictures found online, but also from pop culture references.
+
  (immagine spazio disegnato + immagine futurama) 
 
 
 We chose Squada One as the main font for the webapp because of its simple yet modern look.
 
- (almost before we knew it)
+<img src="assets readme/1.PNG" alt="squada1" width="300"/>
+<img src="assets readme/2.PNG" alt="squada2" width="300"/>
+<img src="assets readme/3.PNG" alt="squada3" width="300"/>
  
- (we had left the grond)
- 
- (font)
 
 # Design challenges
 
