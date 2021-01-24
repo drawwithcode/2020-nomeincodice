@@ -40,8 +40,6 @@ let id_player_disconnected;
 let bonus_server = false;
 
 let timer_bonus = 0;
-// require('events').EventEmitter.prototype._maxListeners = 1000000;
-
 
 function newConnection(socket) {
 

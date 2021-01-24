@@ -60,8 +60,6 @@ socket.on("idPlayerDisconnected", removeIdPlayersDisconnected);
 
 function removeIdPlayersDisconnected(idPlayerDisconnected) {
 
-  // let myOtherPlayersLength = ;
-
   for (let p = 0; p < myOtherPlayers.length; p++) {
     if (idPlayerDisconnected === myOtherPlayers[p].getId()) {
       myOtherPlayers.splice(p, 1);
@@ -112,7 +110,6 @@ function others_micvolume(data) {
       myOtherPlayers[i].h = otherH_players;
       myOtherPlayers[i].shield = data.shield;
       myOtherPlayers[i].infoShieldOtherP = data.infoShieldOtherP;
-      // console.log(data.shield);
     }
   }
 
