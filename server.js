@@ -135,7 +135,7 @@ function newConnection(socket) {
     }
 
     if(info_score.next_planet < -1440){
-      info_score.next_planet = Math.floor((Math.random() * 200) + 400);
+      info_score.next_planet = Math.floor((Math.random() * 2000) + 400);
       }
 
     if(info_score.next_planet < -1000){
