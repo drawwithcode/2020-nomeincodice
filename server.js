@@ -78,9 +78,6 @@ let info_planet = {
 
 
 
-console.log(info_planet.x);
-
-
 function newConnection(socket) {
 
 
@@ -246,15 +243,12 @@ function send_shield_bonus() {
 function give_you_planets() {
 
   io.sockets.emit("info_planet", info_planet);
-  console.log("dentro give me");
-  console.log(info_planet.x);
+
 }
 
 
 
 function createPlanet() {
-
-  console.log("aaa");
 
   let r_planet = Math.floor((Math.random() * 150) + 250);
   let x_planet = Math.floor((Math.random() * 1000));
@@ -266,14 +260,11 @@ function createPlanet() {
   let angle_planet = Math.floor((Math.random() * 40) + 20);
   let crater_planet = Math.floor((Math.random() * 2) + 2);
   let pos_crater_X = [(Math.random() * (info_planet.r * 0.47) - info_planet.r / 3.5), (Math.random() * (info_planet.r * 0.47) - info_planet.r / 3.5), (Math.random() * (info_planet.r * 0.47) - info_planet.r / 3.5),
-    (Math.random() * (info_planet.r * 0.47) - info_planet.r / 3.5),
-  ];
+    (Math.random() * (info_planet.r * 0.47) - info_planet.r / 3.5) ];
   let pos_crater_Y = [(Math.random() * (info_planet.r * 0.47) - info_planet.r / 3.5), (Math.random() * (info_planet.r * 0.47) - info_planet.r / 3.5), (Math.random() * (info_planet.r * 0.47) - info_planet.r / 3.5),
-    (Math.random() * (info_planet.r * 0.47) - info_planet.r / 3.5),
-  ];
+    (Math.random() * (info_planet.r * 0.47) - info_planet.r / 3.5)];
   let dia_rand = [(Math.random() * (info_planet.r * 0.15) + 1 / 10), (Math.random() * (info_planet.r * 0.15) + 1 / 10), (Math.random() * (info_planet.r * 0.15) + 1 / 10),
-    (Math.random() * (info_planet.r * 0.15) + 1 / 10)
-  ];
+    (Math.random() * (info_planet.r * 0.15) + 1 / 10)];
   let symbol1= Math.floor((Math.random() * 32));
   let symbol2= Math.floor((Math.random() * 32));
   let symbol3= Math.floor((Math.random() * 32));

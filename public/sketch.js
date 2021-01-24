@@ -1053,23 +1053,23 @@ if(!beginGame){
     fill(80, 120, 220, 50);
     noStroke();
     let noiseHaloFirstPage = noise(noisePlanetFirstPage) * 30;
-    ellipse(width, height, 520 + noiseHaloFirstPage);
-    ellipse(width, height, 560 + noiseHaloFirstPage);
-    ellipse(width, height, 600 + noiseHaloFirstPage);
+    ellipse(width, height, height / 3 * 2 + height/ 50 + noiseHaloFirstPage);
+    ellipse(width, height, height / 3 * 2 + height/ 18 + noiseHaloFirstPage);
+    ellipse(width, height, height / 3 * 2 + height/10 + noiseHaloFirstPage);
     pop();
 
 
     push();
     noStroke();
     fill(200, 60, 60);
-    ellipse(width, height, 500);
+    ellipse(width, height, height / 3 * 2);
     pop();
     push();
     noStroke();
     fill(180, 40, 40);
-    ellipse(width / 40 * 37, height / 40 * 30, 100);
-    ellipse(width / 40 * 33, height / 40 * 36, 80);
-    ellipse(width / 40 * 28, height / 40 * 32.5, 40);
+    ellipse(width / 40 * 37, height / 40 * 31, height / 8);
+    ellipse(width / 40 * 33, height / 40 * 36,  height / 10);
+    ellipse(width / 40 * 28, height / 40 * 32.5,  height / 15);
     pop();
 
 
