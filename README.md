@@ -3,7 +3,7 @@
 Shouting Stars is a collaborative real-time game where the players have to control their spaceships by shouting in order to discover new planets together. In these days feeling the people’s presence is increasingly difficult, this game is meant to help teamwork in distant situations: if you can explore space and travel infinite distances with your teammates, helping each other, there is nothing impossible for your crew.
 In addition, when people are closed and not separate, playing this game is also useful to break the ice and create a bond between people: screaming together breaks the wall of embarrassment and makes everyone laugh.
 
-<img src="assets readme/Screenshot_2021-01-24-19-08-21-079_com.android.chrome.jpg" alt="start page" width="200">
+<p align="center"><img src="assets readme/Screenshot_2021-01-24-19-08-21-079_com.android.chrome.jpg" alt="start page" width="300"></p>
 
 It is possible to play Shouting stars by using a mobile device, in this way people are more engaged and it is more simple to play: you can easily see the screen while you are tilting your device to move horizontally and screaming to the microphone to move vertically.
 
@@ -13,18 +13,12 @@ It is possible to play Shouting stars by using a mobile device, in this way peop
 The horizontal motion of the spaceship is controlled by the gyroscope, while the vertical motion is controlled by the microphone of your device.
 The amplitude of your scream defines the speed of your own spaceship, but the total speed of the race, and consequently the traveled distance (calculated in Tm, so 10^12 m), is the average of the speed of all the players. So everybody has to give his own contribution in order to discover as many planets as possible and not to slow down the others.
 
-
 If the team is working very well and everyone has the same amplitude for a certain amount of milliseconds, the players will get a speed bonus.
 
-<video width="320" height="auto" controls>
-  <source src="assets readme/RPReplay_Final1611503907.mp4" type="video/mp4">
-<source src="assets readme/RPReplay_Final1611503907.mp4" type="video/webm">
-</video>
+<p align="center"><img src="assets readme/RPReplay_Final1611503907.gif" alt="start page" width="300"></p>
 
 During the exploration some obstacles appear (well… like the difficulties of life) and if you collide with them, you can not move for a while.
 But sometimes a blue button could appear in the bottom left of your screen and it activates a bonus shield: you are protected and you can destroy the obstacles. You can use whenever you want and it could appear more than one time per session. As previously said, this is a collaborative game, so using the shield to clear the field for your teammates is a wise use.
-
-(Video dello shield)
 
 
 
@@ -34,14 +28,14 @@ But sometimes a blue button could appear in the bottom left of your screen and i
 To explore using code as a visual tool we chose to develop a flat design look, using simple shapes to represent various elements in space. 
 We tried to take inspiration not only from pictures found online, but also from pop culture references.
 
- (immagine spazio disegnato + immagine futurama) 
-
+ <p align="center"><img src="assets readme/6.jpg" alt="spazio" width="300"/></p>
+<p align="center"><img src="assets readme/5.png" alt="futurama" width="300"/></p>
 
 We chose Squada One as the main font for the webapp because of its simple yet modern look.
 
-<img src="assets readme/1.PNG" alt="squada1" width="300"/>
-<img src="assets readme/2.PNG" alt="squada2" width="300"/>
-<img src="assets readme/3.PNG" alt="squada3" width="300"/>
+<p align="center"><img src="assets readme/1.PNG" alt="squada1" width="300"/></p>
+<p align="center"><img src="assets readme/2.PNG" alt="squada2" width="300"/></p>
+<p align="center"><img src="assets readme/3.PNG" alt="squada3" width="300"/></p>
  
 
 # Design challenges
@@ -60,6 +54,7 @@ Being able to create something virtually endless was an important challenge in o
 ### Layout
 We wanted our webapp to be able to be used by users on a wide variety of mobile devices, ranging from regular phones to tablets. To do so we had to handle both screen and virtual space in a proportional way.
 
+<p align="center"><img src="assets readme/IMG_1437.PNG" alt="planet" width="300"/></p>
 
 # Coding challenges
 
