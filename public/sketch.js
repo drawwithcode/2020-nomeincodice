@@ -720,7 +720,7 @@ function draw() {
   noStroke();
   textSize(width / 22);
 
-  text(totalscore + " tm", width - 10, 20);
+  text(totalscore + " Tm", width - 10, 20);
 
   rect(width - 20, 30, 10, vel / 100);
 
@@ -903,7 +903,7 @@ function draw() {
     textSize(width / 23);
     fill(0);
     infoDistance = round(infoDistance);
-    text(infoDistance + " tm", width / 5 * 4, height / 10 * 7 - 10 * objectsRatio);
+    text(infoDistance + " Tm", width / 5 * 4, height / 10 * 7 - 10 * objectsRatio);
     text(infoDiscoveries, width / 5 * 4, height / 10 * 7 + 10 * objectsRatio);
     pop();
   }
@@ -1109,7 +1109,7 @@ if(!beginGame){
     textAlign(LEFT);
 
     text("- Scream and shout to increase", width / 8, height / 30 * 6);
-    text("   the velocity of your spacecraft:", width / 8, height / 30 * 7);
+    text("   the speed of your spacecraft:", width / 8, height / 30 * 7);
     text("   your energy is the thruster.", width / 8, height / 30 * 8);
     text("- Tilt your phone to move horizontally", width / 8, height / 30 * 10);
     text("   and avoid obstacles.", width / 8, height / 30 * 11);
