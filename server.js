@@ -42,6 +42,34 @@ let id_player_disconnected;
 let bonus_server = false;
 
 let timer_bonus = 0;
+let r_planet_express = Math.floor((Math.random() * 150) + 250);
+
+let info_planet = {
+
+  r : r_planet_express,
+  x : Math.floor((Math.random() * 1000)),
+  c1: Math.floor((Math.random() * 255)),
+  c2: Math.floor((Math.random() * 255)),
+  c3: Math.floor((Math.random() * 255)),
+  halo : Math.floor((Math.random() * 2) + 1),
+  ring : Math.floor((Math.random() * 5)),
+  angle:Math.floor((Math.random() * 40) + 20),
+  crater : Math.floor((Math.random() * 2) + 2),
+  pos_crater_X : [(Math.random() * (r_planet_express * 0.47) - r_planet_express / 3.5), (Math.random() * (r_planet_express * 0.47) - r_planet_express / 3.5),(Math.random() * (r_planet_express * 0.47) - r_planet_express / 3.5),
+    (Math.random() * (r_planet_express * 0.47) - r_planet_express / 3.5),],
+
+  pos_crater_Y:[(Math.random() * (r_planet_express * 0.47) - r_planet_express / 3.5), (Math.random() * (r_planet_express * 0.47) - r_planet_express / 3.5),(Math.random() * (r_planet_express * 0.47) - r_planet_express / 3.5),
+    (Math.random() * (r_planet_express * 0.47) - r_planet_express / 3.5),],
+
+  dia_rand :  [(Math.random() * (r_planet_express * 0.15 ) + 1 / 10),(Math.random() * (r_planet_express * 0.15 ) + 1 / 10),(Math.random() * (r_planet_express * 0.15 ) + 1 / 10),
+    (Math.random() * (r_planet_express * 0.15 ) + 1 / 10)]
+
+}
+
+
+
+  console.log(info_planet.x);
+
 
 function newConnection(socket) {
 
@@ -51,7 +79,6 @@ function newConnection(socket) {
 
   io.sockets.emit("players", players);
   console.log('players:', players);
-
 
   socket.on("idPlayerConnected", broadcastId);
 
@@ -65,8 +92,10 @@ function newConnection(socket) {
     //il server manda a tutti la lista degli Id di tutti i giocatori connessi
     io.sockets.emit('idPlayerConnectedBroadcast', id_players);
 
-  }
 
+
+
+  }
 
   console.log('new connection:', socket.client.id);
 
@@ -136,8 +165,13 @@ function newConnection(socket) {
 
     }
 
-    if(info_score.next_planet < -2000){
-      info_score.next_planet = Math.floor((Math.random() * 2000) + 4000);
+    if(info_score.next_planet < -1000){
+
+      createPlanet();
+
+      io.sockets.emit("info_planet", info_planet);
+
+      info_score.next_planet = Math.floor((Math.random() * 200) + 400);
       }
 
     if(info_score.next_planet < -100){
@@ -171,6 +205,9 @@ function newConnection(socket) {
   }
 
 
+  socket.on("giveMePlanets", give_you_planets);
+
+
 }
 
 
@@ -192,5 +229,55 @@ function send_shield_bonus(){
   let indexRandom = Math.floor((Math.random() * id_players.length));
 
   io.sockets.emit("id_shield_bonus", id_players[indexRandom]);
+
+}
+
+
+function give_you_planets(){
+
+  io.sockets.emit("info_planet", info_planet);
+  console.log("dentro give me");
+  console.log(info_planet.x);
+}
+
+
+
+function createPlanet(){
+
+  console.log("aaa");
+
+  let r_planet = Math.floor((Math.random() * 150) + 250);
+  let x_planet = Math.floor((Math.random() * 1000));
+  let c1_planet = Math.floor((Math.random() * 255));
+  let c2_planet = Math.floor((Math.random() * 255));
+  let c3_planet = Math.floor((Math.random() * 255));
+  let halo_planet = Math.floor((Math.random() * 2) + 1);
+  let ring_planet = Math.floor((Math.random() * 5));
+  let angle_planet = Math.floor((Math.random() * 40) + 20);
+  let crater_planet = Math.floor((Math.random() * 2) + 2);
+  let pos_crater_X = [(Math.random() * (info_planet.r * 0.47) - info_planet.r / 3.5), (Math.random() * (info_planet.r * 0.47) - info_planet.r / 3.5),(Math.random() * (info_planet.r * 0.47) - info_planet.r / 3.5),
+    (Math.random() * (info_planet.r * 0.47) - info_planet.r / 3.5),];
+  let pos_crater_Y =[(Math.random() * (info_planet.r * 0.47) - info_planet.r / 3.5), (Math.random() * (info_planet.r * 0.47) - info_planet.r / 3.5),(Math.random() * (info_planet.r * 0.47) - info_planet.r / 3.5),
+    (Math.random() * (info_planet.r * 0.47) - info_planet.r / 3.5),];
+  let dia_rand = [(Math.random() * (info_planet.r * 0.15 ) + 1 / 10),(Math.random() * (info_planet.r * 0.15 ) + 1 / 10),(Math.random() * (info_planet.r * 0.15 ) + 1 / 10),
+    (Math.random() * (info_planet.r * 0.15 ) + 1 / 10)];
+
+  info_planet = {
+
+    r : r_planet,
+    x : x_planet,
+    c1: c1_planet,
+    c2: c2_planet,
+    c3: c3_planet,
+    halo : halo_planet,
+    ring : ring_planet,
+    angle: angle_planet,
+    crater : crater_planet,
+    pos_crater_X : pos_crater_X,
+    pos_crater_Y: pos_crater_Y,
+    dia_rand : dia_rand
+
+  }
+
 
 }

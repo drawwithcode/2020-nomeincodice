@@ -215,6 +215,45 @@ function removeObstacleCollision(xObstacleCollision) {
 
 }
 
+let rPlanet;
+let xPlanet;
+let c1;
+let c2;
+let c3;
+let halo;
+let ring;
+let angle;
+let crater;
+let posCraterX = [];
+let posCraterY = [];
+let diaRand = [];
+
+
+
+let planet;
+
+
+socket.on("info_planet", infoPlanet);
+
+function infoPlanet(infoPlanetData){
+
+  rPlanet = infoPlanetData.r;
+  xPlanet = infoPlanetData.x;
+  c1 = infoPlanetData.c1;
+  c2 = infoPlanetData.c2;
+  c3 = infoPlanetData.c3;
+  halo = infoPlanetData.halo;
+  ring = infoPlanetData.ring;
+  angle = infoPlanetData.angle;
+  crater = infoPlanetData.crater;
+  posCraterX = infoPlanetData.pos_crater_X;
+  posCraterY = infoPlanetData.pos_crater_Y;
+  diaRand = infoPlanetData.dia_rand;
+
+  planet = new Planets();
+  console.log(xPlanet);
+}
+
 
 let yPlayer;
 
@@ -226,8 +265,6 @@ let numStarsTwo = 25; //quante stelle 2 creare
 
 let starsThree = [];
 let numStarsThree = 10; //quante stelle 3 creare
-
-let planet;
 
 
 let letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '#', '&', '*', '/', '°', '§', '|'];
@@ -281,7 +318,10 @@ function setup() {
   }
 
 
-  planet = new Planets();
+  socket.emit('giveMePlanets',);
+
+
+
 
 
   //------------------TASTO INFO-------------------------
@@ -524,8 +564,11 @@ function draw() {
       infoDiscoveries++;
   }
 
+  if(beginGame){
+    planet.display();
+  }
 
-  planet.display();
+
 
 
   precChangedPlanet = changedPlanet;
@@ -1578,31 +1621,24 @@ class Planets {
 
   constructor() {
 
-    this.r = random(250, 400) * objectsRatio;
-    this.x = random(0, width);
+    this.r = rPlanet * objectsRatio;
+    this.x = (xPlanet/1000) * width;
+    console.log(this.x);
     this.y = -nextPlanet;
-    this.color1 = random(0, 255);
-    this.color2 = random(0, 255);
-    this.color3 = random(0, 255);
-    this.halo = round(random(1, 3));
-    this.ring = round(random(0, 5));
-    this.angle = round(random(20, 60));
-    this.crater = round(random(2, 4));
-    this.posCraterX = [random(-this.r / 3.5, this.r / 5.5), random(-this.r / 3.5, this.r / 5.5), random(-this.r / 3.5, this.r / 5.5),
-      random(-this.r / 3.5, this.r / 5.5), random(-this.r / 3.5, this.r / 5.5), random(-this.r / 3.5, this.r / 5.5)
-    ];
-    this.posCraterY = [random(-this.r / 3.5, this.r / 5.5), random(-this.r / 3.5, this.r / 5.5), random(-this.r / 3.5, this.r / 5.5),
-      random(-this.r / 3.5, this.r / 5.5), random(-this.r / 3.5, this.r / 5.5), random(-this.r / 3.5, this.r / 5.5)
-    ];
-
-    this.diaRand = [random(this.r / 10, this.r / 4), random(this.r / 10, this.r / 4), random(this.r / 10, this.r / 4),
-      random(this.r / 10, this.r / 4), random(this.r / 10, this.r / 4), random(this.r / 10, this.r / 4)
-    ];
+    this.color1 = c1;
+    this.color2 = c2;
+    this.color3 = c3;
+    this.halo = halo;
+    this.ring = ring;
+    this.angle = angle;
+    this.crater = crater;
+    this.posCraterX = posCraterX;
+    this.posCraterY = posCraterY;
+    this.diaRand = diaRand;
 
   }
 
   display() {
-
 
 
     if (this.halo === 1) {
