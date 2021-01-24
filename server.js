@@ -23,12 +23,14 @@ let changed_planet = false;
 
 let players = 0;
 
+let changed_info_discovery = false;
 
 
 let info_score = {
   next_planet :next_planet,
   highscore: highscore,
-  changed_planet: changed_planet
+  changed_planet: changed_planet,
+  changed_info_discovery: changed_info_discovery
 }
 
 let d_player = false;
@@ -134,14 +136,14 @@ function newConnection(socket) {
 
     }
 
-    if(info_score.next_planet < -1440){
+    if(info_score.next_planet < -2000){
       info_score.next_planet = Math.floor((Math.random() * 2000) + 4000);
       }
 
-    if(info_score.next_planet < -1000){
-      info_score.changed_planet = true;
+    if(info_score.next_planet < -100){
+      info_score.changed_info_discovery = true;
     }else{
-      info_score.changed_planet = false;
+      info_score.changed_info_discovery = false;
     }
 
     socket.broadcast.emit('micvolume_in', dataReceived);

@@ -25,6 +25,8 @@ let infoDistance = 0;
 let infoDiscoveries = 0;
 let infoButton;
 let showInfo = 1;
+let changedInfoDiscovery = false;
+let precChangedInfoDiscovery = false;
 
 
 //---------QUANDO SI CONNETTE MANDA L'ID DEL GIOCATORE LOCALE AL SERVER-----------
@@ -132,6 +134,7 @@ function scores(infoScore) {
   totalscore = infoScore.highscore;
   nextPlanet = infoScore.next_planet;
   changedPlanet = infoScore.changed_planet;
+  changedInfoDiscovery = infoScore.changed_info_discovery;
 }
 
 
@@ -510,19 +513,24 @@ function draw() {
 
   if (changedPlanet && precChangedPlanet !== changedPlanet) {
     planet = new Planets();
-    infoDiscoveries++;
     planetName1 = letters[round(random(0, 32))];
     planetName2 = letters[round(random(0, 32))];
     planetName3 = letters[round(random(0, 32))];
     planetName4 = round(random(0, 9));
     planetName5 = round(random(0, 9));
-
   }
+
+  if(changedInfoDiscovery && precChangedInfoDiscovery !== changedInfoDiscovery && beginGame){
+      infoDiscoveries++;
+  }
+
 
   planet.display();
 
 
   precChangedPlanet = changedPlanet;
+
+  precChangedInfoDiscovery = changedInfoDiscovery;
 
 
   //---------------OSTACOLI E COLLISIONI---------------
@@ -861,7 +869,7 @@ function draw() {
   //---------------------FINESTRA NOME PIANETA SCOPERTO-------------------
 
 
-  if (nextPlanet < -100 * objectsRatio && nextPlanet > -600 * objectsRatio) {
+  if (nextPlanet < -100  && nextPlanet > -600 ) {
 
 
     push();
