@@ -1,6 +1,3 @@
-if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
-
-
 let socket = io();
 let mic;
 
@@ -1683,49 +1680,51 @@ class Planets {
 
   }
 
-
 }
 
-}else{
-
-  function setup(){
-
-  createCanvas(windowWidth,windowHeight);
-  textFont("Squada One");
-  background(0);
-
-  push();
-  noStroke();
-  textSize(width / 40);
-  textAlign(CENTER,CENTER);
-  fill(242,255,93);
-  text("Welcome to SHOUTING STARS", width / 2, height / 40 * 10);
-  pop();
-
-  push();
-  noStroke();
-  textSize(width / 60);
-  textAlign(CENTER,CENTER);
-  fill(242,255,93);
-
-  text("To play, you need to access this", width / 2, height / 40 * 14);
-  text("website from a mobile phone.", width / 2, height / 40 * 16);
-  pop();
-
-  push();
-  rectMode(CENTER);
-  noStroke();
-  fill(255);
-  rect(width / 2, height / 40 * 30, width / 10, width / 5, width / 80);
-  pop();
-
-  push();
-  rectMode(CENTER);
-  noStroke();
-  fill(0);
-  rect(width / 2, height / 40 * 30, width / 12, width / 5.5, width / 80);
-  pop();
 
 
-  }
-}
+
+// else{
+//
+//   function setup(){
+//
+//   createCanvas(windowWidth,windowHeight);
+//   textFont("Squada One");
+//   background(0);
+//
+//   push();
+//   noStroke();
+//   textSize(width / 40);
+//   textAlign(CENTER,CENTER);
+//   fill(242,255,93);
+//   text("Welcome to SHOUTING STARS", width / 2, height / 40 * 10);
+//   pop();
+//
+//   push();
+//   noStroke();
+//   textSize(width / 60);
+//   textAlign(CENTER,CENTER);
+//   fill(242,255,93);
+//
+//   text("To play, you need to access this", width / 2, height / 40 * 14);
+//   text("website from a mobile phone.", width / 2, height / 40 * 16);
+//   pop();
+//
+//   push();
+//   rectMode(CENTER);
+//   noStroke();
+//   fill(255);
+//   rect(width / 2, height / 40 * 30, width / 10, width / 5, width / 80);
+//   pop();
+//
+//   push();
+//   rectMode(CENTER);
+//   noStroke();
+//   fill(0);
+//   rect(width / 2, height / 40 * 30, width / 12, width / 5.5, width / 80);
+//   pop();
+//
+//
+//   }
+// }
