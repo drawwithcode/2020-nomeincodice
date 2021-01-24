@@ -227,7 +227,7 @@ let numStarsThree = 10; //quante stelle 3 creare
 let planet;
 
 
-let letters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z', '#', '&', '*', '/', '°', '§', '|'];
+let letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '#', '&', '*', '/', '°', '§', '|'];
 let planetName1;
 let planetName2;
 let planetName3;
@@ -239,6 +239,8 @@ function setup() {
 
   frameRate(60);
   createCanvas(windowWidth, windowHeight);
+
+
 
   //----------AUDIO INPUT, MICROFONO---------
 
@@ -297,11 +299,11 @@ function setup() {
 
   pop();
 
-  planetName1 = letters[round(random(0,32))];
-  planetName2 = letters[round(random(0,32))];
-  planetName3 = letters[round(random(0,32))];
-  planetName4 = round(random(0,9));
-  planetName5 = round(random(0,9));
+  planetName1 = letters[round(random(0, 32))];
+  planetName2 = letters[round(random(0, 32))];
+  planetName3 = letters[round(random(0, 32))];
+  planetName4 = round(random(0, 9));
+  planetName5 = round(random(0, 9));
 
 }
 
@@ -457,7 +459,7 @@ function draw() {
 
     if (bonusServer) {
 
-      background(0, 0, 0, 30);
+      background(0, 0, 0, 50);
 
     }
 
@@ -491,14 +493,14 @@ function draw() {
   //-------------------DISPLAY PIANETA-------------
 
 
-  if (changedPlanet && precChangedPlanet !==changedPlanet) {
+  if (changedPlanet && precChangedPlanet !== changedPlanet) {
     planet = new Planets();
     infoDiscoveries++;
-    planetName1 = letters[round(random(0,32))];
-    planetName2 = letters[round(random(0,32))];
-    planetName3 = letters[round(random(0,32))];
-    planetName4 = round(random(0,9));
-    planetName5 = round(random(0,9));
+    planetName1 = letters[round(random(0, 32))];
+    planetName2 = letters[round(random(0, 32))];
+    planetName3 = letters[round(random(0, 32))];
+    planetName4 = round(random(0, 9));
+    planetName5 = round(random(0, 9));
 
   }
 
@@ -539,7 +541,7 @@ function draw() {
       explosion = true;
       freezePosition = yPlayer;
 
-      }
+    }
   }
 
 
@@ -695,13 +697,14 @@ function draw() {
   fill(242, 255, 93);
 
   noStroke();
-  textSize(width /22);
+  textSize(width / 22);
 
-  text(totalscore, width - 10, 20);
+  text(totalscore + " tm", width - 10, 20);
 
   rect(width - 20, 30, 10, vel / 100);
 
   pop();
+
 
 
   push();
@@ -837,15 +840,15 @@ function draw() {
   //---------------------FINESTRA NOME PIANETA SCOPERTO-------------------
 
 
-  if (nextPlanet < - 100 * objectsRatio && nextPlanet > - 600 * objectsRatio) {
+  if (nextPlanet < -100 * objectsRatio && nextPlanet > -600 * objectsRatio) {
 
 
     push();
     fill(255);
-    textSize(width/14);
+    textSize(width / 14);
     textAlign(CENTER);
 
-    text("You discovered Planet " + planetName1+ planetName2 + planetName3 + planetName4 + planetName5, width / 2, height / 2);
+    text("You discovered Planet " + planetName1 + planetName2 + planetName3 + planetName4 + planetName5, width / 2, height / 2);
 
     pop();
 
@@ -859,27 +862,27 @@ function draw() {
   if (showInfo === -1) {
     push();
     noStroke();
-    fill(242,255,93);
+    fill(242, 255, 93);
     rectMode(CENTER);
-    rect(width / 2, height / 10 * 7 , width / 7 * 5, 60 * objectsRatio);
+    rect(width / 2, height / 10 * 7, width / 7 * 5, 60 * objectsRatio);
     pop();
     push();
     noStroke();
-    textAlign(LEFT,CENTER);
+    textAlign(LEFT, CENTER);
     textSize(width / 23);
     fill(0);
     infoDistance = round(infoDistance);
-    text("DISTANCE TRAVELED: " , width / 5 , height / 10 * 7 - 10 * objectsRatio);
-    text("PLANETS DISCOVERED: " , width / 5, height / 10 * 7 + 10 * objectsRatio);
+    text("DISTANCE TRAVELED: ", width / 5, height / 10 * 7 - 10 * objectsRatio);
+    text("PLANETS DISCOVERED: ", width / 5, height / 10 * 7 + 10 * objectsRatio);
     pop();
     push();
     noStroke();
-    textAlign(RIGHT,CENTER);
+    textAlign(RIGHT, CENTER);
     textSize(width / 23);
     fill(0);
     infoDistance = round(infoDistance);
-    text(infoDistance + " tm", width / 5 *4, height / 10 * 7 - 10 * objectsRatio);
-    text(infoDiscoveries, width / 5 *4, height / 10 * 7 + 10 * objectsRatio);
+    text(infoDistance + " tm", width / 5 * 4, height / 10 * 7 - 10 * objectsRatio);
+    text(infoDiscoveries, width / 5 * 4, height / 10 * 7 + 10 * objectsRatio);
     pop();
   }
 
@@ -901,6 +904,8 @@ function draw() {
 
 
 
+
+
   let info_p = {
 
     id: id,
@@ -911,6 +916,12 @@ function draw() {
     vol: volHighscore
 
   }
+
+if(!beginGame){
+
+  info_p.h = height *2;
+
+}
 
   socket.emit('micvolume', info_p);
 
@@ -932,7 +943,7 @@ function draw() {
     push();
     textSize(width / 7);
     textAlign(LEFT);
-    fill(242,255,93);
+    fill(242, 255, 93);
     text("SHOUTING STARS", width / 13, height / 20 * 2);
     pop();
 
@@ -1063,7 +1074,7 @@ function draw() {
     pop();
 
     push();
-    fill(242,255,93);
+    fill(242, 255, 93);
     textSize(width / 10);
     textAlign(LEFT);
 
@@ -1109,7 +1120,7 @@ function draw() {
     pop();
 
     push();
-    fill(46,165,219);
+    fill(46, 165, 219);
     textSize(width / 10);
     textAlign(LEFT);
     text("Before we start", width / 9, height / 30 * 14);
@@ -1135,7 +1146,55 @@ function draw() {
   }
 
 
+
+  if (height < width) {
+
+    background(0);
+
+    push();
+    noStroke();
+    textSize(width / height * 20);
+    textAlign(CENTER, CENTER);
+    fill(242, 255, 93);
+    text("Welcome to SHOUTING STARS", width / 2, height /4);
+    pop();
+
+    push();
+    noStroke();
+    textSize(width / height * 10);
+    textAlign(CENTER, CENTER);
+    fill(242, 255, 93);
+
+    text("To play, you need to access this", width / 2, height /4 + width / height * 30);
+    text(" website from a mobile phone.", width / 2, height /4 + width / height * 40) ;
+    text("If you are using your phone horizontally,", width / 2, height /4 + width / height * 50);
+    text("please turn it and reload the page.", width / 2, height /4 + width / height * 60);
+    pop();
+
+    // push();
+    // rectMode(CENTER);
+    // noStroke();
+    // fill(255);
+    // rect(width / 4 *3, height / 4, width / 10, width / 5, width / 80);
+    // pop();
+    //
+    // push();
+    // rectMode(CENTER);
+    // noStroke();
+    // fill(0);
+    // rect(width / 4 *3, height / 4, width / 12, width / 5.5, width / 80);
+    // pop();
+
+    nextButton.hide();
+
+  }
+
+
 }
+
+
+
+
 
 function nextNextPage() {
 
@@ -1247,79 +1306,80 @@ class OtherPlayer {
 
   display() {
 
-    push();
 
-    if (this.shield) {
-      noStroke();
-      fill(160, 220, 255, 150);
-      let noiseShieldHaloOther = noise(noiseShieldOther) * 10;
-      noiseShieldOther += 0.1;
+      push();
 
-      if (this.infoShieldOtherP) {
-        ellipse(this.x, this.h + (-10 * objectsRatio * this.smaller), (120 + noiseShieldHaloOther) * objectsRatio);
+      if (this.shield) {
+        noStroke();
+        fill(160, 220, 255, 150);
+        let noiseShieldHaloOther = noise(noiseShieldOther) * 10;
+        noiseShieldOther += 0.1;
 
+        if (this.infoShieldOtherP) {
+          ellipse(this.x, this.h + (-10 * objectsRatio * this.smaller), (120 + noiseShieldHaloOther) * objectsRatio);
+
+        }
       }
-    }
 
-    pop();
+      pop();
 
-    push();
-    noStroke();
-    fill(230);
+      push();
+      noStroke();
+      fill(230);
 
-    triangle(this.x - 8 * objectsRatio * this.smaller, this.h + 33 * objectsRatio * this.smaller, this.x, this.h + 60 * objectsRatio * this.smaller + random(1, 25) * objectsRatio * this.smaller, this.x + 8 * objectsRatio * this.smaller, this.h + 33 * objectsRatio * this.smaller);
+      triangle(this.x - 8 * objectsRatio * this.smaller, this.h + 33 * objectsRatio * this.smaller, this.x, this.h + 60 * objectsRatio * this.smaller + random(1, 25) * objectsRatio * this.smaller, this.x + 8 * objectsRatio * this.smaller, this.h + 33 * objectsRatio * this.smaller);
 
-    pop();
-
-
-    push();
-    noStroke();
-    fill(255);
-
-    triangle(this.x - 10 * objectsRatio * this.smaller, this.h + 33 * objectsRatio * this.smaller, this.x, this.h + 18 * objectsRatio * this.smaller, this.x + 10 * objectsRatio * this.smaller, this.h + 33 * objectsRatio * this.smaller);
-
-    pop();
-
-    push();
-    fill(190);
-    noStroke()
-
-    ellipse(this.x, this.h - 10 * objectsRatio * this.smaller, 25 * objectsRatio * this.smaller, 70 * objectsRatio * this.smaller);
-
-    pop();
+      pop();
 
 
-    push();
-    noStroke();
-    fill(120);
+      push();
+      noStroke();
+      fill(255);
 
-    beginShape();
-    vertex(this.x + 10 * objectsRatio * this.smaller, this.h + 5 * objectsRatio * this.smaller);
-    vertex(this.x + 22 * objectsRatio * this.smaller, this.h + 10 * objectsRatio * this.smaller);
-    vertex(this.x + 18 * objectsRatio * this.smaller, this.h + 35 * objectsRatio * this.smaller);
-    vertex(this.x + 17 * objectsRatio * this.smaller, this.h + 17 * objectsRatio * this.smaller);
-    vertex(this.x + 8 * objectsRatio * this.smaller, this.h + 13 * objectsRatio * this.smaller);
-    endShape();
+      triangle(this.x - 10 * objectsRatio * this.smaller, this.h + 33 * objectsRatio * this.smaller, this.x, this.h + 18 * objectsRatio * this.smaller, this.x + 10 * objectsRatio * this.smaller, this.h + 33 * objectsRatio * this.smaller);
 
-    beginShape();
-    vertex(this.x - 10 * objectsRatio * this.smaller, this.h + 5 * objectsRatio * this.smaller);
-    vertex(this.x - 22 * objectsRatio * this.smaller, this.h + 10 * objectsRatio * this.smaller);
-    vertex(this.x - 18 * objectsRatio * this.smaller, this.h + 35 * objectsRatio * this.smaller);
-    vertex(this.x - 17 * objectsRatio * this.smaller, this.h + 17 * objectsRatio * this.smaller);
-    vertex(this.x - 8 * objectsRatio * this.smaller, this.h + 13 * objectsRatio * this.smaller);
-    endShape();
+      pop();
 
-    beginShape();
-    vertex(this.x, this.h + 2 * objectsRatio * this.smaller);
-    vertex(this.x + 3 * objectsRatio * this.smaller, this.h + 4 * objectsRatio * this.smaller);
-    vertex(this.x + 4 * objectsRatio * this.smaller, this.h + 7 * objectsRatio * this.smaller);
-    vertex(this.x, this.h + 45 * objectsRatio * this.smaller);
-    vertex(this.x - 4 * objectsRatio * this.smaller, this.h + 7 * objectsRatio * this.smaller);
-    vertex(this.x - 3 * objectsRatio * this.smaller, this.h + 4 * objectsRatio * this.smaller);
-    endShape();
+      push();
+      fill(190);
+      noStroke()
+
+      ellipse(this.x, this.h - 10 * objectsRatio * this.smaller, 25 * objectsRatio * this.smaller, 70 * objectsRatio * this.smaller);
+
+      pop();
 
 
-    pop();
+      push();
+      noStroke();
+      fill(120);
+
+      beginShape();
+      vertex(this.x + 10 * objectsRatio * this.smaller, this.h + 5 * objectsRatio * this.smaller);
+      vertex(this.x + 22 * objectsRatio * this.smaller, this.h + 10 * objectsRatio * this.smaller);
+      vertex(this.x + 18 * objectsRatio * this.smaller, this.h + 35 * objectsRatio * this.smaller);
+      vertex(this.x + 17 * objectsRatio * this.smaller, this.h + 17 * objectsRatio * this.smaller);
+      vertex(this.x + 8 * objectsRatio * this.smaller, this.h + 13 * objectsRatio * this.smaller);
+      endShape();
+
+      beginShape();
+      vertex(this.x - 10 * objectsRatio * this.smaller, this.h + 5 * objectsRatio * this.smaller);
+      vertex(this.x - 22 * objectsRatio * this.smaller, this.h + 10 * objectsRatio * this.smaller);
+      vertex(this.x - 18 * objectsRatio * this.smaller, this.h + 35 * objectsRatio * this.smaller);
+      vertex(this.x - 17 * objectsRatio * this.smaller, this.h + 17 * objectsRatio * this.smaller);
+      vertex(this.x - 8 * objectsRatio * this.smaller, this.h + 13 * objectsRatio * this.smaller);
+      endShape();
+
+      beginShape();
+      vertex(this.x, this.h + 2 * objectsRatio * this.smaller);
+      vertex(this.x + 3 * objectsRatio * this.smaller, this.h + 4 * objectsRatio * this.smaller);
+      vertex(this.x + 4 * objectsRatio * this.smaller, this.h + 7 * objectsRatio * this.smaller);
+      vertex(this.x, this.h + 45 * objectsRatio * this.smaller);
+      vertex(this.x - 4 * objectsRatio * this.smaller, this.h + 7 * objectsRatio * this.smaller);
+      vertex(this.x - 3 * objectsRatio * this.smaller, this.h + 4 * objectsRatio * this.smaller);
+      endShape();
+
+
+      pop();
 
 
 
@@ -1681,50 +1741,3 @@ class Planets {
   }
 
 }
-
-
-
-
-// else{
-//
-//   function setup(){
-//
-//   createCanvas(windowWidth,windowHeight);
-//   textFont("Squada One");
-//   background(0);
-//
-//   push();
-//   noStroke();
-//   textSize(width / 40);
-//   textAlign(CENTER,CENTER);
-//   fill(242,255,93);
-//   text("Welcome to SHOUTING STARS", width / 2, height / 40 * 10);
-//   pop();
-//
-//   push();
-//   noStroke();
-//   textSize(width / 60);
-//   textAlign(CENTER,CENTER);
-//   fill(242,255,93);
-//
-//   text("To play, you need to access this", width / 2, height / 40 * 14);
-//   text("website from a mobile phone.", width / 2, height / 40 * 16);
-//   pop();
-//
-//   push();
-//   rectMode(CENTER);
-//   noStroke();
-//   fill(255);
-//   rect(width / 2, height / 40 * 30, width / 10, width / 5, width / 80);
-//   pop();
-//
-//   push();
-//   rectMode(CENTER);
-//   noStroke();
-//   fill(0);
-//   rect(width / 2, height / 40 * 30, width / 12, width / 5.5, width / 80);
-//   pop();
-//
-//
-//   }
-// }

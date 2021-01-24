@@ -75,6 +75,7 @@ function newConnection(socket) {
     id_player_disconnected = socket.id;
 
 
+
     if (d_player) {
 
       players--;
@@ -134,10 +135,10 @@ function newConnection(socket) {
     }
 
     if(info_score.next_planet < -1440){
-      info_score.next_planet = Math.floor((Math.random() * 2000) + 4000);
+      info_score.next_planet = Math.floor((Math.random() * 200) + 400);
       }
 
-    if(info_score.next_planet < -800){
+    if(info_score.next_planet < -1000){
       info_score.changed_planet = true;
     }else{
       info_score.changed_planet = false;
