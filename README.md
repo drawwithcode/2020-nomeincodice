@@ -3,7 +3,7 @@
 Shouting Stars is a collaborative real-time game where the players have to control their spaceships by shouting in order to discover new planets together. In these days feeling the people’s presence is increasingly difficult, this game is meant to help teamwork in distant situations: if you can explore space and travel infinite distances with your teammates, helping each other, there is nothing impossible for your crew.
 In addition, when people are closed and not separate, playing this game is also useful to break the ice and create a bond between people: screaming together breaks the wall of embarrassment and makes everyone laugh.
 
-<img src="assets readme/Screenshot_2021-01-24-19-08-21-079_com.android.chrome.jpg" alt="start page" width="200"/>
+<img src="assets readme/Screenshot_2021-01-24-19-08-21-079_com.android.chrome.jpg" alt="start page" width="200">
 
 It is possible to play Shouting stars by using a mobile device, in this way people are more engaged and it is more simple to play: you can easily see the screen while you are tilting your device to move horizontally and screaming to the microphone to move vertically.
 
