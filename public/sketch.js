@@ -314,7 +314,6 @@ function setup() {
 
 
 
-
 let maxVol = 0.1;
 let easing = 0.05;
 let calibrationButton = false;
@@ -490,6 +489,22 @@ function draw() {
 
   }
 
+
+    if (nextPlanet < -15 * objectsRatio && nextPlanet > - 100 * objectsRatio) {
+      background(0,0,0, - ( (nextPlanet + 15 ) * 3 ));
+    }
+
+    if (nextPlanet < -100 * objectsRatio && nextPlanet > -150 * objectsRatio) {
+      recreateStars = true;
+      background(0);
+    }
+
+
+    if (nextPlanet < -150 * objectsRatio && nextPlanet > -235 * objectsRatio) {
+      background(0,0,0, ( (nextPlanet + 235 ) * 3 ));
+    }
+
+
   //-------------------DISPLAY PIANETA-------------
 
 
@@ -569,6 +584,9 @@ function draw() {
     obstacles.splice(0, obstacles.length);
   }
 
+
+
+
   if (recreateStars) {
 
     console.log("dentro recreate Stars");
@@ -592,8 +610,11 @@ function draw() {
       }
 
     }
+
     recreateStars = false;
   }
+
+
 
 
 
@@ -854,6 +875,7 @@ function draw() {
 
     obstacles.splice(0, obstacles.length);
 
+
   }
 
   //----------------FINESTRA INFO GIOCATORE----------------
@@ -901,8 +923,6 @@ function draw() {
   volHighscore = volHighscore * 100;
   volHighscore = round(volHighscore);
   volHighscore = volHighscore / 100;
-
-
 
 
 
@@ -1170,20 +1190,6 @@ if(!beginGame){
     text("If you are using your phone horizontally,", width / 2, height /4 + width / height * 50);
     text("please turn it and reload the page.", width / 2, height /4 + width / height * 60);
     pop();
-
-    // push();
-    // rectMode(CENTER);
-    // noStroke();
-    // fill(255);
-    // rect(width / 4 *3, height / 4, width / 10, width / 5, width / 80);
-    // pop();
-    //
-    // push();
-    // rectMode(CENTER);
-    // noStroke();
-    // fill(0);
-    // rect(width / 4 *3, height / 4, width / 12, width / 5.5, width / 80);
-    // pop();
 
     nextButton.hide();
 
