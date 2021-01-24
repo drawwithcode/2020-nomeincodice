@@ -8,6 +8,22 @@ In addition, when people are closed and not separate, playing this game is also 
 It is possible to play Shouting stars by using a mobile device, in this way people are more engaged and it is more simple to play: you can easily see the screen while you are tilting your device to move horizontally and screaming to the microphone to move vertically.
 
 
+# Game mechanics 
+
+The horizontal motion of the spaceship is controlled by the gyroscope, while the vertical motion is controlled by the microphone of your device.
+The amplitude of your scream defines the speed of your own spaceship, but the total speed of the race, and consequently the traveled distance (calculated in Tm, so 10^12 m), is the average of the speed of all the players. So everybody has to give his own contribution in order to discover as many planets as possible and not to slow down the others.
+
+(Qui magari ci sta uno screen/immagine di qualcosa magari della pagina delle regole (?))
+
+If the team is working very well and everyone has the same amplitude for a certain amount of milliseconds, the players will get a speed bonus.
+
+(Video dello speed bonus)
+
+During the exploration some obstacles appear (well… like the difficulties of life) and if you collide with them, you can not move for a while.
+But sometimes a blue button could appear in the bottom left of your screen and it activates a bonus shield: you are protected and you can destroy the obstacles. You can use whenever you want and it could appear more than one time per session. As previously said, this is a collaborative game, so using the shield to clear the field for your teammates is a wise use.
+
+(Video dello shield)
+
 
 # Visual treatment
 
