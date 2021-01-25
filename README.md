@@ -65,11 +65,21 @@ The first problem we encountered was the handling of all different data coming f
 Each player sends an object containing his id, his position, if he has a shield, if the shield it’s blinking and the volume of his microphone. Once we started coding we had spaceships teletransporting in different places and we could not identify the spaceship that had a shield active. 
 We came up with the idea of storing all of the client ids in the server and sending those ids to each client. In this way each client could create an object with the id of each player, even the players that were connected before. Once a new piece of data would be received by the client, this could compare the id from the data received to the one stored and identify the correct new position of the player of that id. The same applies for the shield. 
 
+<p align="center"><img src="assets readme/CC1.png" alt="start page" width="300"></p>
+
 ### Calibration
 During initial testing we came across a huge problem that we did not anticipate: microphones from different mobile devices behave a lot differently from one to another. We tried to map the volume of the microphones but the problem persisted as the difference was still too great. So we added a button that once pressed would store in a variable the loudest noise that the microphone would capture. This button lasts a few seconds but from the variable that is created from it we were able to map each microphone accordingly to its sensitivity. 
 
+<p align="center"><img src="assets readme/CC2.1.png" alt="start page" width="300"></p>
+
+<p align="center"><img src="assets readme/CC2.2.png" alt="start page" width="300"></p>
+
+
 ### Discovering planets
 We wanted to have a simultaneous discovery of new planets from all players. This way the collaborative effort would be rewarded with a prize at the same time for all discoverers. As there are a lot of different sizes of mobile screens we needed to make a lot of adjustments to have this feature. The position of the planet is decided by the server through a random function that goes from 4000 pixels to 6000. The position of the planet resets when it reaches -2000 pixels from the top of the screen (so approximately more than the biggest screen size of mobile screen in the market). We also had to use a separate variable to calculate the speed of which they move as the sum of all values from the microphone is always a number too big. We also handled all the data to create planets in the server so that every player would see the same planet.
+
+<p align="center"><img src="assets readme/CC3.png" alt="start page" width="300"></p>
+
 
 ### Managing obstacles
 The last major coding challenge we had was the display and behaviour of obstacles. It certainly was not the least one as the aim was to show to all players obstacles in the same position (accordingly to each screen) and to make them disappear to all players too, once they hit a spaceship, the bottom of the screen or the shield of a player. About the screen proportions problem we already talked about. So, for the creation of the obstacles we simply have a random function in the server that tells every player where to put the obstacle. For the Y position we calibrated the speed of the obstacles accordingly to the screen.
